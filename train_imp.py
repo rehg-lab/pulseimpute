@@ -1,14 +1,14 @@
 from configs.train_brits_configs import *
 from configs.train_transformer_configs import *
 from configs.train_naomi_configs import *
-
+from configs.train_lstm_configs import *
 
 
 
 
 if __name__=='__main__':
 
-    config = naomi_britsgail_mimic_ecg 
+    config = lstm_extended_ptbxl #naomi_britsgail_mimic_ecg 
 
     print(config["modelname"]+config["annotate"])
 

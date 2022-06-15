@@ -50,11 +50,5 @@ Simply find the config of the model to be tested in their respective config file
 
     python test_imp.py
 
-### Simple Imputation Tutorial
-This contains scripts to define your own model class and training/validation.
-In the folder simpleimpute_tutorial, define your own model in model.py (see lstmModel for an example). The dataset class, training and validation scripts are in utils.py.  
-To train the model, run the simpleimpute.py script. The hyperparameters can be specified in the command line as shown. 
-
-    python simpleimpute.py --epochs 20 --bs 64  
 
 

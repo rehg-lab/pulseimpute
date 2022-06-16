@@ -142,7 +142,7 @@ class lstm():
 
     def testimp(self):
         """
-        Function to compute the imputation error on the test dataset 
+        Function to compute and save the imputation error on the test dataset 
         """
         dt_string = datetime.now().strftime("%d/%m/%Y %H:%M")
 
@@ -174,7 +174,6 @@ class lstm():
                     imputation_temp = np.copy(mpc_projection.cpu().detach().numpy())
                     imputation_cat = np.concatenate((imputation_cat, imputation_temp), axis=0)
 
-            #self.model.train()
         total_test_mse_loss /= total_missing_total
         total_test_mpcl2_std = torch.std(torch.cat(residuals_all))
 
@@ -218,7 +217,6 @@ class lstm():
                     self.optimizer.step()
                     total_train_mpcl2_loss += mpcl2_loss.item()
                     total_missing_total += torch.sum(~torch.isnan(local_label_dict["target_seq"]))
-                    
 
                     if iter_idx % self.iter_save == 0:
 

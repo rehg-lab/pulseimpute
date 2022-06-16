@@ -39,13 +39,10 @@ class lstm():
                  reload_epoch_long=None
                  ):
 
-        model_module = __import__(f'models.lstm.{modelname}', fromlist=[""])
-        model_module_class = getattr(model_module, "LSTMModel")
-        
         outpath = "out/"
-        self.iter_save = iter_save
+        self.iter_save = iter_save #save checkpoint every at intervals of iter_save iterations
         self.train_time = train_time
-        
+        ##data loader setup  
         self.data_name = data_name
         self.bs = bs
         self.gpu_list = gpus
@@ -67,6 +64,10 @@ class lstm():
         if len(self.gpu_list) == 1:
             torch.cuda.set_device(self.gpu_list[0])
 
+        ###import model class
+        model_module = __import__(f'models.lstm.{modelname}', fromlist=[""])
+        model_module_class = getattr(model_module, "LSTMModel")
+        
         self.model =  nn.DataParallel(model_module_class(orig_dim=self.total_channels, max_len=max_len), device_ids=self.gpu_list)
 
         self.model.to(torch.device(f"cuda:{self.gpu_list[0]}"))
@@ -189,7 +190,9 @@ class lstm():
 
 
     def train(self):
-
+        """
+        model trained with the l2_mpc_loss
+        """
         writer = SummaryWriter(log_dir=os.path.join(self.ckpt_path, "tb"))
 
         dt_string = datetime.now().strftime("%d/%m/%Y %H:%M")
@@ -209,14 +212,13 @@ class lstm():
                     self.optimizer.zero_grad()
                     
                     mpc_projection = self.model(local_batch)
-                    mpcl2_loss,_ = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
-                                                local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
+                    mpcl2_loss,missing_total = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")),local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
 
                     mpcl2_loss.backward()
 
                     self.optimizer.step()
                     total_train_mpcl2_loss += mpcl2_loss.item()
-                    total_missing_total += torch.sum(~torch.isnan(local_label_dict["target_seq"]))
+                    total_missing_total += missing_total
 
                     if iter_idx % self.iter_save == 0:
 
@@ -232,19 +234,13 @@ class lstm():
                             val_iter_idx = 0
                             for local_batch, local_label_dict in tqdm(self.val_loader, desc="Validating", leave=False): 
                                 val_iter_idx += 1
-                                if self.masktoken:
-                                    mask = torch.isnan(local_label_dict["target_seq"])
-                                    mpc_projection = self.model(local_batch, masktoken_bool=mask)
-                                else:
-                                    mpc_projection = self.model(local_batch)
+                                mpc_projection = self.model(local_batch)
 
-                                mpcl2_loss,_ = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
-                                                        local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
+                                mpcl2_loss,missing_total = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
                                 total_val_mpcl2_loss += mpcl2_loss.item()
-                                total_missing_total += torch.sum(~torch.isnan(local_label_dict["target_seq"]))
+                                total_missing_total += missing_total 
                                 if val_iter_idx >= self.iter_save/10:
                                     break
-
                                 
                             self.model.train()
                         total_val_mpcl2_loss /= total_missing_total
@@ -290,14 +286,13 @@ class lstm():
                     self.optimizer.zero_grad()
                     
                     mpc_projection = self.model(local_batch)
-                    mpcl2_loss,_ = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
-                                                   local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
+                    mpcl2_loss,missing_total = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
 
                     mpcl2_loss.backward()
                     self.optimizer.step()
                     
                     total_train_mpcl2_loss += mpcl2_loss.item()
-                    total_missing_total += torch.sum(~torch.isnan(local_label_dict["target_seq"]))
+                    total_missing_total += missing_total
 
 
                 total_train_mpcl2_loss /= total_missing_total
@@ -312,11 +307,10 @@ class lstm():
                     for local_batch, local_label_dict in tqdm(self.val_loader, desc="Validating", leave=False): 
                         
                         mpc_projection = self.model(local_batch)
-                        mpcl2_loss,_,residuals = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
-                                                local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")), residuals=True)
+                        mpcl2_loss,missing_total,residuals = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")), residuals=True)
                         residuals_all.append(residuals)
                         total_val_mpcl2_loss += mpcl2_loss.item()
-                        total_missing_total += torch.sum(~torch.isnan(local_label_dict["target_seq"]))
+                        total_missing_total += missing_total
 
                     self.model.train()
                 total_val_mpcl2_loss /= total_missing_total

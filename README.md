@@ -50,5 +50,6 @@ Simply find the config of the model to be tested in their respective config file
 
     python test_imp.py
 
-
+### Training a custom model (e.g., a simple LSTM model) 
+Create the desired model class in models/modelname/modelname.py (See models/lstm/lstm.py for an example of a simple LSTM). The training and test methods for the lstm are in models/lstm_model.py. Create a corresponding config entry in configs/train_lstm_configs.py and run the training script train_imp.py with this config.      
 

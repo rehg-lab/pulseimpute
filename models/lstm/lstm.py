@@ -7,8 +7,6 @@ import numpy as np
 import torch.nn as nn
 from datetime import datetime
 from .utils.load_data import load_data_mimic
-#from .utils.loss import l1_mpc_loss as combine_loss_func, class_total_correct
-#from .utils.loss import l2_mpc_loss
 
 from .utils.utils import make_impute_plot, make_attn_plot_stitch, make_confusion_matrix_plot
 import re

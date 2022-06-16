@@ -12,30 +12,22 @@ import time
 
 
 def l2_mpc_loss(logits , target, residuals=False):
+    """
+    Loss function used for training:mean squared error at the imputed time points
+    """
     logits_mpc = torch.clone(logits)
     target_mpc = torch.clone(target)
     logits_mpc[torch.isnan(target)] = 0
     target_mpc[torch.isnan(target)] = 0
     difference = torch.square(logits_mpc - target_mpc)
     l2_loss = torch.sum(difference)
+    missing_total = torch.sum(~torch.isnan(target)) 
     
     if residuals:
-        return l2_loss, difference[~torch.isnan(target)]
+        return l2_loss,missing_total, difference[~torch.isnan(target)]
     else:
-        return l2_loss
+        return l2_loss,missing_total
 
-
-def mse_mask_loss(logits , target):
-    logits_mask = torch.clone(logits)
-    target_mask = torch.clone(target)
-    
-    logits_mask[torch.isnan(target)] = 0
-    target_mask[torch.isnan(target)] = 0
-    difference = torch.square(logits_mask - target_mask)
-    
-    mse_loss = torch.sum(difference) 
-    missing_total = torch.sum(~torch.isnan(target))
-    return mse_loss, missing_total
 
 class lstm():
     def __init__(self,modelname, data_name, train_data=None, val_data=None, imputation_dict= None, annotate="",annotate_test="",
@@ -47,6 +39,9 @@ class lstm():
                  reload_epoch_long=None
                  ):
 
+        model_module = __import__(f'models.lstm.{modelname}', fromlist=[""])
+        model_module_class = getattr(model_module, "LSTMModel")
+        
         outpath = "out/"
         self.iter_save = iter_save
         self.train_time = train_time
@@ -68,13 +63,9 @@ class lstm():
 
         self.data_loader_setup(train_data, val_data, imputation_dict=imputation_dict)
 
-        # cannot get relative import working for the life of me
-        model_module = __import__(f'models.lstm.{modelname}', fromlist=[""])
-        model_module_class = getattr(model_module, "LSTMModel")
         print(self.gpu_list)
         if len(self.gpu_list) == 1:
             torch.cuda.set_device(self.gpu_list[0])
-
 
         self.model =  nn.DataParallel(model_module_class(orig_dim=self.total_channels, max_len=max_len), device_ids=self.gpu_list)
 
@@ -90,7 +81,6 @@ class lstm():
 
     def data_loader_setup(self, train_data, val_data=None, imputation_dict=None):
         num_threads_used = multiprocessing.cpu_count() 
-        # num_threads_used = multiprocessing.cpu_count() // 8 can set this as some function of threads per gpu
         print(f"Num Threads Used: {num_threads_used}")
         torch.set_num_threads(num_threads_used)
         os.environ["MP_NUM_THREADS"]=str(num_threads_used)
@@ -151,6 +141,9 @@ class lstm():
                 
 
     def testimp(self):
+        """
+        Function to compute the imputation error on the test dataset 
+        """
         dt_string = datetime.now().strftime("%d/%m/%Y %H:%M")
 
         print(f'{dt_string} | Start')
@@ -164,11 +157,9 @@ class lstm():
             residuals_all = []
             for local_batch, local_label_dict in tqdm(self.test_loader, desc="Testing", leave=False):  
                 # 1s at normal vals 0s at mask vals
-                
                 mpc_projection = self.model(local_batch)
-                mse_loss,missing_total, residuals = mse_mask_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
-                                            local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")),
-                                            residuals=True)
+                mse_loss,missing_total,residuals = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")),residuals=True)
+
                 residuals_all.append(residuals)
                 total_test_mse_loss += mse_loss.item()
                 total_missing_total += missing_total
@@ -182,10 +173,8 @@ class lstm():
                 else:
                     imputation_temp = np.copy(mpc_projection.cpu().detach().numpy())
                     imputation_cat = np.concatenate((imputation_cat, imputation_temp), axis=0)
-                # break
 
-
-            self.model.train()
+            #self.model.train()
         total_test_mse_loss /= total_missing_total
         total_test_mpcl2_std = torch.std(torch.cat(residuals_all))
 
@@ -221,7 +210,7 @@ class lstm():
                     self.optimizer.zero_grad()
                     
                     mpc_projection = self.model(local_batch)
-                    mpcl2_loss = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
+                    mpcl2_loss,_ = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
                                                 local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
 
                     mpcl2_loss.backward()
@@ -251,7 +240,7 @@ class lstm():
                                 else:
                                     mpc_projection = self.model(local_batch)
 
-                                mpcl2_loss = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
+                                mpcl2_loss,_ = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
                                                         local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
                                 total_val_mpcl2_loss += mpcl2_loss.item()
                                 total_missing_total += torch.sum(~torch.isnan(local_label_dict["target_seq"]))
@@ -301,19 +290,14 @@ class lstm():
                         import sys; sys.exit()
 
                     self.optimizer.zero_grad()
-                    #if self.masktoken:
-                    #    mask = torch.isnan(local_label_dict["target_seq"])
-                    #    mpc_projection = self.model(local_batch, masktoken_bool=mask)
-                    #else:
                     
                     mpc_projection = self.model(local_batch)
-                    mpcl2_loss = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
+                    mpcl2_loss,_ = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
                                                    local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
 
                     mpcl2_loss.backward()
-
-
                     self.optimizer.step()
+                    
                     total_train_mpcl2_loss += mpcl2_loss.item()
                     total_missing_total += torch.sum(~torch.isnan(local_label_dict["target_seq"]))
 
@@ -330,7 +314,7 @@ class lstm():
                     for local_batch, local_label_dict in tqdm(self.val_loader, desc="Validating", leave=False): 
                         
                         mpc_projection = self.model(local_batch)
-                        mpcl2_loss, residuals = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
+                        mpcl2_loss,_,residuals = l2_mpc_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
                                                 local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")), residuals=True)
                         residuals_all.append(residuals)
                         total_val_mpcl2_loss += mpcl2_loss.item()
@@ -501,22 +485,4 @@ def miss_tuple_to_vector(listoftuples):
         miss_vector = np.concatenate((miss_vector, onesorzeros_vector(listoftuples[i])))
     miss_vector = np.expand_dims(miss_vector, 1)
     return miss_vector
-
-class PermuteModule(torch.nn.Module):
-    def __init__(self, dim1=2, dim2=1, dim3=0):
-        super().__init__()
-        self.dim1 = dim1
-        self.dim2 = dim2
-        self.dim3 = dim3
-    def forward(self, x):
-        return x.permute(self.dim1, self.dim2, self.dim3)
-
-def count_parameters(model):
-    total_params = 0
-    for name, parameter in model.named_parameters():
-        if not parameter.requires_grad: continue
-        param = parameter.numel()
-        total_params+=param
-    print(f"Total Trainable Params: {total_params}")
-    return total_params
 

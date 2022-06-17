@@ -29,7 +29,7 @@ def l2_mpc_loss(logits , target, residuals=False):
         return l2_loss,missing_total
 
 
-class lstm():
+class tutorial():
     def __init__(self,modelname, data_name, train_data=None, val_data=None, imputation_dict= None, annotate="",annotate_test="",
                  bs= 64, gpus=[0,1], train_time=999, # in hours
                  train_impute_wind=None, train_impute_prob=None, train_impute_extended=None,

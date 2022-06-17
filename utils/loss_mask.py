@@ -1,6 +1,5 @@
 import torch
-
-def mse_mask_loss(logits , target):
+def mse_mask_loss(logits , target, residuals=False):
     logits_mask = torch.clone(logits)
     target_mask = torch.clone(target)
     
@@ -10,4 +9,8 @@ def mse_mask_loss(logits , target):
     
     mse_loss = torch.sum(difference) 
     missing_total = torch.sum(~torch.isnan(target))
-    return mse_loss, missing_total
+
+    if residuals:
+        return mse_loss, missing_total, difference[~torch.isnan(target)]
+    else:
+        return mse_loss, missing_total

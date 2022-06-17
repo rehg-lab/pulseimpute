@@ -69,11 +69,11 @@ class naomi():
         self.train_realppg= train_realppg
         if train_realecg or train_realppg:
             if train_realppg:
-                tuples_path_train = os.path.join("data", f"missing_ppg_train.csv")
-                tuples_path_val = os.path.join("data", f"missing_ppg_val.csv")
+                tuples_path_train = os.path.join("data", "missingness_patterns", f"missing_ppg_train.csv")
+                tuples_path_val = os.path.join("data", "missingness_patterns", f"missing_ppg_val.csv")
             elif train_realecg:
-                tuples_path_train = os.path.join("data", f"missing_ecg_train.csv")
-                tuples_path_val = os.path.join("data", f"missing_ecg_val.csv")
+                tuples_path_train = os.path.join("data", "missingness_patterns", f"missing_ecg_train.csv")
+                tuples_path_val = os.path.join("data", "missingness_patterns", f"missing_ecg_val.csv")
 
             with open(tuples_path_train, 'r') as read_obj:
                 csv_reader = csv.reader(read_obj)

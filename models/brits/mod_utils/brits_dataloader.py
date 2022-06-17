@@ -63,9 +63,9 @@ def create_dataloader(data=None, imputation_dict=None, type="train", annotate=""
 
     if train_realecg or train_realppg:
         if train_realppg:
-            miss_tuples_path = os.path.join("data", f"missing_ppg_{type}.csv")
+            miss_tuples_path = os.path.join("data","missingness_patterns", f"missing_ppg_{type}.csv")
         elif train_realecg:
-            miss_tuples_path = os.path.join("data", f"missing_ecg_{type}.csv")
+            miss_tuples_path = os.path.join("data","missingness_patterns", f"missing_ecg_{type}.csv")
         with open(miss_tuples_path, 'r') as read_obj:
             csv_reader = csv.reader(read_obj)
             global list_of_miss

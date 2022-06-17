@@ -18,38 +18,47 @@ This is a repository containing PyTorch code for PulseImpute: A Novel Benchmark 
 -----
 
 
-## Setup
+## Installation
 
-### Install dependencies
-Install the dependencies by creating a conda environment:
+For this project we use [miniconda](https://docs.conda.io/en/latest/miniconda.html) to manage dependencies. After setting it up, you can install the pulseimpute environment:
 
     conda env create -f pulseimpute.yml
     conda activate pulseimpute
 
 
-### Get data
+
+## Get data
+
 Download our extracted mHealth ECG/PPG missingness patterns and curated datasets (MIMIC-III ECG/PPG Waveform and PTB-XL) via the follwing bash-script:
 
     ./get_data.sh
 
 This script downloads and extracts the ECG missingness patterns (missing_ecg_{train/val/test}.csv)), PPG missingness patterns (missing_ppg_{train/val/test}.csv)), MIMIC-III ECG data (mimic_ecg_{train/val/test}.npy)), MIMIC-III PPG data (mimic_ppg_{train/val/test}.npy)), and PTB-XL ECG data (ptbxl_ecg.npy)) from the data hosted [here](https://www.dropbox.com/sh/6bygnzzx5t970yx/AAAHsVu9WeVXdQ_c1uBy_WkAa?dl=0) (469.8 MB compressed and 91.5 GB uncompressed)
 
-### Re-training from scratch
-Simply find the config of the model to be trained in their respective config file (e.g. configs/train_transformer_configs.py,  configs/train_brits_configs.py,  configs/train_naomi_configs.py) and in train_imp.py, set the config to that dictionary name to retrain each model from scratch.
 
-    python train_imp.py
+## Get Pre-trained Checkpoints
 
-### or Get Pre-trained checkpoints
 Download our pre-trained checkpoints and imputed waveforms for each benchmarked models (BDC Transformer, Conv9 Transformer, Vanilla Transformer, DeepMVI, NAOMI, BRITS w/ GAIL, BRITS) for each PulseImpute task (ECG Heart Beat Detection, PPG Heart Beat Detection, ECG Cardiac Pathophysiology Classification) via the following bash script from the ckpts hosted [here](https://www.dropbox.com/sh/u4b7hq98acu7ssj/AADB_9ZrTAHe9hCAmN2Hbdnra?dl=0)
 
     ./get_ckpts.sh
 
 
-### Running Trained Imputation Model on Test SEt
+
+## Evaluate Pre-Trained Models on Test Set with Downstream Tasks
+
 Simply find the config of the model to be tested in their respective config file (e.g. configs/test_transformer_configs.py,  configs/test_brits_configs.py,  configs/test_naomi_configs.py) and in train_imp.py, set the config to that dictionary name to run the imputation model on the test set.
 
     python test_imp.py
 
-### Training a custom model (e.g., a simple LSTM model) 
+
+## or Re-train from Scratch
+
+Simply find the config of the model to be trained in their respective config file (e.g. configs/train_transformer_configs.py,  configs/train_brits_configs.py,  configs/train_naomi_configs.py) and in train_imp.py, set the config to that dictionary name to retrain each model from scratch.
+
+    python train_imp.py
+
+
+
+## Training your own custom model
 Create the desired model class in models/modelname/modelname.py (See models/lstm/lstm.py for an example of a simple LSTM). The training and test methods for the lstm are in models/lstm_model.py. Create a corresponding config entry in configs/train_lstm_configs.py and run the training script train_imp.py with this config.      
 

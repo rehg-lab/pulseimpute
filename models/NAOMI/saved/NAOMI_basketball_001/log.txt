@@ -1,0 +1,251 @@
+Train:	-1.2657126
+Test:	-2.0952883
+Time:	 624.181
+Best model at epoch 1
+Train:	-2.720748
+Test:	-3.9217608
+Time:	 622.942
+Best model at epoch 2
+Train:	-1.4901706
+Test:	-4.3834167
+Time:	 626.257
+Best model at epoch 3
+Train:	-3.4156046
+Test:	-4.4833302
+Time:	 622.556
+Best model at epoch 4
+Train:	-4.719797
+Test:	-5.7021203
+Time:	 625.002
+Best model at epoch 5
+Train:	-4.718012
+Test:	-6.082381
+Time:	 623.048
+Best model at epoch 6
+Train:	-5.1995316
+Test:	-6.196403
+Time:	 620.624
+Best model at epoch 7
+Train:	-5.2684546
+Test:	-6.2001286
+Time:	 621.605
+Best model at epoch 8
+Train:	-5.361083
+Test:	-6.1849732
+Time:	 624.730
+Train:	-5.798661
+Test:	-6.4813066
+Time:	 623.592
+Best model at epoch 10
+Train:	-5.6355996
+Test:	-6.061174
+Time:	 621.975
+Train:	-6.001696
+Test:	-6.9328365
+Time:	 618.635
+Best model at epoch 12
+Train:	-5.879594
+Test:	-5.668282
+Time:	 621.962
+Train:	-6.5345125
+Test:	-7.224017
+Time:	 625.075
+Best model at epoch 14
+Train:	-5.963025
+Test:	-6.7845244
+Time:	 622.130
+Train:	-6.3690104
+Test:	-6.7913923
+Time:	 622.395
+Train:	-6.597698
+Test:	-6.815205
+Time:	 627.759
+Train:	-6.389879
+Test:	-7.488823
+Time:	 638.097
+Best model at epoch 18
+Train:	-6.7242365
+Test:	-7.1578007
+Time:	 637.827
+Train:	-6.467425
+Test:	-7.553268
+Time:	 638.085
+Best model at epoch 20
+Train:	-6.5804205
+Test:	-7.5181966
+Time:	 640.001
+Train:	-6.716505
+Test:	-7.4342165
+Time:	 635.685
+Train:	-6.6988745
+Test:	-7.346982
+Time:	 637.833
+Train:	-7.028776
+Test:	-7.618115
+Time:	 638.921
+Best model at epoch 24
+Train:	-7.778012
+Test:	-7.71327
+Time:	 634.914
+Best model at epoch 25
+Train:	-7.9562573
+Test:	-7.815677
+Time:	 637.566
+Best model at epoch 26
+Train:	-7.73199
+Test:	-7.8156557
+Time:	 636.400
+Train:	-7.604935
+Test:	-7.9888015
+Time:	 639.680
+Best model at epoch 28
+Train:	-8.025767
+Test:	-7.890177
+Time:	 637.918
+Train:	-8.0822525
+Test:	-7.919676
+Time:	 638.158
+Train:	-8.125715
+Test:	-8.155166
+Time:	 639.697
+Best model at epoch 31
+Train:	-7.871018
+Test:	-7.67843
+Time:	 636.823
+Train:	-7.9669204
+Test:	-7.7907486
+Time:	 638.797
+Train:	-7.4607162
+Test:	-8.080984
+Time:	 638.827
+Train:	-8.064415
+Test:	-8.1715555
+Time:	 638.205
+Best model at epoch 35
+Train:	-8.17743
+Test:	-7.5476594
+Time:	 637.970
+Train:	-7.9996943
+Test:	-8.150455
+Time:	 637.899
+Train:	-8.08815
+Test:	-8.233678
+Time:	 640.604
+Best model at epoch 38
+Train:	-7.574212
+Test:	-7.740206
+Time:	 637.891
+Train:	-7.630577
+Test:	-7.708863
+Time:	 639.533
+Train:	-8.150266
+Test:	-8.211431
+Time:	 640.020
+Train:	-7.920911
+Test:	-8.222146
+Time:	 634.485
+Train:	-7.981007
+Test:	-8.114226
+Time:	 637.328
+Train:	-8.316126
+Test:	-8.358679
+Time:	 635.868
+Best model at epoch 44
+Train:	-8.103336
+Test:	-8.051127
+Time:	 637.451
+Train:	-7.7391114
+Test:	-8.310585
+Time:	 637.606
+Train:	-7.8935947
+Test:	-7.799994
+Time:	 656.359
+Train:	-8.14202
+Test:	-7.7729497
+Time:	 680.624
+Train:	-8.279336
+Test:	-8.124442
+Time:	 638.284
+Train:	-8.399012
+Test:	-7.96915
+Time:	 634.128
+Saved model
+End of Pretrain, Best Test Loss: -8.3587
+Train:	-1.2657126
+Test:	-2.0952883
+Time:	 743.063
+Best model at epoch 1
+Train:	-2.720748
+Test:	-3.9217608
+Time:	 672.992
+Best model at epoch 2
+Train:	-1.4901706
+Test:	-4.3834167
+Time:	 673.589
+Best model at epoch 3
+Train:	-3.4156046
+Test:	-4.4833302
+Time:	 691.062
+Best model at epoch 4
+Train:	-5.5021744
+Test:	-5.585878
+Time:	 657.363
+Best model at epoch 5
+Train:	-5.845933
+Test:	-6.054054
+Time:	 657.662
+Best model at epoch 6
+Train:	-6.128288
+Test:	-6.2145295
+Time:	 694.627
+Best model at epoch 7
+Train:	-5.873575
+Test:	-6.0416217
+Time:	 672.747
+Train:	-6.1004524
+Test:	-6.298691
+Time:	 669.965
+Best model at epoch 9
+Train:	-6.160182
+Test:	-6.289581
+Time:	 679.744
+End of Pretrain, Best Test Loss: -6.2987
+Train:	-1.2657126
+Test:	-2.0952883
+Time:	 783.639
+Best model at epoch 1
+Train:	-2.720748
+Test:	-3.9217608
+Time:	 688.601
+Best model at epoch 2
+Train:	-1.4901706
+Test:	-4.3834167
+Time:	 695.371
+Best model at epoch 3
+Train:	-3.4156046
+Test:	-4.4833302
+Time:	 689.841
+Best model at epoch 4
+Train:	-5.5021744
+Test:	-5.585878
+Time:	 714.583
+Best model at epoch 5
+Train:	-5.845933
+Test:	-6.054054
+Time:	 681.473
+Best model at epoch 6
+Train:	-6.128288
+Test:	-6.2145295
+Time:	 696.613
+Best model at epoch 7
+Train:	-5.873575
+Test:	-6.0416217
+Time:	 691.033
+Train:	-6.1004524
+Test:	-6.298691
+Time:	 710.448
+Best model at epoch 9
+Train:	-6.160182
+Test:	-6.289581
+Time:	 682.887
+End of Pretrain, Best Test Loss: -6.2987

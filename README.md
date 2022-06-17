@@ -4,15 +4,15 @@
 This is a repository containing PyTorch code for PulseImpute: A Novel Benchmark Task for Physiological Signal Imputation. You can find our key visualizations from the paper as well as instructions for for testing pre-trained models in the paper and training your own models in the instructions below.
 
 
-<center> 
-<img src="figs/hbd_ecgppgimp_viz.png" width=50% height=50%> 
-</center>
+<p align="center">
+<img src="figs/hbd_ecgppgimp_viz.png" width=75% height=75%> 
+</p>
 <p> Visualization of imputation results from six baseline methods on representative ECG and PPG signals. Ablated regions of the input signals are drawn in light gray. The imputed values from each baseline are drawn in blue. The large temporal gaps which arise from real-world missingness patterns create substantial challenges for all methods. For example, methods such as BRITS and DeepMVI produce nearly constant outputs, while GAN-based approaches (BRITS w/ GAIL and NAOMI) hallucinate incorrect structures in incorrect locations. Our novel BDC Transformer architecture also struggles in the middle of long gaps. </p>
 
 <br>
-<center> 
-<img src="figs/cpc_ecgimp_viz.png" width=50% height=50%>
-</center>
+<p align="center">
+<img src="figs/cpc_ecgimp_viz.png" width=75% height=75%>
+</p>
 <p> Cardiac Classification in ECG Results for Transient and Extended Loss on Rhythm, Form, and Diagnosis label groups. For each label group, a cardiac classifier was trained and tested on complete data (test performance illustrated by dashed line). The trained model was then evaluated on imputed test data (for five levels of missingness from 10% to 50%) produced by each baseline, yielding the AUC curves (top). Representative imputation results for the 30% missingness test case are plotted (below), with (ablated) missingness in light gray and imputed values in blue. The Extended Loss setting proved to be more challenging for all methods. </p>
 
 -----

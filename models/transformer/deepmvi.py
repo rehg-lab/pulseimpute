@@ -11,7 +11,7 @@ from .utils.loss import l1_mpc_loss as combine_loss_func
 from .utils.loss import l2_mpc_loss
 
 from .utils.utils import make_attn_plot_stitch
-from .utils.custom_convattn_deepmvi import TransformerEncoderLayer_CustomAttn,TransformerEncoder_CustomAttn
+from .utils.custom_convattn import TransformerEncoderLayer_CustomAttn,TransformerEncoder_CustomAttn
 from tqdm import tqdm
 import math
 
@@ -41,6 +41,8 @@ class BertModel(torch.nn.Module):
                                                           channel_pred=False, ssp=False, 
                                                           q_k_func= q_k_func,max_len=max_len)
         self.encoder = TransformerEncoder_CustomAttn(encoder_layer, num_layers=2)
+
+        #self.mpc = BertMPCHead(orig_dim=orig_dim, embed_dim=embed_dim)
         
         #have to specify kernel size, block size
         self.kernel_size = 21 
@@ -77,16 +79,22 @@ class BertModel(torch.nn.Module):
             encoded = self.encoder(embedding, None) # shape [length, batch_size, embed_dim]
         encoded = encoded.permute(1,2,0) # shape [batch_size, embed_dim, length]
 
-
+        #mpc_projection = self.mpc(encoded) # shape [batch_size, embed_dim, length]
+        #mpc_projection = mpc_projection.transpose(1,2) # shape [batch_size, length, embed_dim]
         mpc_projection = self.deconv(encoded).transpose(1,2)
         
         #for deep MVI: add local context computation
         local_feats = self.context_feats(x[:,:,0],test).transpose(1,2) #before transpose shape is [bs,1,length]
         
         #fixing the size that changed after deconv and repeat_interleave
+        #temp_feats = torch.zeros(local_feats.shape[0],max(local_feats.shape[1],mpc_projection.shape[1]),local_feats.shape[2]).to(local_feats.device)
+        #temp_mpc = torch.zeros(mpc_projection.shape[0],max(local_feats.shape[1],mpc_projection.shape[1]),mpc_projection.shape[2]).to(mpc_projection.device)
+        #temp_feats[:,0:local_feats.shape[1],:] = local_feats
+        #temp_mpc[:,0:mpc_projection.shape[1],:] = mpc_projection
         
         mpc_projection = mpc_projection[:,0:local_feats.shape[1],:]
         feats = torch.cat([mpc_projection,local_feats],dim=2) #shape [bs,length,1+org_dim]
+        #feats = torch.cat([temp_mpc,temp_feats],dim=2) #shape [bs,length,1+org_dim]
         mean = self.mean_outlier_layer(feats) #[:,:,0]
         if return_attn_weights:
             return mean, attn_weights_list #mpc_projection, attn_weights_list
@@ -205,189 +213,4 @@ def count_parameters(model):
     return total_params
 
 from torch.optim.lr_scheduler import LambdaLR
-def get_linear_schedule_with_warmup(optimizer, num_warmup_steps, num_training_steps, last_epoch=-1):
-    """
-    Create a schedule with a learning rate that decreases linearly from the initial lr set in the optimizer to 0, after
-    a warmup period during which it increases linearly from 0 to the initial lr set in the optimizer.
-
-    Args:
-        optimizer (:class:`~torch.optim.Optimizer`):
-            The optimizer for which to schedule the learning rate.
-        num_warmup_steps (:obj:`int`):
-            The number of steps for the warmup phase.
-        num_training_steps (:obj:`int`):
-            The total number of training steps.
-        last_epoch (:obj:`int`, `optional`, defaults to -1):
-            The index of the last epoch when resuming training.
-
-    Return:
-        :obj:`torch.optim.lr_scheduler.LambdaLR` with the appropriate schedule.
-    """
-
-    def lr_lambda(current_step: int):
-        current_step += 1
-        if current_step < num_warmup_steps:
-            return float(current_step) / float(max(1, num_warmup_steps))
-        return max(
-            0.0, float(num_training_steps - current_step) / float(max(1, num_training_steps - num_warmup_steps))
-        )
-
-    return LambdaLR(optimizer, lr_lambda, last_epoch)
-    
-if __name__=='__main__':
-    num_threads_used = multiprocessing.cpu_count() // torch.cuda.device_count() * len(gpu_list)
-    # num_threads_used = multiprocessing.cpu_count() 
-    print(f"Num Threads Used: {num_threads_used}")
-    torch.set_num_threads(num_threads_used)
-    os.environ["MP_NUM_THREADS"]=str(num_threads_used)
-    os.environ["OPENBLAS_NUM_THREADS"]=str(num_threads_used)
-    os.environ["MKL_NUM_THREADS"]=str(num_threads_used)
-    os.environ["VECLIB_MAXIMUM_THREADS"]=str(num_threads_used)
-    os.environ["NUMEXPR_NUM_THREADS"]=str(num_threads_used)
-    
-    if len(gpu_list) == 1:
-        torch.cuda.set_device(gpu_list[0])
-
-    model = BertModel()
-
-    model = nn.DataParallel(model, device_ids=gpu_list)
-    model.to(torch.device(f"cuda:{gpu_list[0]}"))
-
-    count_parameters(model)
-    
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-6*batch_size)
-
-    checkpoint_loc = os.path.join("checkpoints_lmao", model_name)
-    epoch_list = [-1]
-
-    try:
-        os.mkdir(checkpoint_loc)
-        os.mkdir(os.path.join(checkpoint_loc, "latest"))
-        os.mkdir(os.path.join(checkpoint_loc, "best"))
-    except:
-        print("Folder already exists watch out! Continue to reload newest epoch?")
-        try:
-            state = torch.load(os.path.join(checkpoint_loc,"latest", "latest_epoch.pkl"), map_location=f"cuda:{gpu_list[0]}")
-            epoch_list.append(state["epoch"])
-
-            print(f"Reloading newest epoch: {np.max(epoch_list)}")
-            with open(os.path.join(checkpoint_loc, "loss_log.txt"), 'a+') as f:
-                f.write(f"Reloading newest epoch: {np.max(epoch_list)}\n")
-            print(model.load_state_dict(state['state_dict'], strict=True))
-            print(optimizer.load_state_dict(state['optimizer']))
-            
-            state = torch.load(os.path.join(checkpoint_loc,"best", "best_epoch.pkl"), map_location=f"cuda:{gpu_list[0]}")
-            best_epoch = state["epoch"]
-            print(f"Identified best epoch: {best_epoch}")
-        except:
-            pass
-
-    lr_scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=50000, num_training_steps=10e6, last_epoch=np.max(epoch_list))
-    imp_wind = 55
-    train_loader, test_loader = load_data_mimic(window=imp_wind, batch_size=batch_size,
-        path = path2_mimic_waveform, ssp=False, chanpred=True, noV=True, mode=True,bounds=1,
-        noise=True, num_workers = num_threads_used, npy=True, reproduce=True)
-
-    writer = SummaryWriter(log_dir=os.path.join(checkpoint_loc, "tb"))
-
-    min_total_test_loss = 9999999999999999
-    dt_string = datetime.now().strftime("%d/%m/%Y %H:%M")
-    print(f'{dt_string} | Start')
-
-    for epoch in range(np.max(epoch_list)+1, 100000000):
-        
-        total_train_mpcl2_loss = 0
-        for local_batch, local_label_dict in tqdm(train_loader, desc="Training", leave=False):
-            optimizer.zero_grad()
-            mpc_projection = model(local_batch,test=False)
-            mpcl2_loss = combine_loss_func(
-                                                                    mpc_projection.to(torch.device(f"cuda:{gpu_list[0]}")), 
-                                                                    local_label_dict["target_seq"].to(torch.device(f"cuda:{gpu_list[0]}"))
-                                                                    )
-            mpcl2_loss.backward()
-            optimizer.step()
-            lr_scheduler.step()
-            total_train_mpcl2_loss += mpcl2_loss.item()
-
-        total_train_mpcl2_loss /=  len(train_loader.dataset)
-        writer.add_scalar('Masked Predictive Coding L1 Loss/Train', total_train_mpcl2_loss, epoch)
-
-        with torch.no_grad():
-            model.eval()
-            total_test_mpcl1_loss = 0
-            total_test_mpcl2_loss = 0
-
-            iter = 1
-            for local_batch, local_label_dict in tqdm(test_loader, desc="Testing", leave=False):     
-                mpc_projection = model(local_batch,test=False)
-
-                mpcl1_loss = combine_loss_func(
-                                                mpc_projection.to(torch.device(f"cuda:{gpu_list[0]}")), 
-                                                local_label_dict["target_seq"].to(torch.device(f"cuda:{gpu_list[0]}"))
-                                                )
-                real_mpcl2_loss = l2_mpc_loss(
-                                                mpc_projection.to(torch.device(f"cuda:{gpu_list[0]}")), 
-                                                local_label_dict["target_seq"].to(torch.device(f"cuda:{gpu_list[0]}"))
-                                                )
-                total_test_mpcl1_loss += mpcl1_loss.item()
-                total_test_mpcl2_loss += real_mpcl2_loss.item()
-
-                if iter == len(test_loader):
-                    mpc_projection_stitch = torch.zeros(local_batch.shape).to(torch.device(f"cuda:{gpu_list[0]}"))
-                    attn_weights_stitch = []
-                    local_batch = torch.clone(local_label_dict["original"])
-                    freq = np.ceil(1000/imp_wind/10) #calculating freq of # imp wind until attn weights calc s.t. there are 10 attn positions
-
-                    for start in range(0,1000,imp_wind):
-                        local_batch[:, start:start+imp_wind, :] = 0.0
-
-                        if start % (imp_wind*freq) == 0:
-                            mpc_projection, attn_weights = model(local_batch, return_attn_weights=True,test=True)
-                            attn_weights_stitch.append(attn_weights[0][-1, :, :].unsqueeze(0).cpu().detach().numpy()) #fucking annoying channel thing
-                        else:
-                            mpc_projection = model(local_batch,test=True)
-
-                        mpc_projection_stitch[:,start:start+imp_wind,:] = mpc_projection[:,start:start+imp_wind,:]
-                        local_batch = torch.clone(local_label_dict["original"])
-                iter += 1
-            model.train()
-        total_test_mpcl2_loss /=  len(test_loader.dataset) - 1
-        total_test_mpcl1_loss /=  len(test_loader.dataset) - 1
-        writer.add_scalar('Masked Predictive Coding Loss/Test', total_test_mpcl2_loss, epoch)
-        writer.add_scalar('Masked Predictive Coding Loss L1/Test', total_test_mpcl1_loss, epoch)
-
-        dt_string = datetime.now().strftime("%d/%m/%Y %H:%M")
-        print(f'{dt_string} | Epoch: {epoch} \nTrain MPC L1 Loss: {total_train_mpcl2_loss:.3f} \nTest MPC L1 Loss:{total_test_mpcl1_loss:.3f} \nTest MPC L2 Loss:{total_test_mpcl2_loss:.3f} \n')
-        with open(os.path.join(checkpoint_loc, "loss_log.txt"), 'a+') as f:
-            f.write(f'{dt_string} | Epoch: {epoch} \nTrain MPC L1 Loss: {total_train_mpcl2_loss:.3f} \nTest MPC L1 Loss:{total_test_mpcl1_loss:.3f} \nTest MPC L2 Loss:{total_test_mpcl2_loss:.3f} \n')
-
-        if epoch != 0:
-            os.remove(os.path.join(checkpoint_loc, "latest", "latest_epoch.pkl"))
-
-        state = {
-                    'epoch': epoch,
-                    'state_dict': model.state_dict(),
-                    'optimizer': optimizer.state_dict(),
-                }
-        torch.save(state, os.path.join(checkpoint_loc, "latest", "latest_epoch.pkl"))
-        if total_test_mpcl2_loss <= min_total_test_loss:
-            if epoch != 0:
-                os.remove(os.path.join(checkpoint_loc, "best", "best_epoch.pkl"))
-            torch.save(state, os.path.join(checkpoint_loc, "best", "best_epoch.pkl"))
-            min_total_test_loss = total_test_mpcl2_loss
-            best_epoch = epoch
-
-        if epoch % 1 == 0:
-            epoch_check_path = os.path.join(checkpoint_loc, "epoch_" +  str(epoch))
-            if epoch % 5 == 0:
-                try:
-                    os.mkdir(epoch_check_path)
-                    torch.save(state, os.path.join(epoch_check_path, "epoch_" +  str(epoch) + ".pkl"))
-                except:
-                    pass
-            
-            make_attn_plot_stitch(epoch_check_path=epoch_check_path, epoch=epoch, freq=freq,
-                                output=mpc_projection.cpu().detach().numpy(), 
-                                stitch=mpc_projection_stitch.cpu().detach().numpy(), imp_wind=imp_wind,
-                                X_test=local_label_dict["original"].cpu().detach().numpy(), attn_weights=attn_weights_stitch, writer=writer)
-    writer.close()
+def get_linear_schedule_with_warmup(optimizer, num_warmup_steps, num_training_steps, last_ep

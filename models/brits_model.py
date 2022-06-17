@@ -7,7 +7,7 @@ import torch.nn as nn
 from datetime import datetime
 import re
 from tqdm import tqdm
-from prettytable import PrettyTable
+
 import torch.nn.functional as F
 from .brits.mod_utils.brits_dataloader import create_dataloader
 from .brits.utils import to_var

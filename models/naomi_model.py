@@ -13,7 +13,7 @@ import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
 from tqdm import tqdm
-from prettytable import PrettyTable
+
 
 from utils.loss_mask import mse_mask_loss
 
@@ -21,18 +21,6 @@ from utils.loss_mask import mse_mask_loss
 import gc
 import csv
 from ast import literal_eval
-def count_parameters(model):
-    table = PrettyTable(["Modules", "Parameters"])
-    total_params = 0
-    for name, parameter in model.named_parameters():
-        if not parameter.requires_grad: continue
-        param = parameter.numel()
-        table.add_row([name, param])
-        total_params+=param
-    print(table)
-    print(f"Total Trainable Params: {total_params}")
-    return total_params
-
 
 
 class naomi():

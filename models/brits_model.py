@@ -28,7 +28,7 @@ class brits():
                  createjson=True, iter_save=None,
                  brits_data_path=None, bigfile=True, train_time=None):
         
-        outpath = return_out_path_basedonmachine()
+        outpath = "out/"
         if brits_data_path is None:
             brits_data_path = os.path.join(outpath, "..", "models", "brits", "data")
         self.iter_save=iter_save

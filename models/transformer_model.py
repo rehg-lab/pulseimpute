@@ -15,7 +15,8 @@ from .transformer.utils.loss import l2_mpc_loss
 
 
 class transformer():
-    def __init__(self,modelname, data_name, train_data=None, val_data=None, imputation_dict= None, annotate="",annotate_test="",
+    def __init__(self, modelname, data_name, train_data=None, val_data=None, 
+                imputation_dict= None, annotate="",annotate_test="",
                  bs= 64, gpus=[0,1], train_time=999, # in hours
                  train_impute_wind=None, train_impute_prob=None, train_impute_extended=None,
                  train_realecg=False, train_realppg=False,
@@ -24,13 +25,16 @@ class transformer():
                  convertolong=None, reload_epoch_long=None,
                  deepmvi=False):
 
+        outpath = "out/"
+
+
+        self.iter_save = iter_save
+        self.train_time = train_time
+
         if deepmvi:
             from .transformer.utils.custom_convattn_deepmvi import TransformerEncoderLayer_CustomAttn, TransformerEncoder_CustomAttn
         else:
             from .transformer.utils.custom_convattn import TransformerEncoderLayer_CustomAttn, TransformerEncoder_CustomAttn
-        outpath = "out/"
-        self.iter_save = iter_save
-        self.train_time = train_time
 
         if convertolong:
             from .transformer.utils.custom_convlongattn import Custom_LongformerSelfAttn
@@ -246,15 +250,14 @@ class transformer():
         total_test_mse_loss /= total_missing_total
         total_test_mpcl2_std = torch.std(torch.cat(residuals_all))
 
-        epoch_check_path = os.path.join(self.ckpt_path, "epoch_" +  str(self.reload_epoch))
-        os.makedirs(epoch_check_path, exist_ok=True)
-
         dt_string = datetime.now().strftime("%d/%m/%Y %H:%M")
         print(f'{dt_string} | MSE:{total_test_mse_loss:.10f} | Std SE: {total_test_mpcl2_std:.10f}  \n')
-        with open(os.path.join(epoch_check_path, "loss_log.txt"), 'a+') as f:
+        with open(os.path.join(self.ckpt_path, "loss_log.txt"), 'a+') as f:
             f.write(f'{dt_string} | MSE:{total_test_mse_loss:.10f} | Std SE: {total_test_mpcl2_std:.10f}  \n')
 
-        np.save(os.path.join(epoch_check_path, "imputation.npy"), imputation_cat)
+        np.save(os.path.join(self.ckpt_path, "imputation.npy"), imputation_cat)
+
+        return imputation_cat
 
 
     def train(self):

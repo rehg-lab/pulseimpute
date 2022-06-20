@@ -42,7 +42,7 @@ class mean():
         self.gpu_list = gpus
         self.annotate_test = annotate_test
         self.dataname=data_name
-        outpath = return_out_path_basedonmachine()
+        outpath = "out/"
         
         self.data_loader_setup(train_data, val_data, imputation_dict)
         

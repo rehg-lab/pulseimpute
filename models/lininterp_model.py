@@ -34,11 +34,12 @@ class generic_dataset(torch.utils.data.Dataset):
         return X, y_dict
 
 class lininterp():
-    def __init__(self,modelname, 
+    def __init__(self,modelname, train=True,
                 train_data=None, val_data=None, data_name="", 
                  imputation_dict=None, annotate_test="",
                  annotate="", bs= 64, gpus=[0,1]):
-        outpath = return_out_path_basedonmachine()
+        outpath = "out/"
+            
         self.bs = bs
         self.gpu_list = gpus
         self.annotate_test = annotate_test

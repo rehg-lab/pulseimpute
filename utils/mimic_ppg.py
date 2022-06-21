@@ -12,11 +12,11 @@ import math
 
 
 
-def load(mean=None, bounds=None, train=True, val=True, test=False, addmissing=False, path=os.path.join("data/data/mimic_ecg")):
+def load(mean=None, bounds=None, train=True, val=True, test=False, addmissing=False, path=os.path.join("data/data/mimic_ppg")):
 
     # Train
     if train:
-        X_train = np.load(os.path.join(path, "ppg_train.npy")).astype(np.float32)
+        X_train = np.load(os.path.join(path, "mimic_ppg_train.npy")).astype(np.float32)
         if mean:
             X_train -= np.mean(X_train,axis=1,keepdims=True) 
         if bounds:
@@ -28,7 +28,7 @@ def load(mean=None, bounds=None, train=True, val=True, test=False, addmissing=Fa
 
     # Val
     if val:
-        X_val = np.load(os.path.join(path, "ppg_val.npy")).astype(np.float32)
+        X_val = np.load(os.path.join(path, "mimic_ppg_val.npy")).astype(np.float32)
         if mean:
             X_val -= np.mean(X_val,axis=1,keepdims=True) 
         if bounds:
@@ -40,7 +40,7 @@ def load(mean=None, bounds=None, train=True, val=True, test=False, addmissing=Fa
 
     # Test
     if test:
-        X_test = np.load(os.path.join(path, "ppg_test.npy")).astype(np.float32)
+        X_test = np.load(os.path.join(path, "mimic_ppg_test.npy")).astype(np.float32)
         if mean:
             X_test -= np.mean(X_test,axis=1,keepdims=True) 
         if bounds:
@@ -60,7 +60,7 @@ def modify(X, type=None, addmissing=False):
 
     if addmissing:
         print("adding missing")
-        miss_tuples_path = os.path.join("data", f"ppg_missing_compressed_{type}.csv")
+        miss_tuples_path = os.path.join("data","missingness_patterns", f"missing_ppg_{type}.csv")
         with open(miss_tuples_path, 'r') as read_obj:
             csv_reader = reader(read_obj)
             list_of_miss = list(csv_reader)

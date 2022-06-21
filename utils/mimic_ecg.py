@@ -6,7 +6,7 @@ from csv import reader
 from ast import literal_eval
 
 
-def load(train=True, val=True, test=False, addmissing=False, path=os.path.join("data")):
+def load(train=True, val=True, test=False, addmissing=False, path=os.path.join("data/data/mimic_ecg")):
     # note that mimic has already been mode centered and bounded 1 to -1
     if train:
         X_train = np.load(os.path.join(path, "mimic_ecg_train.npy"))
@@ -40,7 +40,7 @@ def modify(X, addmissing=False, type=None):
     target = torch.from_numpy(target)
 
     if addmissing: # this is only activated during testing
-        miss_tuples_path = os.path.join("data", f"ecg_missing_compressed_{type}.csv")
+        miss_tuples_path = os.path.join("data","missingness_patterns", f"missing_ecg_{type}.csv")
         with open(miss_tuples_path, 'r') as read_obj:
             csv_reader = reader(read_obj)
             list_of_miss = list(csv_reader)

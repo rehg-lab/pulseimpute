@@ -8,14 +8,13 @@ import numpy as np
 from ecgdetectors import Detectors
 import random
 import pandas as pd
-
+from tqdm.contrib.concurrent import process_map 
+import itertools
 
 
 """
 Functions that are used for evaluating the imputation during test time
 """
-
-
 
 
 def eval_mse(imputation, target_seq, path):
@@ -31,7 +30,8 @@ def eval_heartbeat_detection(imputation, target_seq, input, path):
         type = "ecg"
 
     def get_groundtruths():
-        nomiss_data = torch.nansum(target_seq, input)
+        temp_target = np.nan_to_num(target_seq) 
+        nomiss_data = np.add(temp_target, input.cpu().detach().numpy())
 
         r_peaks_list = []
         for i in tqdm(range(nomiss_data.shape[0])):
@@ -40,16 +40,76 @@ def eval_heartbeat_detection(imputation, target_seq, input, path):
                 rpeaks_nomiss = np.array(find_peaks(np.array(nomiss_data[i][:,0]), prominence=.1, threshold=1e-10)[0])
             else:
                 detector = Detectors(100)
-                rpeaks_nomiss = np.array(detector.swt_detector(nomiss_data[i]))/10 # to convert to ms
+                rpeaks_nomiss = np.array(detector.swt_detector(nomiss_data[i,:,0])) # to convert to ms
 
             r_peaks_list.append(rpeaks_nomiss)
 
-        with open(f'data/mimic_{type}/peaks_list.pickle', 'wb') as fp:
+        with open(f'data/data/mimic_{type}/peaks_list.pickle', 'wb') as fp:
             pickle.dump(r_peaks_list, fp)
 
-    if not os.path.exists('data/mimic_{type}/peaks_list.pickle'):
-        get_groundtruths()
+        return r_peaks_list
+    if not os.path.exists(f'data/data/mimic_{type}/peaks_list.pickle'):
+        r_peaks_list = get_groundtruths()
+    else:
+        with open(f'data/data/mimic_{type}/peaks_list.pickle', 'rb') as fp:
+            r_peaks_list = pickle.load(fp)
 
+
+    stats = np.array(process_map(find_peaks_all, zip(list(imputation), r_peaks_list, target_seq, itertools.repeat(type)), max_workers=os.cpu_count(), chunksize=1, total=len(r_peaks_list)))
+    sens = np.nanmean(stats[:,0])
+    prec = np.nanmean(stats[:,1])
+    f1 = 2*sens*prec/(sens+prec)
+
+    printlog(f"Sensitivity: {sens}", path)
+    printlog(f"Precision: {prec}", path)
+    printlog(f"F1: {f1}", path)
+
+def find_peaks_all(zipped_thing):
+    imputation, true_r_peaks, target_seq, type = zipped_thing
+
+    if type == "ppg":
+        rpeaks = np.array(find_peaks(np.array(imputation[:,0]), prominence=.1, threshold=1e-10)[0])
+    else:
+        detector = Detectors(100)
+        rpeaks = detector.swt_detector(imputation[:,0])
+        rpeaks = np.array(rpeaks) # to convert to ms
+
+    r_peaks_missing  = [] 
+    for peak in true_r_peaks:
+        if int(peak) in set(np.where(~torch.isnan(target_seq[:, 0]))[0]):
+            r_peaks_missing.append(int(peak))
+
+    peaks_found = []
+    for peak in rpeaks:
+        if int(peak) in set(np.where(~torch.isnan(target_seq[:,0]))[0]):
+            peaks_found.append(int(peak))
+            
+    # peaks found in imputation region
+    r_peaks_afterimputation_tolerable = np.concatenate((np.array(peaks_found)+2, 
+                                                        np.array(peaks_found)+1, 
+                                                        np.array(peaks_found), 
+                                                        np.array(peaks_found)-1,
+                                                        np.array(peaks_found)-2))
+
+    # missing peaks that were not in imputed peaks
+    r_peaks_thatwereNOTfoundfromoriginal = list(set(r_peaks_missing) - set(r_peaks_afterimputation_tolerable))
+    true_positives = len(r_peaks_missing) - len(r_peaks_thatwereNOTfoundfromoriginal)
+
+    # precision and sensitivity and F1
+    false_negatives = len(r_peaks_thatwereNOTfoundfromoriginal)
+    false_positives = len(peaks_found) - true_positives
+
+    if true_positives + false_negatives == 0:
+        return np.nan, np.nan, np.nan
+
+    sensitivity = true_positives / (true_positives + false_negatives)
+    if true_positives + false_positives != 0:
+        precision = true_positives / (true_positives + false_positives)
+    else:
+        precision = np.nan
+    # f1 = (2*precision*sensitivity)/(precision+sensitivity)
+    # f1 = true_positives / (true_positives + .5*(false_negatives + false_positives))
+    return sensitivity, precision
 
 
 def eval_cardiac_classification(imputation, path):
@@ -102,12 +162,3 @@ def printlog(line, path, type="a"):
     with open(os.path.join(path, 'eval_results.txt'), type) as file:
         file.write(line+'\n')
 
-def random_seed(seed_value, use_cuda):
-    np.random.seed(seed_value) # cpu vars
-    torch.manual_seed(seed_value) # cpu  vars
-    random.seed(seed_value) # Python
-    if use_cuda: 
-        torch.cuda.manual_seed(seed_value)
-        torch.cuda.manual_seed_all(seed_value) # gpu vars
-        torch.backends.cudnn.deterministic = True  #needed
-        torch.backends.cudnn.benchmark = False

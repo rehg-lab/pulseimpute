@@ -4,7 +4,20 @@ from configs.train_naomi_configs import *
 from configs.train_tutorial_configs import *
 
 
+import numpy as np
+import torch
+import random
 
+
+def random_seed(seed_value, use_cuda):
+    np.random.seed(seed_value) # cpu vars
+    torch.manual_seed(seed_value) # cpu  vars
+    random.seed(seed_value) # Python
+    if use_cuda: 
+        torch.cuda.manual_seed(seed_value)
+        torch.cuda.manual_seed_all(seed_value) # gpu vars
+        torch.backends.cudnn.deterministic = True  #needed
+        torch.backends.cudnn.benchmark = False
 
 if __name__=='__main__':
 
@@ -15,7 +28,7 @@ if __name__=='__main__':
     load = getattr(__import__(f'utils.{config["data_name"]}', fromlist=['']), "load")
     X_train, Y_dict_train, X_val, Y_dict_val, X_test, Y_dict_test = load(**config["data_load"], 
                                                                             train=True, val=True, test=False)
-
+    random_seed(10, True)
     model_type = config["modeltype"]
     model_module = __import__(f'models.{model_type}_model', fromlist=[''])
     model_module_class = getattr(model_module, model_type)
@@ -25,6 +38,4 @@ if __name__=='__main__':
                                **config["train"])
 
     model.train()
-
-
 

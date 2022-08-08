@@ -6,7 +6,6 @@ from tqdm import tqdm
 from scipy.signal import find_peaks
 import numpy as np
 from ecgdetectors import Detectors
-import random
 import pandas as pd
 from tqdm.contrib.concurrent import process_map 
 import itertools
@@ -17,13 +16,16 @@ Functions that are used for evaluating the imputation during test time
 """
 
 
-def eval_mse(imputation, target_seq, path):
-    mse_loss, missing_total = mse_mask_loss(torch.Tensor(imputation), target_seq)
-    mse_loss /= missing_total
+def eval_mse(imputation, target_seq, path, return_stats=False):
+    mse_loss, missing_total = mse_mask_loss(torch.Tensor(imputation), target_seq, return_stats=return_stats)
 
-    printlog(f"MSE: {mse_loss.item()}", path, type="w")
+    if return_stats:
+        return mse_loss, missing_total
+    else:
+        mse_loss /= missing_total
+        printlog(f"MSE: {mse_loss.item()}", path, type="w")
 
-def eval_heartbeat_detection(imputation, target_seq, input, path):
+def eval_heartbeat_detection(imputation, target_seq, input, path, return_stats=False):
     if "ppg" in path:
         type = "ppg"
     else:
@@ -56,13 +58,16 @@ def eval_heartbeat_detection(imputation, target_seq, input, path):
 
 
     stats = np.array(process_map(find_peaks_all, zip(list(imputation), r_peaks_list, target_seq, itertools.repeat(type)), max_workers=os.cpu_count(), chunksize=1, total=len(r_peaks_list)))
-    sens = np.nanmean(stats[:,0])
-    prec = np.nanmean(stats[:,1])
-    f1 = 2*sens*prec/(sens+prec)
+    if return_stats:
+        return stats
+    else:
+        sens = np.nanmean(stats[:,0])
+        prec = np.nanmean(stats[:,1])
+        f1 = 2*sens*prec/(sens+prec)
 
-    printlog(f"Sensitivity: {sens}", path)
-    printlog(f"Precision: {prec}", path)
-    printlog(f"F1: {f1}", path)
+        printlog(f"Sensitivity: {sens}", path)
+        printlog(f"Precision: {prec}", path)
+        printlog(f"F1: {f1}", path)
 
 def find_peaks_all(zipped_thing):
     imputation, true_r_peaks, target_seq, type = zipped_thing
@@ -100,7 +105,7 @@ def find_peaks_all(zipped_thing):
     false_positives = len(peaks_found) - true_positives
 
     if true_positives + false_negatives == 0:
-        return np.nan, np.nan, np.nan
+        return np.nan, np.nan
 
     sensitivity = true_positives / (true_positives + false_negatives)
     if true_positives + false_positives != 0:

@@ -1,19 +1,11 @@
 import os
 import multiprocessing
 import torch
-from torch.utils.tensorboard import SummaryWriter
 import numpy as np
-import torch.nn as nn
 from datetime import datetime
-import re
 from tqdm import tqdm
 
-import torch.nn.functional as F
-from .brits.mod_utils.brits_dataloader import create_dataloader
-from .brits.utils import to_var
 from utils.loss_mask import mse_mask_loss
-from utils.viz import make_impplot_12chan
-from utils.utils import return_out_path_basedonmachine
 
 class generic_dataset(torch.utils.data.Dataset):
     def __init__(self, waveforms, imputation_dict):
@@ -115,19 +107,14 @@ class lininterp():
         total_test_mse_loss /=  total_missing_total
         total_test_mpcl2_std = torch.std(torch.cat(residuals_all))
 
-        epoch_check_path = os.path.join(self.ckpt_path, "epoch_" +  str(0))
-        os.makedirs(epoch_check_path, exist_ok=True)
 
         dt_string = datetime.now().strftime("%d/%m/%Y %H:%M")
         print(f'{dt_string} | MSE:{total_test_mse_loss:.10f} | Std SE: {total_test_mpcl2_std:.10f}  \n')
-        with open(os.path.join(epoch_check_path, "loss_log.txt"), 'a+') as f:
+        with open(os.path.join(self.ckpt_path, "loss_log.txt"), 'a+') as f:
             f.write(f'{dt_string} | MSE:{total_test_mse_loss:.10f} | Std SE: {total_test_mpcl2_std:.10f}  \n')
 
-        make_impplot_12chan(title="imp_results", epoch_check_path=epoch_check_path, epoch=0,
-                            original=local_batch.cpu().detach().numpy(), impute=imputation.cpu().detach().numpy(), mask=local_label_dict["target_seq"].cpu().detach().numpy(), 
-                            makefig=True)
-        np.save(os.path.join(epoch_check_path, "imputation.npy"), imputation_cat)
-
+        np.save(os.path.join(self.ckpt_path, "imputation.npy"), imputation_cat)
+        return imputation_cat
 
 def nan_helper(y):
     """Helper to handle indices and logical indices of NaNs.

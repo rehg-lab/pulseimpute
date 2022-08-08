@@ -6,7 +6,7 @@ from datetime import datetime
 from tqdm import tqdm
 
 from utils.loss_mask import mse_mask_loss
-
+import scipy
 
 class generic_dataset(torch.utils.data.Dataset):
     def __init__(self, waveforms, imputation_dict):
@@ -26,7 +26,7 @@ class generic_dataset(torch.utils.data.Dataset):
 
         return X, y_dict
 
-class mean():
+class fft():
     def __init__(self,modelname, 
                 train_data=None, val_data=None, data_name="", 
                  imputation_dict=None, annotate_test="",
@@ -82,11 +82,60 @@ class mean():
             residuals_all = []
             for local_batch, local_label_dict in tqdm(self.test_loader, desc="Testing", leave=False):
                 local_batch_copy = torch.clone(local_batch)
-                local_batch_copy[~torch.isnan(local_label_dict["target_seq"])] = np.nan
-                means = np.nanmean(local_batch_copy, axis=1)
-                imputation = torch.zeros(local_batch.shape) + np.expand_dims(means, axis=1)
-                imputation[torch.isnan(local_label_dict["target_seq"])] = 0 
-                imputation = imputation + local_batch
+                for i in range(local_batch.shape[0]):
+                    startobserved = None
+                    endobserved = None
+                    startmissing = None
+                    endmissing = None
+                    endmissing_firstmissing = None
+                    firstmissing = False
+                    for j in range(local_batch.shape[1]):
+                        if j == 0 and ~torch.isnan(local_label_dict["target_seq"][i,j]): #data is missing in first point
+                            firstmissing=True
+                            continue
+                        if firstmissing: # edge case where you start with missingness
+                            if not torch.isnan(local_label_dict["target_seq"][i,j]): # nan is present, so this is when missing
+                                endmissing_firstmissing = j
+                                continue
+                            else:
+                                firstmissing = False
+
+                        if startobserved is None: # then if we havent started tracking observed, lets start
+                            startobserved = j
+                        if torch.isnan(local_label_dict["target_seq"][i,j]): # we found an observed value
+                            if startmissing is not None: # if we have a missing, then find an observed
+                                # we have finished the missing segment 
+                                endmissing = j
+                        else: # we found a missing value
+                            if startmissing is None:
+                                startmissing = j # we start the missing segment
+                                endobserved = j # we have finished the observed segment
+                        
+                        if endmissing is not None:
+                            # then we begin FFT imputation
+                            observed_segment = local_batch_copy[i, startobserved:endobserved]
+                            fft = scipy.fft.fft(observed_segment.detach().cpu().numpy(), axis=0)
+
+                            fft = np.concatenate((fft, np.expand_dims(np.zeros(int(endmissing-startmissing)), axis=1)))
+                            if endmissing_firstmissing:
+                                fft = np.concatenate((np.expand_dims(np.zeros(endmissing_firstmissing), axis=1), fft))
+                            ifft = scipy.fft.ifft(fft, axis=0).real
+                            if endmissing_firstmissing:
+                                startobserved = 0
+                                local_batch_copy[i, :endmissing_firstmissing] = torch.from_numpy(ifft[:endmissing_firstmissing])
+                            local_batch_copy[i, startmissing:endmissing] = torch.from_numpy(ifft[-(endmissing-startmissing):])
+
+                            startmissing = None
+                            endmissing = None
+                            endmissing_firstmissing = None
+                            endobserved = None
+                            
+
+                        
+                if not torch.allclose(local_batch_copy[torch.isnan(local_label_dict["target_seq"])], local_batch[torch.isnan(local_label_dict["target_seq"])]):
+                    import pdb; pdb.set_trace()
+                
+                imputation = local_batch_copy
 
                 mse_loss, missing_total, residuals= mse_mask_loss(imputation, local_label_dict["target_seq"]
                                                         ,residuals=True)
@@ -104,6 +153,8 @@ class mean():
         total_test_mse_loss /= total_missing_total
         total_test_mpcl2_std = torch.std(torch.cat(residuals_all))
 
+
+
         dt_string = datetime.now().strftime("%d/%m/%Y %H:%M")
         print(f'{dt_string} | MSE:{total_test_mse_loss:.10f} | Std SE: {total_test_mpcl2_std:.10f}  \n')
         with open(os.path.join(self.ckpt_path, "loss_log.txt"), 'a+') as f:
@@ -111,5 +162,6 @@ class mean():
 
         np.save(os.path.join(self.ckpt_path, "imputation.npy"), imputation_cat)
 
-
         return imputation_cat
+
+

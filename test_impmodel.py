@@ -23,7 +23,7 @@ def random_seed(seed_value, use_cuda):
 if __name__=='__main__':
 
 
-    configs = [bdc883_emb256_layer2_mimic_ppg_test]
+    configs = [fft_mimic_ecg_test]
 
 
     for config in configs:

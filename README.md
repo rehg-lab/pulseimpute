@@ -53,7 +53,7 @@ Simply find the config of the model to be trained in their respective config fil
     python train_imp.py
 
 ### Training your own custom model
-Create the desired model class in models/modelname/modelname.py (See models/lstm/lstm.py for an example of a simple LSTM). The training and test methods for the lstm are in models/lstm_model.py. Create a corresponding config entry in configs/train_lstm_configs.py and run the training script train_imp.py with this config.      
+Create the desired model class by following the example shown in models/tutorial/tutorial.py. The training and test methods for this tutorial model are in models/tutorial_model.py. Create a corresponding config entry in configs/train_tutorial_configs.py and run the training script train_imp.py with this config.      
 
 
 

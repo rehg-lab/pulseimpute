@@ -70,7 +70,7 @@ if __name__=='__main__':
                 prec_bootstraplist = []
             else:
                 from sklearn.metrics import roc_auc_score
-                # eval_cardiac_classification(imputation, path)
+                eval_cardiac_classification(imputation, path)
                 stats_true = {}
                 stats_pred = {}
                 for category in ["rhythm", "form", "diagnostic"]:

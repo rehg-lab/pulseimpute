@@ -6,7 +6,7 @@ from torch import nn
 from pathlib import Path
 from scipy.stats import iqr
 import os
-
+from tqdm import tqdm
 #Note: due to issues with the numpy rng for multiprocessing (https://github.com/pytorch/pytorch/issues/5059) that could be fixed by a custom worker_init_fn we use random throught for convenience
 import random
 
@@ -543,7 +543,7 @@ def aggregate_predictions(preds,targs=None,idmap=None,aggregate_fn = np.mean,ver
             print("aggregating predictions...")
             preds_aggregated = []
             targs_aggregated = []
-            for i in np.unique(idmap):
+            for i in tqdm(np.unique(idmap)):
                 preds_local = preds[np.where(idmap==i)[0]]
                 preds_aggregated.append(aggregate_fn(preds_local,axis=0))
                 if targs is not None:

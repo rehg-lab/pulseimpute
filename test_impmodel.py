@@ -7,7 +7,7 @@ from utils.evaluate_imputation import eval_mse, eval_heartbeat_detection, eval_c
 import numpy as np
 import torch
 import random
-
+from tqdm import tqdm
 
 def random_seed(seed_value, use_cuda):
     np.random.seed(seed_value) # cpu vars
@@ -23,7 +23,8 @@ def random_seed(seed_value, use_cuda):
 if __name__=='__main__':
 
     bootstrap = (1000, 1) # num of bootstraps, size of bootstrap sample compared to test size
-    configs = [fft_mimic_ppg_test]
+    configs = [fft_ptbxl_testtransient_10percent,fft_ptbxl_testtransient_20percent,fft_ptbxl_testtransient_30percent,
+    fft_ptbxl_testtransient_40percent,fft_ptbxl_testtransient_50percent]
 
 
     for config in configs:
@@ -48,7 +49,7 @@ if __name__=='__main__':
                                     **config["train"])
             imputation = model.testimp()
    
-        if bootstrap is not None and "mimic" in config["data_name"]: # only support for mimic right now
+        if bootstrap is not None: # only support for mimic right now
             mse_losses, missing_totals = eval_mse(imputation, Y_dict_test["target_seq"], path, return_stats=True)
             printlog(f"MSE: {(torch.sum(mse_losses)/torch.sum(missing_totals)).item()}", path, type="w")
             mse_losses_bootstraplist = []
@@ -67,9 +68,28 @@ if __name__=='__main__':
                 f1_bootstraplist = []
                 sens_bootstraplist = []
                 prec_bootstraplist = []
+            else:
+                from sklearn.metrics import roc_auc_score
+                # eval_cardiac_classification(imputation, path)
+                stats_true = {}
+                stats_pred = {}
+                for category in ["rhythm", "form", "diagnostic"]:
+                    y_test_true = np.load(os.path.join("out", config["data_name"]+config["annotate_test"],
+                                                                config["modelname"]+config["annotate"], category,
+                                                                "data", "y_test.npy"), allow_pickle=True)
+                    stats_true[category] = y_test_true
+                    y_test_pred = np.load(os.path.join("out", config["data_name"]+config["annotate_test"],
+                                                        config["modelname"]+config["annotate"], category,
+                                                        "models", "fastai_xresnet1d101", "y_test_pred.npy"), 
+                                                        allow_pickle=True)
+                    stats_pred[category] = y_test_pred
+                auc_bootstraplist = {
+                    "rhythm": [],
+                    "form": [],
+                    "diagnostic": []  
+                }
 
-
-            for bootstrap_iter in range(bootstrap[0]):
+            for bootstrap_iter in tqdm(range(bootstrap[0])):
                 np.random.seed(bootstrap_iter)
                 bootstrap_idxes = np.random.choice(mse_losses.shape[0],mse_losses.shape[0], replace=True)
                 
@@ -77,17 +97,31 @@ if __name__=='__main__':
                 mse_losses_bootstraplist.append((torch.sum(mse_losses_temp)/torch.sum(missing_totals_temp)).item())
 
                 if "mimic" in config["data_name"]:
-                    try:
-                        stats_temp = stats[bootstrap_idxes]
-                        sens = np.nanmean(stats_temp[:,0])
-                        prec = np.nanmean(stats_temp[:,1])
-                        f1 = 2*sens*prec/(sens+prec)
-                    except:
-                        import pdb; pdb.set_trace()
+                    stats_temp = stats[bootstrap_idxes]
+                    sens = np.nanmean(stats_temp[:,0])
+                    prec = np.nanmean(stats_temp[:,1])
+                    f1 = 2*sens*prec/(sens+prec)
+
 
                     f1_bootstraplist.append(f1)
                     prec_bootstraplist.append(sens)
                     sens_bootstraplist.append(prec)
+                else:
+                    for category in ["rhythm", "form", "diagnostic"]:
+                        np.random.seed(bootstrap_iter)
+                        bootstrap_idxes = np.random.choice(stats_true[category].shape[0],  
+                                                            stats_true[category].shape[0], replace=True)
+                        y_test_true_temp = stats_true[category][bootstrap_idxes]
+                        y_test_pred_temp = stats_pred[category][bootstrap_idxes]
+                        # import pdb; pdb.set_trace()
+                        try:
+                            auc_bootstraplist[category].append(roc_auc_score(y_test_true_temp, 
+                                                                            y_test_pred_temp, 
+                                                                            average='macro'))
+                        except ValueError:
+                            pass
+                                                
+
 
             
             printlog(f"95% CI MSE from Bootstrap {bootstrap}: {2*np.std(mse_losses_bootstraplist)}",path)
@@ -95,6 +129,10 @@ if __name__=='__main__':
                 printlog(f"95% CI F1 from Bootstrap {bootstrap}: {2*np.std(f1_bootstraplist)}",path)
                 printlog(f"95% CI Prec from Bootstrap {bootstrap}: {2*np.std(prec_bootstraplist)}",path)
                 printlog(f"95% CI Sens from Bootstrap {bootstrap}: {2*np.std(sens_bootstraplist)}",path)
+            else:
+                printlog(f"95% CI Rhy AUC from Bootstrap {bootstrap}: {2*np.std(auc_bootstraplist['rhythm'])}",path)
+                printlog(f"95% CI Form AUC from Bootstrap {bootstrap}: {2*np.std(auc_bootstraplist['form'])}",path)
+                printlog(f"95% CI Diag AUC from Bootstrap {bootstrap}: {2*np.std(auc_bootstraplist['diagnostic'])}",path)
 
         else:
             eval_mse(imputation, Y_dict_test["target_seq"], path)

@@ -37,7 +37,7 @@ class SCP_Experiment():
                 os.makedirs(os.path.join(self.outputfolder, self.experiment_name+'/data/'))
 
     def prepare(self, modelfolder=None, channel=None, data=None):
-        print(modelfolder)
+        print(f"Model Folder {modelfolder}")
 
         if data is None:
             self.data, self.raw_labels = utils.load_dataset(self.datafolder)
@@ -159,7 +159,7 @@ class SCP_Experiment():
                 # predict and dump
                 # model.predict(self.X_train).dump(mpath+'y_train_pred.npy')
                 # model.predict(self.X_val).dump(mpath+'y_val_pred.npy')
-                model.predict(self.X_test).dump(mpath+'y_test_pred.npy')
+                model.predict(self.X_test).dump(mpath+'y_test_pred.npy') #aggregrating predictions
             else:
                 model.predict(self.X_test, modelfolder).dump(mpath+'y_test_pred.npy')
 

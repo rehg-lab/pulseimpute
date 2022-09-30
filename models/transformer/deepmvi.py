@@ -8,7 +8,7 @@ class BertModel(torch.nn.Module):
     def __init__(self, orig_dim=1, embed_dim=256, n_heads=4, max_len=1000, iter=3,kernel_size=21):
         super().__init__()
         self.iter = iter
-        self.embed = DilatedStrideEmbed(orig_dim=orig_dim, embed_dim=embed_dim,kernel_size=kernel_size)
+        self.embed = ConvEmbedding(orig_dim=orig_dim, embed_dim=embed_dim,kernel_size=kernel_size)
         
         #self.deconv = nn.ConvTranspose1d(embed_dim,orig_dim,kernel_size = kernel_size,stride=kernel_size)
         self.deconv = nn.ConvTranspose1d(embed_dim,orig_dim,kernel_size = kernel_size,stride=kernel_size,output_padding=13)
@@ -73,13 +73,12 @@ class BertModel(torch.nn.Module):
         else:
             return mean #mpc_projection
 
-class DilatedStrideEmbed(torch.nn.Module):
+class ConvEmbedding(torch.nn.Module):
     def __init__(self, orig_dim=12,embed_dim=32,kernel_size=11):
         super().__init__()
         # output_size=(w+2*pad-(d(k-1)+1))/s+1
-        self.embedding = nn.Sequential(
-            nn.Conv1d(in_channels=orig_dim, out_channels=embed_dim, kernel_size=kernel_size, stride=kernel_size, padding=1, dilation=1)
-        )
+        self.embedding = nn.Conv1d(in_channels=orig_dim, out_channels=embed_dim, kernel_size=kernel_size, stride=kernel_size, padding=1, dilation=1)
+        
     def forward(self, x):
         # x stores integers and has shape [batch_size, length, channels]        
         x = x.permute(0,2,1)

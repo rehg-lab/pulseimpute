@@ -27,7 +27,6 @@ class transformer():
 
         outpath = "out/"
 
-
         self.iter_save = iter_save
         self.train_time = train_time
 
@@ -45,6 +44,7 @@ class transformer():
             self.masktoken = True
         else:
             self.masktoken=False
+
         self.data_name = data_name
         self.bs = bs
         self.gpu_list = gpus
@@ -62,7 +62,6 @@ class transformer():
 
         self.data_loader_setup(train_data, val_data, imputation_dict=imputation_dict)
 
-        # cannot get relative import working for the life of me
         model_module = __import__(f'models.transformer.{modelname}', fromlist=[""])
         model_module_class = getattr(model_module, "BertModel")
         print(self.gpu_list)
@@ -148,7 +147,6 @@ class transformer():
 
     def data_loader_setup(self, train_data, val_data=None, imputation_dict=None):
         num_threads_used = multiprocessing.cpu_count() 
-        # num_threads_used = multiprocessing.cpu_count() // 8 can set this as some function of threads per gpu
         print(f"Num Threads Used: {num_threads_used}")
         torch.set_num_threads(num_threads_used)
         os.environ["MP_NUM_THREADS"]=str(num_threads_used)
@@ -551,7 +549,6 @@ class mpr_dataset(torch.utils.data.Dataset):
             y_dict["target_seq"] = self.imputation_dict["target_seq"][idx]
 
         return X, y_dict
-
 
 def miss_tuple_to_vector(listoftuples):
     def onesorzeros_vector(miss_tuple):

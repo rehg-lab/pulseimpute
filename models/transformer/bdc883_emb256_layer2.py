@@ -45,7 +45,7 @@ class BertModel(torch.nn.Module):
     def __init__(self, orig_dim=1, embed_dim=256, n_heads=4, max_len=1000, iter=3):
         super().__init__()
         self.iter = iter
-        self.embed = DilatedStrideEmbed(orig_dim=orig_dim, embed_dim=embed_dim)
+        self.embed = ConvEmbedding(orig_dim=orig_dim, embed_dim=embed_dim)
 
         q_k_func = dilated_bottleneck_net(in_channel=embed_dim, out_channel=embed_dim, bottleneck=embed_dim//8, groups=n_heads*2)
 
@@ -55,7 +55,7 @@ class BertModel(torch.nn.Module):
                                                           q_k_func= q_k_func)
         self.encoder = TransformerEncoder_CustomAttn(encoder_layer, num_layers=2)
 
-        self.mpc = BertMPCHead(orig_dim=orig_dim, embed_dim=embed_dim)
+        self.mpc = Projection(orig_dim=orig_dim, embed_dim=embed_dim)
 
     def forward(self, x, return_attn_weights=False, masktoken_bool=None):
         embedding = self.embed(x) # shape [batch_size, embed_dim, length]
@@ -75,7 +75,7 @@ class BertModel(torch.nn.Module):
             return mpc_projection
 
 
-class DilatedStrideEmbed(torch.nn.Module):
+class ConvEmbedding(torch.nn.Module):
     def __init__(self, orig_dim=12,embed_dim=32):
         super().__init__()
         # output_size=(w+2*pad-(d(k-1)+1))/s+1
@@ -90,19 +90,11 @@ class DilatedStrideEmbed(torch.nn.Module):
         x1 = self.embedding(x)
         return x1
 
-class BertMPCHead(torch.nn.Module):
-    """Masked PC head for Bert
-    The model structure of MPC is essentially the encoder part of Transformer based
-    model plus a single fully-connected projection layer
+class Projection(torch.nn.Module):
 
-    Arguments:
-        hidden_size: hidden size
-        output_size: output size
-    """
     def __init__(self, orig_dim=12, embed_dim = 32):
         super().__init__()
-        self.projection = nn.Sequential(
-            nn.Conv1d(in_channels=embed_dim, out_channels=orig_dim, kernel_size=11, stride=1, padding=5*1, dilation=1))
+        self.projection = nn.Conv1d(in_channels=embed_dim, out_channels=orig_dim, kernel_size=11, stride=1, padding=5*1, dilation=1)
 
     def forward(self, encoded_states):
         original = self.projection(encoded_states)

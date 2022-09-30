@@ -7,13 +7,13 @@ class BertModel(torch.nn.Module):
     """
     def __init__(self, orig_dim=1, embed_dim=256, n_heads=4, max_len=1000):
         super().__init__()
-        self.embed = DilatedStrideEmbed(orig_dim=orig_dim, embed_dim=embed_dim)
+        self.embed = ConvEmbedding(orig_dim=orig_dim, embed_dim=embed_dim)
         self.pos_embed = PositionalEmbedding(embed_dim, max_len)
 
         encoder_layer = nn.TransformerEncoderLayer(d_model=embed_dim, nhead = n_heads, activation="gelu")
         self.encoder = nn.TransformerEncoder(encoder_layer, num_layers=2)
 
-        self.mpc = BertMPCHead(orig_dim=orig_dim, embed_dim=embed_dim)
+        self.mpc = Projection(orig_dim=orig_dim, embed_dim=embed_dim)
 
     def forward(self, x, return_attn_weights=False):
         embedding = self.embed(x) # shape [batch_size, embed_dim, length]
@@ -55,8 +55,7 @@ class PositionalEmbedding(nn.Module):
     def forward(self, x):
         return self.pe[:, :x.size(1)].transpose(1,2)
 
-
-class DilatedStrideEmbed(torch.nn.Module):
+class ConvEmbedding(torch.nn.Module):
     def __init__(self, orig_dim=12,embed_dim=32):
         super().__init__()
         # output_size=(w+2*pad-(d(k-1)+1))/s+1
@@ -71,19 +70,12 @@ class DilatedStrideEmbed(torch.nn.Module):
         x1 = self.embedding(x)
         return x1
 
-class BertMPCHead(torch.nn.Module):
-    """Masked PC head for Bert
-    The model structure of MPC is essentially the encoder part of Transformer based
-    model plus a single fully-connected projection layer
+class Projection(torch.nn.Module):
 
-    Arguments:
-        hidden_size: hidden size
-        output_size: output size
-    """
     def __init__(self, orig_dim=12, embed_dim = 32):
         super().__init__()
-        self.projection = nn.Sequential(
-            nn.Conv1d(in_channels=embed_dim, out_channels=orig_dim, kernel_size=11, stride=1, padding=5*1, dilation=1))
+        self.projection = nn.Conv1d(in_channels=embed_dim, out_channels=orig_dim, kernel_size=11, stride=1, padding=5*1, dilation=1)
+
 
     def forward(self, encoded_states):
         original = self.projection(encoded_states)

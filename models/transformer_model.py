@@ -11,7 +11,7 @@ from ast import literal_eval
 import time
 
 from utils.loss_mask import mse_mask_loss
-from .transformer.utils.loss import l2_mpc_loss
+from .transformer.utils.misc_utils import l2_mpc_loss
 
 
 class transformer():
@@ -40,11 +40,6 @@ class transformer():
             print("loading tvm")
             from longformer.diagonaled_mm_tvm import diagonaled_mm
 
-        if "masktoken" in modelname:
-            self.masktoken = True
-        else:
-            self.masktoken=False
-
         self.data_name = data_name
         self.bs = bs
         self.gpu_list = gpus
@@ -63,7 +58,7 @@ class transformer():
         self.data_loader_setup(train_data, val_data, imputation_dict=imputation_dict)
 
         model_module = __import__(f'models.transformer.{modelname}', fromlist=[""])
-        model_module_class = getattr(model_module, "BertModel")
+        model_module_class = getattr(model_module, "MainModel")
         print(self.gpu_list)
         if len(self.gpu_list) == 1:
             torch.cuda.set_device(self.gpu_list[0])

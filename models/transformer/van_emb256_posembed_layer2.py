@@ -2,7 +2,7 @@ import torch
 import math
 import torch.nn as nn
 
-class BertModel(torch.nn.Module):
+class MainModel(torch.nn.Module):
     """Transformer language model.
     """
     def __init__(self, orig_dim=1, embed_dim=256, n_heads=4, max_len=1000):

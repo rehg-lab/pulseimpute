@@ -48,7 +48,7 @@ class MainModel(torch.nn.Module):
             out_feats = (feat1 - feat2)/(self.kernel_size-self.block_size)
         return out_feats.unsqueeze(1)[:,:,:org_shape]                                                                                                                                                                         
 
-    def forward(self, x, return_attn_weights=False, masktoken_bool=None,test=False): #shape of x: [batch_size, length, channels]
+    def forward(self, x, return_attn_weights=False, test=False): #shape of x: [batch_size, length, channels]
         embedding = self.embed(x) # shape [batch_size, embed_dim, length]
         embedding = embedding.permute(2,0,1) # shape [length, batch_size, embed_dim]
         if return_attn_weights:
@@ -77,7 +77,7 @@ class ConvEmbedding(torch.nn.Module):
     def __init__(self, orig_dim=12,embed_dim=32,kernel_size=11):
         super().__init__()
         # output_size=(w+2*pad-(d(k-1)+1))/s+1
-        self.embedding = nn.Conv1d(in_channels=orig_dim, out_channels=embed_dim, kernel_size=kernel_size, stride=kernel_size, padding=1, dilation=1)
+        self.embedding = nn.Sequential(nn.Conv1d(in_channels=orig_dim, out_channels=embed_dim, kernel_size=kernel_size, stride=kernel_size, padding=1, dilation=1))
         
     def forward(self, x):
         # x stores integers and has shape [batch_size, length, channels]        

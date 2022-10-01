@@ -19,9 +19,10 @@ class MainModel(torch.nn.Module):
                                                           q_k_func= q_k_func)
         self.encoder = TransformerEncoder_CustomAttn(encoder_layer, num_layers=2)
 
+        # masked predictive coding head
         self.mpc = Projection(orig_dim=orig_dim, embed_dim=embed_dim)
 
-    def forward(self, x, return_attn_weights=False, masktoken_bool=None):
+    def forward(self, x, return_attn_weights=False):
         embedding = self.embed(x) # shape [batch_size, embed_dim, length]
         embedding = embedding.permute(2,0,1) # shape [length, batch_size, embed_dim]
         if return_attn_weights:
@@ -57,7 +58,7 @@ class Projection(torch.nn.Module):
 
     def __init__(self, orig_dim=12, embed_dim = 32):
         super().__init__()
-        self.projection = nn.Conv1d(in_channels=embed_dim, out_channels=orig_dim, kernel_size=11, stride=1, padding=5*1, dilation=1)
+        self.projection = nn.Sequential(nn.Conv1d(in_channels=embed_dim, out_channels=orig_dim, kernel_size=11, stride=1, padding=5*1, dilation=1))
 
     def forward(self, encoded_states):
         original = self.projection(encoded_states)

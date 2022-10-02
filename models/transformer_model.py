@@ -121,14 +121,11 @@ class transformer():
             total_missing_total = 0
 
             flag=True
-            residuals_all = []
             for local_batch, local_label_dict in tqdm(self.test_loader, desc="Testing", leave=False):  
                 # 1s at normal vals 0s at mask vals
                 mpc_projection = self.model(local_batch)
-                mse_loss,missing_total, residuals = mse_mask_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
-                                            local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")),
-                                            residuals=True)
-                residuals_all.append(residuals)
+                mse_loss,missing_total = mse_mask_loss(mpc_projection.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
+                                            local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
                 total_test_mse_loss += mse_loss.item()
                 total_missing_total += missing_total
 
@@ -146,12 +143,11 @@ class transformer():
 
             self.model.train()
         total_test_mse_loss /= total_missing_total
-        total_test_mpcl2_std = torch.std(torch.cat(residuals_all))
 
         dt_string = datetime.now().strftime("%d/%m/%Y %H:%M")
-        print(f'{dt_string} | MSE:{total_test_mse_loss:.10f} | Std SE: {total_test_mpcl2_std:.10f}  \n')
+        print(f'{dt_string} | MSE:{total_test_mse_loss:.10f}  \n')
         with open(os.path.join(self.ckpt_path, "loss_log.txt"), 'a+') as f:
-            f.write(f'{dt_string} | MSE:{total_test_mse_loss:.10f} | Std SE: {total_test_mpcl2_std:.10f}  \n')
+            f.write(f'{dt_string} | MSE:{total_test_mse_loss:.10f}  \n')
 
         np.save(os.path.join(self.ckpt_path, "imputation.npy"), imputation_cat)
 
@@ -172,7 +168,7 @@ class transformer():
             total_train_mpcl2_loss = 0
             total_missing_total = 0
 
-            if self.iter_save:
+            if self.iter_save: # for saving based on iterations, needed for MIMIC datasets
                 
                 for local_batch, local_label_dict in tqdm(self.train_loader, desc="Training", leave=False):
                     iter_idx += 1
@@ -198,7 +194,6 @@ class transformer():
                             total_val_mpcl2_loss = 9999
                             total_missing_total = 0
 
-                            flag=True
                             val_iter_idx = 0
                             for local_batch, local_label_dict in tqdm(self.val_loader, desc="Validating", leave=False): 
                                 val_iter_idx += 1
@@ -237,18 +232,15 @@ class transformer():
                         if total_val_mpcl2_loss <= self.best_val_loss:
                             try:
                                 os.remove(os.path.join(self.ckpt_path, "epoch_best", "epoch_best.pkl"))
-                            except:
+                            except OSError:
                                 pass
                             torch.save(state, os.path.join(self.ckpt_path, "epoch_best", "epoch_best.pkl"))
                             self.best_val_loss = total_val_mpcl2_loss
-                            best_epoch = iter_idx
-
 
                         total_train_mpcl2_loss = 0
                         total_missing_total = 0
 
-
-            else:
+            else: # for saving based on epochs 
                 for local_batch, local_label_dict in tqdm(self.train_loader, desc="Training", leave=False):
                     end = time.time()
                     if (end-start) / 60 / 60 >= self.train_time:
@@ -308,7 +300,6 @@ class transformer():
                         os.remove(os.path.join(self.ckpt_path, "epoch_best", "epoch_best.pkl"))
                     torch.save(state, os.path.join(self.ckpt_path, "epoch_best", "epoch_best.pkl"))
                     self.best_val_loss = total_val_mpcl2_loss
-                    best_epoch = epoch
 
                 if "ptbxl" in self.data_name:
                     save_epoch = 50

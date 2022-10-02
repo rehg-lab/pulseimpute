@@ -151,7 +151,7 @@ class PositionalEmbedding(nn.Module):
 
 
 class mpc_dataset(torch.utils.data.Dataset):
-    def __init__(self, waveforms, train_impute_wind=21, train_impute_prob=.15, train_impute_extended=None,
+    def __init__(self, waveforms, train_impute_wind=None, train_impute_prob=None, train_impute_extended=None,
                  randimputeallchannel=False, imputation_dict=None,
                 train_realppg=None,
                 train_realecg=False,  type=None):

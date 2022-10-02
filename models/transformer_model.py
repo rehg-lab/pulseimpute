@@ -6,12 +6,9 @@ from torch.utils.tensorboard import SummaryWriter
 import numpy as np
 from datetime import datetime
 from tqdm import tqdm
-
 import time
-
-from utils.loss_mask import mse_mask_loss
 from .transformer.utils.misc_utils import l2_mpc_loss, transformer_to_longformer, reload_model, mpc_dataset
-
+from utils.loss_mask import mse_mask_loss
 
 class transformer():
     def __init__(self, modelname, data_name, train_data=None, val_data=None, 
@@ -61,8 +58,6 @@ class transformer():
                     f.write(f"Reloading newest epoch: {self.reload_epoch}\n")
                 print(self.model.load_state_dict(state['state_dict'], strict=True))
 
-
-
     def data_loader_setup(self, train_data, val_data=None, imputation_dict=None):
         num_threads_used = multiprocessing.cpu_count() # can divide this by number of gpus to allocate threads 
         print(f"Num Threads Used: {num_threads_used}")
@@ -96,7 +91,6 @@ class transformer():
             temp = next(iter(self.test_loader))
         self.total_channels = temp[0].shape[2]
 
-
     def testimp(self):
         dt_string = datetime.now().strftime("%d/%m/%Y %H:%M")
         print(f'{dt_string} | Start')
@@ -128,7 +122,6 @@ class transformer():
             f.write(f'{dt_string} | MSE:{total_test_mse_loss:.10f}  \n')
         np.save(os.path.join(self.ckpt_path, "imputation.npy"), imputation_cat)
         return imputation_cat
-
 
     def train(self):
         writer = SummaryWriter(log_dir=os.path.join(self.ckpt_path, "tb"))

@@ -21,7 +21,7 @@ def random_seed(seed_value, use_cuda):
 
 if __name__=='__main__':
 
-    config = tutorial_extended_ptbxl #naomi_britsgail_mimic_ecg 
+    config = tutorial_transient_ptbxl 
 
     print(config["modelname"]+config["annotate"])
 

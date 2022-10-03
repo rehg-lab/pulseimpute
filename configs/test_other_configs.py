@@ -172,27 +172,27 @@ fft_ptbxl_testextended_50percent = {'modelname':'fft', "annotate":"_ptbxl",  "an
         "data_load": {"mode":True, "bounds":1, "impute_extended":500, "channels":[0]},
         "train":{"bs": 128, "gpus":[0]}}
 
-fft_ptbxl_testtransient_10percent = {'modelname':'fft', "annotate":"_ptbxl",  "annotate_test":"_testtransient_10percent",
+fft_ptbxl_testtransient_10percent = {'modelname':'fft', "annotate":"_ptbxl",  "annotate_test":"_pool12_testtransient_10percent",
         'modeltype':'fft', "data_name":"ptbxl",
         "modelparams":{},
         "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.10}, "channels":[0]},
         "train":{"bs": 128, "gpus":[0]}}
-fft_ptbxl_testtransient_20percent = {'modelname':'fft', "annotate":"_ptbxl",  "annotate_test":"_testtransient_20percent",
+fft_ptbxl_testtransient_20percent = {'modelname':'fft', "annotate":"_ptbxl",  "annotate_test":"_pool12_testtransient_20percent",
         'modeltype':'fft', "data_name":"ptbxl",
         "modelparams":{},
         "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.20}, "channels":[0]},
         "train":{"bs": 128, "gpus":[0]}}
-fft_ptbxl_testtransient_30percent = {'modelname':'fft', "annotate":"_ptbxl",  "annotate_test":"_testtransient_30percent",
+fft_ptbxl_testtransient_30percent = {'modelname':'fft', "annotate":"_ptbxl",  "annotate_test":"_pool12_testtransient_30percent",
         'modeltype':'fft', "data_name":"ptbxl",
         "modelparams":{},
         "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.30}, "channels":[0]},
         "train":{"bs": 128, "gpus":[0]}}
-fft_ptbxl_testtransient_40percent = {'modelname':'fft', "annotate":"_ptbxl",  "annotate_test":"_testtransient_40percent",
+fft_ptbxl_testtransient_40percent = {'modelname':'fft', "annotate":"_ptbxl",  "annotate_test":"_pool12_testtransient_40percent",
         'modeltype':'fft', "data_name":"ptbxl",
         "modelparams":{},
         "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.40}, "channels":[0]},
         "train":{"bs": 128, "gpus":[0]}}
-fft_ptbxl_testtransient_50percent = {'modelname':'fft', "annotate":"_ptbxl",  "annotate_test":"_testtransient_50percent",
+fft_ptbxl_testtransient_50percent = {'modelname':'fft', "annotate":"_ptbxl",  "annotate_test":"_pool12_testtransient_50percent",
         'modeltype':'fft', "data_name":"ptbxl",
         "modelparams":{},
         "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.50}, "channels":[0]},

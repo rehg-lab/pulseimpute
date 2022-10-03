@@ -28,8 +28,19 @@ def load(path=os.path.join("data/data/ptbxl_ecg/"), seed=10,
 
     # Load raw signal data
     X = load_raw_data_ptbxl(path) #shape samples, time, channels
-    if channels:
-        X = X[:,:,channels]
+
+    ##### union of leads experiment
+    # if channels:
+    #     X = X[:,:,channels]
+
+    newdf = pd.DataFrame(np.repeat(Y.values, 12, axis=0))
+    newdf.columns = Y.columns
+    Y = newdf
+
+    X = X.transpose((0, 2,1))
+    X = X.reshape((int(X.shape[0]*X.shape[1]), X.shape[2]))
+    X = np.expand_dims(X, 2)
+    ##### union of leads experiment
 
     if mode:
         # center waveforms along mode

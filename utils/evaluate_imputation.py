@@ -122,14 +122,14 @@ def eval_cardiac_classification(imputation, path):
     from .ptbxl_eval_code.configs.fastai_configs import conf_fastai_xresnet1d101
     from .ptbxl_eval_code.experiments.scp_experiment import SCP_Experiment
     datafolder = 'data/data/ptbxl_ecg/'
-    outputfolder_pretrain = os.path.join("utils", "ptbxl_eval_code", "pretrained_classification_model")
+    outputfolder_pretrain = os.path.join("utils", "ptbxl_eval_code", "pretrained_classification_model_pool12")
     models = [conf_fastai_xresnet1d101]
     experiments = []
-    if not os.path.exists(os.path.join("utils", "ptbxl_eval_code", "pretrained_classification_model", "trainonfoldfour_diagnostic")):
+    if not os.path.exists(os.path.join(outputfolder_pretrain, "trainonfoldfour_diagnostic")):
         experiments.append((f'trainonfoldfour_diagnostic', 'diagnostic'))
-    if not os.path.exists(os.path.join("utils", "ptbxl_eval_code", "pretrained_classification_model", "trainonfoldfour_form")):
+    if not os.path.exists(os.path.join(outputfolder_pretrain, "trainonfoldfour_form")):
         experiments.append((f'trainonfoldfour_form', 'form'))
-    if not os.path.exists(os.path.join("utils", "ptbxl_eval_code", "pretrained_classification_model", "trainonfoldfour_rhythm")):
+    if not os.path.exists(os.path.join(outputfolder_pretrain, "trainonfoldfour_rhythm")):
         experiments.append((f'trainonfoldfour_rhythm', 'rhythm'))
     if len(experiments) > 0:
         

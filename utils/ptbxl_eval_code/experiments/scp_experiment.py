@@ -41,8 +41,18 @@ class SCP_Experiment():
 
         if data is None:
             self.data, self.raw_labels = utils.load_dataset(self.datafolder)
-            if channel is not None:
-                self.data = np.expand_dims(self.data[:,:,channel], axis=-1)
+
+            ########## union of leads experiment ##########
+            # if channel is not None:
+            #     self.data = np.expand_dims(self.data[:,:,channel], axis=-1)
+            newdf = pd.DataFrame(np.repeat(self.raw_labels.values, 12, axis=0))
+            newdf.columns = self.raw_labels.columns
+            self.raw_labels = newdf
+
+            self.data = self.data.transpose((0, 2,1))
+            self.data = self.data.reshape((int(self.data.shape[0]*self.data.shape[1]), self.data.shape[2]))
+            self.data = np.expand_dims(self.data, 2)
+            ########## union of leads experiment ##########
 
             # flatten mode align and bound
             X_flat = self.data.reshape(self.data.shape[0], -1)
@@ -51,14 +61,10 @@ class SCP_Experiment():
             hist_out = np.apply_along_axis(lambda a: np.histogram(a, bins=50), 1, X_flat) # means we are applying function on this variable
             hist = hist_out[:, 0]
             bin_edges = hist_out[:, 1]
-            # for i in range(X_flat.shape[1]):
-            #     hist, bin_edges = np.histogram(X_flat[i], bins=50)
             
             def find_mode(hist, bin_edges):
-
                 max_idx = np.argwhere(hist == np.max(hist))[0]
                 mode = np.mean([bin_edges[max_idx], bin_edges[1+max_idx]])
-                
                 return mode
                 
             modes = np.vectorize(find_mode)(hist, bin_edges)
@@ -69,6 +75,13 @@ class SCP_Experiment():
             # Load imputed PTB-XL data
             self.data = data
             self.raw_labels = pd.read_csv(os.path.join(self.datafolder, "ptbxl_database.csv"))
+            
+            ########## union of leads experiment ##########
+            newdf = pd.DataFrame(np.repeat(self.raw_labels.values, 12, axis=0))
+            newdf.columns = self.raw_labels.columns
+            self.raw_labels = newdf
+            ########## union of leads experiment ##########
+
             if isinstance(self.test_fold, list):
                 self.raw_labels = self.raw_labels[[True if label in self.test_fold else False for label in self.raw_labels.strat_fold]]
             else:

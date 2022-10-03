@@ -11,14 +11,32 @@ from ast import literal_eval
 
 
 class tutorial():
-    def __init__(self, modelname, data_name="", 
+    def __init__(self, modelname,
+                 data_name="",
                  train_data=None, val_data=None,
+                 # annotations are used for creating folders to save models in
                  annotate="", annotate_test="",
                  bs=64, gpus=[0, 1],
-                 imputation_dict=None, missingness_config=None,
-                 reload_iter=-1,
+                 # this is passed during testing, to serve as ground truth
+                 imputation_dict=None,
+                 # this is passed during training, for configuring how missingness is simulated while training the imputation model
+                 missingness_config=None,
+                 # when reloading the model, which iteration to reload
+                 reload_iter="latest",
+                 # how many iterations until running validation and saving model
                  iter_save=1000
                  ):
+        '''
+        Constructs necessary attributes for tutorial class
+
+                Parameters:
+                        data_name (str): A decimal integer
+                        train_data (int): Another decimal integer
+
+                Returns:
+                        binary_sum (str): Binary string of the sum of a and b
+        '''
+
 
         outpath = "out/"
         # data loader setup
@@ -26,10 +44,7 @@ class tutorial():
         self.gpu_list = gpus
         self.iter_save = iter_save
 
-        if reload_iter == -1:
-            self.reload_iter = "latest"
-        else:
-            self.reload_iter = reload_iter
+        self.reload_iter = reload_iter
 
         self.data_loader_setup(train_data, val_data,
                                imputation_dict=imputation_dict,
@@ -39,7 +54,8 @@ class tutorial():
             torch.cuda.set_device(self.gpu_list[0])
 
         # import model class
-        model_module_class = getattr(__import__(f'models.tutorial.{modelname}', fromlist=[""]), "MainModel")
+        model_module_class = getattr(__import__(
+            f'models.tutorial.{modelname}', fromlist=[""]), "MainModel")
         self.model = nn.DataParallel(model_module_class(
             orig_dim=self.total_channels), device_ids=self.gpu_list)
         self.model.to(torch.device(f"cuda:{self.gpu_list[0]}"))
@@ -118,7 +134,7 @@ class tutorial():
             for local_batch, local_label_dict in tqdm(self.test_loader, desc="Testing", leave=False):
                 impute_out = self.model(local_batch)
                 test_l2_loss, missing_total = l2_loss(impute_out.to(torch.device(f"cuda:{self.gpu_list[0]}")),
-                                                  local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
+                                                      local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
 
                 total_test_l2_loss += test_l2_loss.item()
                 total_missing_total += missing_total
@@ -159,8 +175,8 @@ class tutorial():
                 self.optimizer.zero_grad()
 
                 impute_out = self.model(local_batch)
-                train_l2_loss, missing_total = l2_loss(impute_out.to(torch.device(f"cuda:{self.gpu_list[0]}")), 
-                                                 local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
+                train_l2_loss, missing_total = l2_loss(impute_out.to(torch.device(f"cuda:{self.gpu_list[0]}")),
+                                                       local_label_dict["target_seq"].to(torch.device(f"cuda:{self.gpu_list[0]}")))
 
                 train_l2_loss.backward()
 

@@ -97,7 +97,12 @@ class SCP_Experiment():
 
         # Select relevant data and convert to one-hot
         self.data, self.labels, self.Y, _ = utils.select_data(self.data, self.labels, self.task, self.min_samples)
-
+        ########## union of leads experiment ##########
+        idxtodelete = np.unique(np.argwhere(np.isinf(self.data))[:,0])
+        self.data = np.delete(self.data, idxtodelete, axis=0)
+        self.labels = self.labels.drop(index=self.labels.iloc[idxtodelete, :].index.tolist())
+        self.Y = np.delete(self.Y, idxtodelete, axis=0)
+        ########## union of leads experiment ##########
 
         self.input_shape = self.data[0].shape
         
@@ -123,7 +128,7 @@ class SCP_Experiment():
 
         # Preprocess signal data
         self.X_train, self.X_val, self.X_test = utils.preprocess_signals(self.X_train, self.X_val, self.X_test, os.path.join(self.outputfolder, self.experiment_name, 'data'),
-        modelfolder=modelfolder)
+                                                                         modelfolder=modelfolder)
         self.n_classes = self.y_train.shape[1]
 
         # save train and test labels

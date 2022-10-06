@@ -21,7 +21,7 @@ def random_seed(seed_value, use_cuda):
 
 if __name__=='__main__':
 
-    config = van_emb256_posembed_layer2_packet_ptbxl 
+    config = van_emb256_posembed_layer2_extended_ptbxl 
 
     print(config["modelname"]+config["annotate"])
 

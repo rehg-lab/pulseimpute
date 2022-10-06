@@ -23,8 +23,8 @@ def random_seed(seed_value, use_cuda):
 if __name__=='__main__':
 
     bootstrap = (1000, 1) # num of bootstraps, size of bootstrap sample compared to test size
-    configs = [fft_ptbxl_testtransient_10percent,fft_ptbxl_testtransient_20percent,fft_ptbxl_testtransient_30percent,
-    fft_ptbxl_testtransient_40percent,fft_ptbxl_testtransient_50percent]
+    configs = [lininterp_ptbxl_pool12_testtransient_10percent,lininterp_ptbxl_pool12_testtransient_20percent, lininterp_ptbxl_pool12_testtransient_30percent,
+    lininterp_ptbxl_pool12_testtransient_40percent,lininterp_ptbxl_pool12_testtransient_50percent]
 
 
     for config in configs:

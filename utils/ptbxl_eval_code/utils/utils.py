@@ -326,7 +326,7 @@ def preprocess_signals(X_train, X_validation, X_test, outputfolder,modelfolder=N
         ss.fit(np.vstack(X_train).flatten()[:,np.newaxis].astype(float))
         
         # Save Standardizer data
-        with open(outputfolder+'standard_scaler.pkl', 'wb') as ss_file:
+        with open(outputfolder+'/standard_scaler.pkl', 'wb') as ss_file:
             pickle.dump(ss, ss_file)
 
     return apply_standardizer(X_train, ss), apply_standardizer(X_validation, ss), apply_standardizer(X_test, ss)

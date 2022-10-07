@@ -111,11 +111,11 @@ naomi_step256_mimic_ecg_test= {'modelname':'naomi', "annotate":"_step256_mimic_e
             
 
 
-naomi_step256_extended_ptbxl_testextended_10percent = {'modelname':'naomi', "annotate":"_step256_extended_ptbxl", 'modeltype':'naomi', 
+naomi_step256_extended_ptbxl_testextended_10percent = {'modelname':'naomi', "annotate":"_step256_extended_ptbxl_pool12", 'modeltype':'naomi', 
             "annotate_test":"_testextended_10percent",
             "data_name":"ptbxl",
-            "data_load": {"mode":True, "bounds":1, "channels":[0], "impute_chunk":100, "impute_allchannelsimultaneously":True},
-            "modelparams":{"params":{   'batch' : 1,
+            "data_load": {"mode":True, "bounds":1, "channels":[0], "impute_extended":100},
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -141,11 +141,11 @@ naomi_step256_extended_ptbxl_testextended_10percent = {'modelname':'naomi', "ann
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100},
             "train":{"gpus":[0]}}
-naomi_step256_extended_ptbxl_testextended_20percent = {'modelname':'naomi', "annotate":"_step256_extended_ptbxl", 'modeltype':'naomi', 
+naomi_step256_extended_ptbxl_testextended_20percent = {'modelname':'naomi', "annotate":"_step256_extended_ptbxl_pool12", 'modeltype':'naomi', 
             "annotate_test":"_testextended_20percent",
             "data_name":"ptbxl",
-            "data_load": {"mode":True, "bounds":1, "channels":[0], "impute_chunk":200, "impute_allchannelsimultaneously":True},
-            "modelparams":{"params":{   'batch' : 1,
+            "data_load": {"mode":True, "bounds":1, "channels":[0], "impute_extended":200},
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -171,11 +171,11 @@ naomi_step256_extended_ptbxl_testextended_20percent = {'modelname':'naomi', "ann
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100},
             "train":{"gpus":[0]}}
-naomi_step256_extended_ptbxl_testextended_30percent = {'modelname':'naomi', "annotate":"_step256_extended_ptbxl", 'modeltype':'naomi', 
+naomi_step256_extended_ptbxl_testextended_30percent = {'modelname':'naomi', "annotate":"_step256_extended_ptbxl_pool12", 'modeltype':'naomi', 
             "annotate_test":"_testextended_30percent",
             "data_name":"ptbxl",
-            "data_load": {"mode":True, "bounds":1, "channels":[0], "impute_chunk":300, "impute_allchannelsimultaneously":True},
-            "modelparams":{"params":{   'batch' : 1,
+            "data_load": {"mode":True, "bounds":1, "channels":[0], "impute_extended":300},
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -201,11 +201,11 @@ naomi_step256_extended_ptbxl_testextended_30percent = {'modelname':'naomi', "ann
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100},
             "train":{"gpus":[0]}}
-naomi_step256_extended_ptbxl_testextended_40percent = {'modelname':'naomi', "annotate":"_step256_extended_ptbxl", 'modeltype':'naomi', 
+naomi_step256_extended_ptbxl_testextended_40percent = {'modelname':'naomi', "annotate":"_step256_extended_ptbxl_pool12", 'modeltype':'naomi', 
             "annotate_test":"_testextended_40percent",
             "data_name":"ptbxl",
-            "data_load": {"mode":True, "bounds":1, "channels":[0], "impute_chunk":400, "impute_allchannelsimultaneously":True},
-            "modelparams":{"params":{   'batch' : 1,
+            "data_load": {"mode":True, "bounds":1, "channels":[0], "impute_extended":400},
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -231,11 +231,11 @@ naomi_step256_extended_ptbxl_testextended_40percent = {'modelname':'naomi', "ann
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100},
             "train":{"gpus":[0]}}
-naomi_step256_extended_ptbxl_testextended_50percent = {'modelname':'naomi', "annotate":"_step256_extended_ptbxl", 'modeltype':'naomi', 
+naomi_step256_extended_ptbxl_testextended_50percent = {'modelname':'naomi', "annotate":"_step256_extended_ptbxl_pool12", 'modeltype':'naomi', 
             "annotate_test":"_testextended_50percent",
             "data_name":"ptbxl",
-            "data_load": {"mode":True, "bounds":1, "channels":[0], "impute_chunk":500, "impute_allchannelsimultaneously":True},
-            "modelparams":{"params":{   'batch' : 1,
+            "data_load": {"mode":True, "bounds":1, "channels":[0], "impute_extended":500},
+            "modelparams":{"params":{   'batch' : 12828,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -264,10 +264,10 @@ naomi_step256_extended_ptbxl_testextended_50percent = {'modelname':'naomi', "ann
 
 
             
-naomi_britsgail_extended_ptbxl_testextended_10percent = {'modelname':'naomi', "annotate":"_britsgail_extended_ptbxl", 'modeltype':'naomi', 
+naomi_britsgail_extended_ptbxl_testextended_10percent = {'modelname':'naomi', "annotate":"_britsgail_extended_ptbxl_pool12", 'modeltype':'naomi', 
             "annotate_test":"_testextended_10percent",
-            "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_chunk":100, "impute_allchannelsimultaneously":True},
-            "modelparams":{"params":{   'batch' : 1,
+            "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_extended":100},
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -282,13 +282,13 @@ naomi_britsgail_extended_ptbxl_testextended_10percent = {'modelname':'naomi', "a
                 "policy_learning_rate":1e-6, "discrim_learning_rate":1e-3,"pre_start_lr":1e-3,
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100,
-                "reload_epoch":6500
+                "reload_epoch":1000
                 },
             "train":{"gpus":[0]}}
-naomi_britsgail_extended_ptbxl_testextended_20percent = {'modelname':'naomi', "annotate":"_britsgail_extended_ptbxl", 'modeltype':'naomi', 
+naomi_britsgail_extended_ptbxl_testextended_20percent = {'modelname':'naomi', "annotate":"_britsgail_extended_ptbxl_pool12", 'modeltype':'naomi', 
             "annotate_test":"_testextended_20percent",
-            "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_chunk":200, "impute_allchannelsimultaneously":True},
-            "modelparams":{"params":{   'batch' : 1,
+            "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_extended":200},
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -303,13 +303,13 @@ naomi_britsgail_extended_ptbxl_testextended_20percent = {'modelname':'naomi', "a
                 "policy_learning_rate":1e-6, "discrim_learning_rate":1e-3,"pre_start_lr":1e-3,
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100,
-                "reload_epoch":6500
+                "reload_epoch":1000
                 },
             "train":{"gpus":[0]}}
-naomi_britsgail_extended_ptbxl_testextended_30percent = {'modelname':'naomi', "annotate":"_britsgail_extended_ptbxl", 'modeltype':'naomi', 
+naomi_britsgail_extended_ptbxl_testextended_30percent = {'modelname':'naomi', "annotate":"_britsgail_extended_ptbxl_pool12", 'modeltype':'naomi', 
             "annotate_test":"_testextended_30percent",
-            "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_chunk":300, "impute_allchannelsimultaneously":True},
-            "modelparams":{"params":{   'batch' : 1,
+            "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_extended":300},
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -324,13 +324,13 @@ naomi_britsgail_extended_ptbxl_testextended_30percent = {'modelname':'naomi', "a
                 "policy_learning_rate":1e-6, "discrim_learning_rate":1e-3,"pre_start_lr":1e-3,
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100,
-                "reload_epoch":6500
+                "reload_epoch":1000
                 },
             "train":{"gpus":[0]}}
-naomi_britsgail_extended_ptbxl_testextended_40percent = {'modelname':'naomi', "annotate":"_britsgail_extended_ptbxl", 'modeltype':'naomi', 
+naomi_britsgail_extended_ptbxl_testextended_40percent = {'modelname':'naomi', "annotate":"_britsgail_extended_ptbxl_pool12", 'modeltype':'naomi', 
             "annotate_test":"_testextended_40percent",
-            "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_chunk":400, "impute_allchannelsimultaneously":True},
-            "modelparams":{"params":{   'batch' : 1,
+            "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_extended":400},
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -345,13 +345,13 @@ naomi_britsgail_extended_ptbxl_testextended_40percent = {'modelname':'naomi', "a
                 "policy_learning_rate":1e-6, "discrim_learning_rate":1e-3,"pre_start_lr":1e-3,
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100,
-                "reload_epoch":6500
+                "reload_epoch":1000
                 },
             "train":{"gpus":[0]}}
-naomi_britsgail_extended_ptbxl_testextended_50percent = {'modelname':'naomi', "annotate":"_britsgail_extended_ptbxl", 'modeltype':'naomi', 
+naomi_britsgail_extended_ptbxl_testextended_50percent = {'modelname':'naomi', "annotate":"_britsgail_extended_ptbxl_pool12", 'modeltype':'naomi', 
             "annotate_test":"_testextended_50percent",
-            "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_chunk":500, "impute_allchannelsimultaneously":True},
-            "modelparams":{"params":{   'batch' : 1,
+            "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_extended":500},
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -366,17 +366,17 @@ naomi_britsgail_extended_ptbxl_testextended_50percent = {'modelname':'naomi', "a
                 "policy_learning_rate":1e-6, "discrim_learning_rate":1e-3,"pre_start_lr":1e-3,
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100,
-                "reload_epoch":6500
+                "reload_epoch":1000
                 },
             "train":{"gpus":[0]}}
 
 
 
 
-naomi_britsgail_transient_ptbxl_testtransient_10percent = {'modelname':'naomi', "annotate":"_britsgail_transient_ptbxl", 'modeltype':'naomi', 
-            "annotate_test":"_transient_10percent",
+naomi_britsgail_transient_ptbxl_testtransient_10percent = {'modelname':'naomi', "annotate":"_britsgail_transient_ptbxl_pool12", 'modeltype':'naomi', 
+            "annotate_test":"_testtransient_10percent",
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_transient":{"window":5, "prob":.10}},
-            "modelparams":{"params":{   'batch' : 1,
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -394,10 +394,10 @@ naomi_britsgail_transient_ptbxl_testtransient_10percent = {'modelname':'naomi', 
                 "reload_epoch":15500
                 },
             "train":{"gpus":[0]}}
-naomi_britsgail_transient_ptbxl_testtransient_20percent = {'modelname':'naomi', "annotate":"_britsgail_transient_ptbxl", 'modeltype':'naomi', 
-            "annotate_test":"_transient_20percent",
+naomi_britsgail_transient_ptbxl_testtransient_20percent = {'modelname':'naomi', "annotate":"_britsgail_transient_ptbxl_pool12", 'modeltype':'naomi', 
+            "annotate_test":"_testtransient_20percent",
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_transient":{"window":5, "prob":.20}},
-            "modelparams":{"params":{   'batch' : 1,
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -415,10 +415,10 @@ naomi_britsgail_transient_ptbxl_testtransient_20percent = {'modelname':'naomi', 
                 "reload_epoch":15500
                 },
             "train":{"gpus":[0]}}
-naomi_britsgail_transient_ptbxl_testtransient_30percent = {'modelname':'naomi', "annotate":"_britsgail_transient_ptbxl", 'modeltype':'naomi', 
-            "annotate_test":"_transient_30percent",
+naomi_britsgail_transient_ptbxl_testtransient_30percent = {'modelname':'naomi', "annotate":"_britsgail_transient_ptbxl_pool12", 'modeltype':'naomi', 
+            "annotate_test":"_testtransient_30percent",
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_transient":{"window":5, "prob":.30}},
-            "modelparams":{"params":{   'batch' : 1,
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -436,10 +436,10 @@ naomi_britsgail_transient_ptbxl_testtransient_30percent = {'modelname':'naomi', 
                 "reload_epoch":15500
                 },
             "train":{"gpus":[0]}}
-naomi_britsgail_transient_ptbxl_testtransient_40percent = {'modelname':'naomi', "annotate":"_britsgail_transient_ptbxl", 'modeltype':'naomi', 
-            "annotate_test":"_transient_40percent",
+naomi_britsgail_transient_ptbxl_testtransient_40percent = {'modelname':'naomi', "annotate":"_britsgail_transient_ptbxl_pool12", 'modeltype':'naomi', 
+            "annotate_test":"_testtransient_40percent",
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_transient":{"window":5, "prob":.40}},
-            "modelparams":{"params":{   'batch' : 1,
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -457,10 +457,10 @@ naomi_britsgail_transient_ptbxl_testtransient_40percent = {'modelname':'naomi', 
                 "reload_epoch":15500
                 },
             "train":{"gpus":[0]}}
-naomi_britsgail_transient_ptbxl_testtransient_50percent = {'modelname':'naomi', "annotate":"_britsgail_transient_ptbxl", 'modeltype':'naomi', 
-            "annotate_test":"_transient_50percent",
+naomi_britsgail_transient_ptbxl_testtransient_50percent = {'modelname':'naomi', "annotate":"_britsgail_transient_ptbxl_pool12", 'modeltype':'naomi', 
+            "annotate_test":"_testtransient_50percent",
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_transient":{"window":5, "prob":.50}},
-            "modelparams":{"params":{   'batch' : 1,
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -481,10 +481,10 @@ naomi_britsgail_transient_ptbxl_testtransient_50percent = {'modelname':'naomi', 
 
 
 
-naomi_step64_transient_ptbxl_testtransient_10percent = {'modelname':'naomi', "annotate":"_step64_transient_ptbxl", 'modeltype':'naomi', 
-            "annotate_test":"_transient_10percent",
+naomi_step64_transient_ptbxl_testtransient_10percent = {'modelname':'naomi', "annotate":"_step64_transient_ptbxl_pool12", 'modeltype':'naomi', 
+            "annotate_test":"_testtransient_10percent",
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_transient":{"window":5, "prob":.10}},
-            "modelparams":{"params":{   'batch' : 1,
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -505,14 +505,14 @@ naomi_step64_transient_ptbxl_testtransient_10percent = {'modelname':'naomi', "an
                 "policy_learning_rate":1e-6, "discrim_learning_rate":1e-3,"pre_start_lr":1e-3,
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100,
-                "reload_epoch":14500
+                "reload_epoch":3500
                 },
             "train":{"gpus":[0]}}
 
-naomi_step64_transient_ptbxl_testtransient_20percent = {'modelname':'naomi', "annotate":"_step64_transient_ptbxl", 'modeltype':'naomi', 
-            "annotate_test":"_transient_20percent",
+naomi_step64_transient_ptbxl_testtransient_20percent = {'modelname':'naomi', "annotate":"_step64_transient_ptbxl_pool12", 'modeltype':'naomi', 
+            "annotate_test":"_testtransient_20percent",
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_transient":{"window":5, "prob":.20}},
-            "modelparams":{"params":{   'batch' : 1,
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -533,14 +533,14 @@ naomi_step64_transient_ptbxl_testtransient_20percent = {'modelname':'naomi', "an
                 "policy_learning_rate":1e-6, "discrim_learning_rate":1e-3,"pre_start_lr":1e-3,
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100,
-                "reload_epoch":14500
+                "reload_epoch":3500
                 },
             "train":{"gpus":[0]}}
 
-naomi_step64_transient_ptbxl_testtransient_30percent = {'modelname':'naomi', "annotate":"_step64_transient_ptbxl", 'modeltype':'naomi', 
-            "annotate_test":"_transient_30percent",
+naomi_step64_transient_ptbxl_testtransient_30percent = {'modelname':'naomi', "annotate":"_step64_transient_ptbxl_pool12", 'modeltype':'naomi', 
+            "annotate_test":"_testtransient_30percent",
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_transient":{"window":5, "prob":.30}},
-            "modelparams":{"params":{   'batch' : 1,
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -561,14 +561,14 @@ naomi_step64_transient_ptbxl_testtransient_30percent = {'modelname':'naomi', "an
                 "policy_learning_rate":1e-6, "discrim_learning_rate":1e-3,"pre_start_lr":1e-3,
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100,
-                "reload_epoch":14500
+                "reload_epoch":3500
                 },
             "train":{"gpus":[0]}}
 
-naomi_step64_transient_ptbxl_testtransient_40percent = {'modelname':'naomi', "annotate":"_step64_transient_ptbxl", 'modeltype':'naomi', 
-            "annotate_test":"_transient_40percent",
+naomi_step64_transient_ptbxl_testtransient_40percent = {'modelname':'naomi', "annotate":"_step64_transient_ptbxl_pool12", 'modeltype':'naomi', 
+            "annotate_test":"_testtransient_40percent",
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_transient":{"window":5, "prob":.40}},
-            "modelparams":{"params":{   'batch' : 1,
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -589,14 +589,14 @@ naomi_step64_transient_ptbxl_testtransient_40percent = {'modelname':'naomi', "an
                 "policy_learning_rate":1e-6, "discrim_learning_rate":1e-3,"pre_start_lr":1e-3,
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100,
-                "reload_epoch":14500
+                "reload_epoch":3500
                 },
             "train":{"gpus":[0]}}
 
-naomi_step64_transient_ptbxl_testtransient_50percent = {'modelname':'naomi', "annotate":"_step64_transient_ptbxl", 'modeltype':'naomi', 
-            "annotate_test":"_transient_50percent",
+naomi_step64_transient_ptbxl_testtransient_50percent = {'modelname':'naomi', "annotate":"_step64_transient_ptbxl_pool12", 'modeltype':'naomi', 
+            "annotate_test":"_testtransient_50percent",
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0], "impute_transient":{"window":5, "prob":.50}},
-            "modelparams":{"params":{   'batch' : 1,
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,
@@ -617,6 +617,6 @@ naomi_step64_transient_ptbxl_testtransient_50percent = {'modelname':'naomi', "an
                 "policy_learning_rate":1e-6, "discrim_learning_rate":1e-3,"pre_start_lr":1e-3,
                 "pretrain_disc_iter" : 2000, "max_iter_num":60000,
                 "save_model_interval":500, "log_interval":100,
-                "reload_epoch":14500
+                "reload_epoch":3500
                 },
             "train":{"gpus":[0]}}

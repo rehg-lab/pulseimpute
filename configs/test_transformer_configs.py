@@ -43,28 +43,28 @@ van_emb256_posembed_layer2_mimic_ecg_test = {'modelname':'van_emb256_posembed_la
 van_emb256_posembed_layer2_transient_ptbxl_testtransient_10percent = {'modelname':'van_emb256_posembed_layer2', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_10percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.10}, "channels":[0]},
-            "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":epoch,"max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 van_emb256_posembed_layer2_transient_ptbxl_testtransient_20percent = {'modelname':'van_emb256_posembed_layer2', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_20percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.20}, "channels":[0]},
-            "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":epoch,"max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 van_emb256_posembed_layer2_transient_ptbxl_testtransient_30percent = {'modelname':'van_emb256_posembed_layer2', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_30percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.30}, "channels":[0]},
-            "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":epoch,"max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 van_emb256_posembed_layer2_transient_ptbxl_testtransient_40percent = {'modelname':'van_emb256_posembed_layer2', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_40percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.40}, "channels":[0]},
-            "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":epoch,"max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 van_emb256_posembed_layer2_transient_ptbxl_testtransient_50percent = {'modelname':'van_emb256_posembed_layer2', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_50percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.50}, "channels":[0]},
-            "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":epoch,"max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 
 
 
@@ -72,27 +72,27 @@ bdc883_emb256_layer2_transient_ptbxl_testtransient_10percent = {'modelname':'bdc
             "annotate_test":"_testtransient_10percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.10}, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 bdc883_emb256_layer2_transient_ptbxl_testtransient_20percent = {'modelname':'bdc883_emb256_layer2', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_20percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.20}, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 bdc883_emb256_layer2_transient_ptbxl_testtransient_30percent = {'modelname':'bdc883_emb256_layer2', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_30percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.30}, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 bdc883_emb256_layer2_transient_ptbxl_testtransient_40percent = {'modelname':'bdc883_emb256_layer2', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_40percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.40}, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 bdc883_emb256_layer2_transient_ptbxl_testtransient_50percent = {'modelname':'bdc883_emb256_layer2', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_50percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.50}, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 
 
 
@@ -100,27 +100,27 @@ conv9_emb256_layer2_transient_ptbxl_testtransient_10percent = {'modelname':'conv
             "annotate_test":"_testtransient_10percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.10}, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 conv9_emb256_layer2_transient_ptbxl_testtransient_20percent = {'modelname':'conv9_emb256_layer2', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_20percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.20}, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 conv9_emb256_layer2_transient_ptbxl_testtransient_30percent = {'modelname':'conv9_emb256_layer2', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_30percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.30}, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 conv9_emb256_layer2_transient_ptbxl_testtransient_40percent = {'modelname':'conv9_emb256_layer2', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_40percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.40}, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 conv9_emb256_layer2_transient_ptbxl_testtransient_50percent = {'modelname':'conv9_emb256_layer2', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_50percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.50}, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 
 
 
@@ -129,28 +129,28 @@ conv9_emb256_layer2_transient_ptbxl_testtransient_50percent = {'modelname':'conv
 van_emb256_posembed_layer2_extended_ptbxl_testextended_10percent = {'modelname':'van_emb256_posembed_layer2', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_10percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":100, "channels":[0]},
-            "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":epoch,"max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 van_emb256_posembed_layer2_extended_ptbxl_testextended_20percent = {'modelname':'van_emb256_posembed_layer2', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_20percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":200, "channels":[0]},
-            "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":epoch,"max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 van_emb256_posembed_layer2_extended_ptbxl_testextended_30percent = {'modelname':'van_emb256_posembed_layer2', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_30percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":300, "channels":[0]},
-            "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":epoch,"max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 van_emb256_posembed_layer2_extended_ptbxl_testextended_40percent = {'modelname':'van_emb256_posembed_layer2', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_40percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":400, "channels":[0]},
-            "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":epoch,"max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 van_emb256_posembed_layer2_extended_ptbxl_testextended_50percent = {'modelname':'van_emb256_posembed_layer2', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_50percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":500, "channels":[0]},
-            "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":epoch,"max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 
 
 
@@ -158,27 +158,27 @@ bdc883_emb256_layer2_extended_ptbxl_testextended_10percent = {'modelname':'bdc88
             "annotate_test":"_testextended_10percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":100, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 128, "gpus":[0,1]}}
 bdc883_emb256_layer2_extended_ptbxl_testextended_20percent = {'modelname':'bdc883_emb256_layer2', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_20percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":200, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 bdc883_emb256_layer2_extended_ptbxl_testextended_30percent = {'modelname':'bdc883_emb256_layer2', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_30percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":300, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 bdc883_emb256_layer2_extended_ptbxl_testextended_40percent = {'modelname':'bdc883_emb256_layer2', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_40percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":400, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 bdc883_emb256_layer2_extended_ptbxl_testextended_50percent = {'modelname':'bdc883_emb256_layer2', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_50percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":500, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 
 
 
@@ -186,22 +186,27 @@ conv9_emb256_layer2_extended_ptbxl_testextended_10percent = {'modelname':'conv9_
             "annotate_test":"_testextended_10percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":100, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 conv9_emb256_layer2_extended_ptbxl_testextended_20percent = {'modelname':'conv9_emb256_layer2', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_20percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":200, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
+conv9_emb256_layer2_extended_ptbxl_testextended_30percent = {'modelname':'conv9_emb256_layer2', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
+            "annotate_test":"_testextended_30percent", 
+            "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":300, "channels":[0]},
+            "modelparams":{"reload_epoch":epoch},
+            "train":{"bs": 64, "gpus":[0]}}
 conv9_emb256_layer2_extended_ptbxl_testextended_40percent = {'modelname':'conv9_emb256_layer2', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_40percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":400, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 conv9_emb256_layer2_extended_ptbxl_testextended_50percent = {'modelname':'conv9_emb256_layer2', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_50percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":500, "channels":[0]},
             "modelparams":{"reload_epoch":epoch},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "train":{"bs": 64, "gpus":[0]}}
 
 
 deepmvi_mimic_ecg_test = {'modelname':'deepmvi', "annotate":"_mimic_ecg", 'modeltype':'transformer', 
@@ -221,56 +226,56 @@ deepmvi_mimic_ppg_test = {'modelname':'deepmvi', "annotate":"_mimic_ppg", 'model
 deepmvi_transient_ptbxl_testtransient_10percent = {'modelname':'deepmvi', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_10percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.10}, "channels":[0]},
-            "modelparams":{"reload_epoch":"best"},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":"best","max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 deepmvi_transient_ptbxl_testtransient_20percent = {'modelname':'deepmvi', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_20percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.20}, "channels":[0]},
-            "modelparams":{"reload_epoch":"best"},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":"best","max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 deepmvi_transient_ptbxl_testtransient_30percent = {'modelname':'deepmvi', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_30percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.30}, "channels":[0]},
-            "modelparams":{"reload_epoch":"best"},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":"best","max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 deepmvi_transient_ptbxl_testtransient_40percent = {'modelname':'deepmvi', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_40percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.40}, "channels":[0]},
-            "modelparams":{"reload_epoch":"best"},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":"best","max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 deepmvi_transient_ptbxl_testtransient_50percent = {'modelname':'deepmvi', "annotate":"_transient_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testtransient_50percent", 
             "data_name":"ptbxl", "data_load": {"mode":True, "bounds":1,  "impute_transient":{"window":5, "prob":.50}, "channels":[0]},
-            "modelparams":{"reload_epoch":"best"},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":"best","max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 
 
 
 deepmvi_extended_ptbxl_testextended_10percent = {'modelname':'deepmvi', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_10percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":100, "channels":[0]},
-            "modelparams":{"reload_epoch":"best"},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":"best","max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 deepmvi_extended_ptbxl_testextended_20percent = {'modelname':'deepmvi', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_20percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":200, "channels":[0]},
-            "modelparams":{"reload_epoch":"best"},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":"best","max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 deepmvi_extended_ptbxl_testextended_40percent = {'modelname':'deepmvi', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_40percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":400, "channels":[0]},
-            "modelparams":{"reload_epoch":"best"},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":"best","max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 deepmvi_extended_ptbxl_testextended_50percent = {'modelname':'deepmvi', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_50percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":500, "channels":[0]},
-            "modelparams":{"reload_epoch":"best"},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":"best","max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 deepmvi_extended_ptbxl_testextended_30percent = {'modelname':'deepmvi', "annotate":"_extended_ptbxl_pool12", 'modeltype':'transformer', 
             "annotate_test":"_testextended_30percent", 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "impute_extended":300, "channels":[0]},
-            "modelparams":{"reload_epoch":"best"},
-            "train":{"bs": 64, "gpus":[0,1]}}
+            "modelparams":{"reload_epoch":"best","max_len":1000},
+            "train":{"bs": 64, "gpus":[0]}}
 
 
 

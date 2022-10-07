@@ -23,13 +23,14 @@ def random_seed(seed_value, use_cuda):
 if __name__=='__main__':
 
     bootstrap = (1000, 1) # num of bootstraps, size of bootstrap sample compared to test size
-    configs = [lininterp_ptbxl_pool12_testtransient_10percent,lininterp_ptbxl_pool12_testtransient_20percent, lininterp_ptbxl_pool12_testtransient_30percent,
-    lininterp_ptbxl_pool12_testtransient_40percent,lininterp_ptbxl_pool12_testtransient_50percent]
+    configs = [ 
 
+    bdc883_emb256_layer2_transient_ptbxl_testtransient_20percent
+
+]
 
     for config in configs:
         print(config["modelname"]+config["annotate"]+config["annotate_test"])
-
         load = getattr(__import__(f'utils.{config["data_name"]}', fromlist=['']), "load")
         X_train, Y_dict_train, X_val, Y_dict_val, X_test, Y_dict_test = load(**config["data_load"])
         random_seed(10, True)

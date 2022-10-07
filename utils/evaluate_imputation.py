@@ -18,7 +18,6 @@ Functions that are used for evaluating the imputation during test time
 
 def eval_mse(imputation, target_seq, path, return_stats=False):
     mse_loss, missing_total = mse_mask_loss(torch.Tensor(imputation), target_seq, return_stats=return_stats)
-
     if return_stats:
         return mse_loss, missing_total
     else:

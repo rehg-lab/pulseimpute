@@ -12,8 +12,7 @@ import torch.nn.functional as F
 from .brits.mod_utils.brits_dataloader import create_dataloader
 from .brits.utils import to_var
 from utils.loss_mask import mse_mask_loss
-from utils.viz import make_impplot_12chan
-from utils.utils import return_out_path_basedonmachine
+
 
 import time
 class brits():
@@ -127,6 +126,7 @@ class brits():
                                             train_impute_wind=train_impute_wind, train_impute_prob=train_impute_prob,train_impute_extended=train_impute_extended,
                                             train_realecg=train_realecg, createjson=createjson, bigfile=bigfile,
                                             prefetch_factor=prefetch)
+                                            
             self.val_loader = create_dataloader(data=val_data, dataname=self.dataname, type="val", annotate=self.annotate,
                                                 path=brits_data_path, batch_size=self.bs, num_workers=num_threads_used,
                                                 train_realppg=train_realppg,
@@ -139,7 +139,7 @@ class brits():
         else:
             self.test_loader = create_dataloader(data=train_data, imputation_dict=imputation_dict, dataname=self.dataname, type="test", annotate=self.annotate,
                                                 annotate_test=self.annotate_test,createjson=createjson,
-                                                path=brits_data_path, batch_size=self.bs, num_workers=num_threads_used, recreate=recreate, bigfile=bigfile)
+                                                path=brits_data_path, batch_size=self.bs, num_workers=num_threads_used, bigfile=bigfile)
             blah = next(iter(self.test_loader))
             self.total_len = blah["forward"]["values"].shape[1]
             self.total_channels = blah["forward"]["values"].shape[2]
@@ -198,11 +198,7 @@ class brits():
         with open(os.path.join(epoch_check_path, "loss_log.txt"), 'a+') as f:
             f.write(f'{dt_string} | MSE:{total_test_mse_loss:.10f} \n')
 
-    
-        make_impplot_12chan(title="imp_results", epoch_check_path=epoch_check_path, epoch=self.reload_epoch,
-                            original=eval_, impute=ret["imputations"].cpu().detach().numpy(), mask=target_seq.cpu().detach().numpy(), 
-                            makefig=True)
-        np.save(os.path.join(epoch_check_path, "imputation.npy"), imputation_cat)
+        np.save(os.path.join(self.ckpt_path, "imputation.npy"), imputation_cat)
 
     def train(self):
         writer = SummaryWriter(log_dir=os.path.join(self.ckpt_path, "tb"))

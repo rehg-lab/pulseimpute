@@ -92,11 +92,14 @@ lininterp_ptbxl_pool12_testtransient_50percent = {'modelname':'lininterp', "anno
 
 
 
-mean_ptbxl_pool12_testextended_10percent = {'modelname':'mean', "annotate":"_ptbxl_pool12",  "annotate_test":"_testextended_10percent",
+mean_ptbxl_pool12_testextended_10percent = {'modelname':'mean', "annotate":"_ptbxl_pool12",  "annotate_test":"_testextended_10percent_testing2",
         'modeltype':'mean', "data_name":"ptbxl",
         "modelparams":{},
         "data_load": {"mode":True, "bounds":1, "impute_extended":100, "channels":[0]},
         "train":{"bs": 128, "gpus":[0]}}
+
+
+
 mean_ptbxl_pool12_testextended_20percent = {'modelname':'mean', "annotate":"_ptbxl_pool12",  "annotate_test":"_testextended_20percent",
         'modeltype':'mean', "data_name":"ptbxl",
         "modelparams":{},

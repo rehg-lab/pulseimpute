@@ -235,7 +235,7 @@ naomi_step256_extended_ptbxl_testextended_50percent = {'modelname':'naomi', "ann
             "annotate_test":"_testextended_50percent",
             "data_name":"ptbxl",
             "data_load": {"mode":True, "bounds":1, "channels":[0], "impute_extended":500},
-            "modelparams":{"params":{   'batch' : 12828,
+            "modelparams":{"params":{   'batch' : 128,
                                         'y_dim' : 1,
                                         'rnn_dim' : 300,
                                         'dec1_dim' : 200,

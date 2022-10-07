@@ -295,7 +295,7 @@ class naomi():
             np.save(os.path.join(epoch_check_path, "imputation.npy"), imputation_cat)
 
         
-
+        return imputation_cat
 
 
     def train(self):

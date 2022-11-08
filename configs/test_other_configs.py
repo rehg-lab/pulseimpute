@@ -1,6 +1,13 @@
 
 import os
 
+nomodel_ptbxl_pool12 = {'modelname':'nomodel', "annotate":"_ptbxl_pool12",  "annotate_test":"",
+        'modeltype':'nomodel', "data_name":"ptbxl",
+        "modelparams":{},
+        "data_load": {"mode":True, "bounds":1, "channels":[0]},
+        "train":{"gpus":[0]}}
+
+
 lininterp_mimic_ppg_test = {'modelname':'lininterp', "annotate":"_mimic_ppg",  "annotate_test":"_test",
                 'modeltype':'lininterp', 
                 "modelparams":{},
@@ -92,12 +99,11 @@ lininterp_ptbxl_pool12_testtransient_50percent = {'modelname':'lininterp', "anno
 
 
 
-mean_ptbxl_pool12_testextended_10percent = {'modelname':'mean', "annotate":"_ptbxl_pool12",  "annotate_test":"_testextended_10percent_testing2",
+mean_ptbxl_pool12_testextended_10percent = {'modelname':'mean', "annotate":"_ptbxl_pool12",  "annotate_test":"_testextended_10percent",
         'modeltype':'mean', "data_name":"ptbxl",
         "modelparams":{},
         "data_load": {"mode":True, "bounds":1, "impute_extended":100, "channels":[0]},
         "train":{"bs": 128, "gpus":[0]}}
-
 
 
 mean_ptbxl_pool12_testextended_20percent = {'modelname':'mean', "annotate":"_ptbxl_pool12",  "annotate_test":"_testextended_20percent",

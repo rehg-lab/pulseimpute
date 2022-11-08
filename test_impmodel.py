@@ -24,9 +24,55 @@ if __name__=='__main__':
 
     bootstrap = (1000, 1) # num of bootstraps, size of bootstrap sample compared to test size
     configs = [ 
+        nomodel_ptbxl_pool12,
+    # mean_ptbxl_pool12_testextended_10percent,mean_ptbxl_pool12_testextended_20percent,
+    # mean_ptbxl_pool12_testextended_30percent,mean_ptbxl_pool12_testextended_40percent,mean_ptbxl_pool12_testextended_50percent,
+    # mean_ptbxl_pool12_testtransient_10percent,mean_ptbxl_pool12_testtransient_20percent,
+    # mean_ptbxl_pool12_testtransient_30percent,mean_ptbxl_pool12_testtransient_40percent,mean_ptbxl_pool12_testtransient_50percent,
 
-    bdc883_emb256_layer2_transient_ptbxl_testtransient_20percent
+    # lininterp_ptbxl_pool12_testtransient_10percent,lininterp_ptbxl_pool12_testtransient_20percent,
+    # lininterp_ptbxl_pool12_testtransient_30percent,lininterp_ptbxl_pool12_testtransient_40percent,lininterp_ptbxl_pool12_testtransient_50percent,   
+    # lininterp_ptbxl_pool12_testextended_10percent,lininterp_ptbxl_pool12_testextended_20percent,
+    # lininterp_ptbxl_pool12_testextended_30percent,lininterp_ptbxl_pool12_testextended_40percent, lininterp_ptbxl_pool12_testextended_50percent,
 
+    # fft_ptbxl_pool12_testextended_10percent,fft_ptbxl_pool12_testextended_20percent,
+    # fft_ptbxl_pool12_testextended_30percent,fft_ptbxl_pool12_testextended_40percent,fft_ptbxl_pool12_testextended_50percent,
+    # fft_ptbxl_pool12_testtransient_10percent,fft_ptbxl_pool12_testtransient_20percent,
+    # fft_ptbxl_pool12_testtransient_30percent,fft_ptbxl_pool12_testtransient_40percent,fft_ptbxl_pool12_testtransient_50percent,
+
+    # brits_i_512_extended_ptbxl_testextended_10percent,brits_i_512_extended_ptbxl_testextended_20percent,
+    # brits_i_512_extended_ptbxl_testextended_30percent,brits_i_512_extended_ptbxl_testextended_40percent,brits_i_512_extended_ptbxl_testextended_50percent,
+    # brits_i_512_transient_ptbxl_testtransient_10percent,brits_i_512_transient_ptbxl_testtransient_20percent,
+    # brits_i_512_transient_ptbxl_testtransient_30percent,brits_i_512_transient_ptbxl_testtransient_40percent,brits_i_512_transient_ptbxl_testtransient_50percent
+
+    # naomi_britsgail_extended_ptbxl_testextended_10percent,naomi_britsgail_extended_ptbxl_testextended_20percent,
+    # naomi_britsgail_extended_ptbxl_testextended_30percent,naomi_britsgail_extended_ptbxl_testextended_40percent,naomi_britsgail_extended_ptbxl_testextended_50percent,
+    # naomi_britsgail_transient_ptbxl_testtransient_10percent,naomi_britsgail_transient_ptbxl_testtransient_20percent,
+    # naomi_britsgail_transient_ptbxl_testtransient_30percent,naomi_britsgail_transient_ptbxl_testtransient_40percent,naomi_britsgail_transient_ptbxl_testtransient_50percent
+
+    # naomi_step64_transient_ptbxl_testtransient_10percent,naomi_step64_transient_ptbxl_testtransient_20percent,
+    # naomi_step64_transient_ptbxl_testtransient_30percent,
+    # naomi_step256_extended_ptbxl_testextended_10percent,naomi_step256_extended_ptbxl_testextended_20percent,
+
+    # deepmvi_extended_ptbxl_testextended_10percent,deepmvi_extended_ptbxl_testextended_20percent,deepmvi_extended_ptbxl_testextended_30percent,
+    # deepmvi_extended_ptbxl_testextended_40percent,deepmvi_extended_ptbxl_testextended_50percent,
+    # deepmvi_transient_ptbxl_testtransient_10percent,deepmvi_transient_ptbxl_testtransient_20percent,deepmvi_transient_ptbxl_testtransient_30percent,
+    # deepmvi_transient_ptbxl_testtransient_40percent,deepmvi_transient_ptbxl_testtransient_50percent,
+
+    # van_emb256_posembed_layer2_extended_ptbxl_testextended_10percent,van_emb256_posembed_layer2_extended_ptbxl_testextended_20percent,
+    # van_emb256_posembed_layer2_extended_ptbxl_testextended_30percent,van_emb256_posembed_layer2_extended_ptbxl_testextended_40percent,van_emb256_posembed_layer2_extended_ptbxl_testextended_50percent,
+    # van_emb256_posembed_layer2_transient_ptbxl_testtransient_10percent,van_emb256_posembed_layer2_transient_ptbxl_testtransient_20percent,
+    # van_emb256_posembed_layer2_transient_ptbxl_testtransient_30percent,van_emb256_posembed_layer2_transient_ptbxl_testtransient_40percent,van_emb256_posembed_layer2_transient_ptbxl_testtransient_50percent,
+    
+    # conv9_emb256_layer2_transient_ptbxl_testtransient_10percent,conv9_emb256_layer2_transient_ptbxl_testtransient_20percent,
+    # conv9_emb256_layer2_transient_ptbxl_testtransient_30percent,conv9_emb256_layer2_transient_ptbxl_testtransient_40percent,conv9_emb256_layer2_transient_ptbxl_testtransient_50percent,
+    # conv9_emb256_layer2_extended_ptbxl_testextended_10percent,conv9_emb256_layer2_extended_ptbxl_testextended_20percent,
+    # conv9_emb256_layer2_extended_ptbxl_testextended_30percent,conv9_emb256_layer2_extended_ptbxl_testextended_40percent,conv9_emb256_layer2_extended_ptbxl_testextended_50percent,
+
+    # bdc883_emb256_layer2_transient_ptbxl_testtransient_10percent,bdc883_emb256_layer2_transient_ptbxl_testtransient_20percent,
+    # bdc883_emb256_layer2_transient_ptbxl_testtransient_30percent,bdc883_emb256_layer2_transient_ptbxl_testtransient_40percent,bdc883_emb256_layer2_transient_ptbxl_testtransient_50percent,
+    # bdc883_emb256_layer2_extended_ptbxl_testextended_10percent,bdc883_emb256_layer2_extended_ptbxl_testextended_20percent,
+    # bdc883_emb256_layer2_extended_ptbxl_testextended_30percent,bdc883_emb256_layer2_extended_ptbxl_testextended_40percent,bdc883_emb256_layer2_extended_ptbxl_testextended_50percent
 ]
 
     for config in configs:
@@ -52,7 +98,7 @@ if __name__=='__main__':
    
         if bootstrap is not None: # only support for mimic right now
             mse_losses, missing_totals = eval_mse(imputation, Y_dict_test["target_seq"], path, return_stats=True)
-            printlog(f"MSE: {(torch.sum(mse_losses)/torch.sum(missing_totals)).item()}", path, type="w")
+            printlog(f"MSE: {(torch.sum(mse_losses)/torch.sum(missing_totals)).item()}", path, type="a")
             mse_losses_bootstraplist = []
 
             if "mimic" in config["data_name"]:

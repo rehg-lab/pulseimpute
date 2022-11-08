@@ -45,6 +45,7 @@ class transformer():
         print('Total params is {}'.format(total_params))
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=.001)
         self.ckpt_path = os.path.join(outpath, data_name+annotate_test, modelname+annotate)
+        os.makedirs(self.ckpt_path, exist_ok=True)
         self.reload_ckpt_path = os.path.join(outpath, data_name, modelname+annotate)
         self.epoch_list, self.best_val_loss = reload_model(self.model, self.optimizer, self.reload_epoch, self.reload_ckpt_path, gpu=self.gpu_list[0])
         if convertolong:

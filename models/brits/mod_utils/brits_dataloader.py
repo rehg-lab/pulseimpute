@@ -27,7 +27,7 @@ bigfile_2 = True
 
 def create_dataloader(data=None, imputation_dict=None, type="train", annotate="", path="", annotate_test="", dataname="", createjson=True,
                     batch_size=4, num_workers=os.cpu_count(),
-                    train_realppg=None,train_realecg=train_realecg, 
+                    train_realppg=None,train_realecg=None, 
                     train_impute_wind=None, train_impute_prob=None, train_impute_extended=None,
                     bigfile=True,
                     prefetch_factor=2):

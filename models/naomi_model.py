@@ -292,11 +292,11 @@ class naomi():
         if self.save_batches:
             np.save(os.path.join(epoch_check_path, f"{self.save_batches}.imputation_{start*self.bs}_{idx*self.bs}.npy"), imputation_cat)
         else:
-            np.save(os.path.join(epoch_check_path, "imputation.npy"), imputation_cat)
+            np.save(os.path.join(self.ckpt_path, "imputation.npy"), imputation_cat)
+
+        return imputation_cat
 
         
-
-
 
     def train(self):
 

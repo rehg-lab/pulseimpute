@@ -24,11 +24,10 @@ if __name__=='__main__':
     config = tutorial_transient_ptbxl 
 
     print(config["modelname"]+config["annotate"])
-
+    random_seed(10, True)
     load = getattr(__import__(f'utils.{config["data_name"]}', fromlist=['']), "load")
     X_train, Y_dict_train, X_val, Y_dict_val, X_test, Y_dict_test = load(**config["data_load"], 
                                                                             train=True, val=True, test=False)
-    random_seed(10, True)
     model_type = config["modeltype"]
     model_module = __import__(f'models.{model_type}_model', fromlist=[''])
     model_module_class = getattr(model_module, model_type)

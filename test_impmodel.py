@@ -30,9 +30,9 @@ if __name__=='__main__':
     for config in configs:
         print(config["modelname"]+config["annotate"]+config["annotate_test"])
 
+        random_seed(10, True)
         load = getattr(__import__(f'utils.{config["data_name"]}', fromlist=['']), "load")
         X_train, Y_dict_train, X_val, Y_dict_val, X_test, Y_dict_test = load(**config["data_load"])
-        random_seed(10, True)
 
         path = os.path.join("out/", config["data_name"]+config["annotate_test"], config["modelname"]+config["annotate"])
 

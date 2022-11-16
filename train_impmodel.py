@@ -16,8 +16,6 @@ def random_seed(seed_value, use_cuda):
     if use_cuda: 
         torch.cuda.manual_seed(seed_value)
         torch.cuda.manual_seed_all(seed_value) # gpu vars
-        torch.backends.cudnn.deterministic = True  #needed
-        torch.backends.cudnn.benchmark = False
 
 if __name__=='__main__':
 

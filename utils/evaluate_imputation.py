@@ -125,12 +125,12 @@ def eval_cardiac_classification(imputation, path):
     outputfolder_pretrain = os.path.join("utils", "ptbxl_eval_code", "pretrained_classification_model")
     models = [conf_fastai_xresnet1d101]
     experiments = []
-    if not os.path.exists(os.path.join("utils", "ptbxl_eval_code", "pretrained_classification_model", "trainonfoldfour_diagnostic")):
-        experiments.append((f'trainonfoldfour_diagnostic', 'diagnostic'))
-    if not os.path.exists(os.path.join("utils", "ptbxl_eval_code", "pretrained_classification_model", "trainonfoldfour_form")):
-        experiments.append((f'trainonfoldfour_form', 'form'))
     if not os.path.exists(os.path.join("utils", "ptbxl_eval_code", "pretrained_classification_model", "trainonfoldfour_rhythm")):
         experiments.append((f'trainonfoldfour_rhythm', 'rhythm'))
+    if not os.path.exists(os.path.join("utils", "ptbxl_eval_code", "pretrained_classification_model", "trainonfoldfour_form")):
+        experiments.append((f'trainonfoldfour_form', 'form'))
+    if not os.path.exists(os.path.join("utils", "ptbxl_eval_code", "pretrained_classification_model", "trainonfoldfour_diagnostic")):
+        experiments.append((f'trainonfoldfour_diagnostic', 'diagnostic'))
     if len(experiments) > 0:
         
         for name, task in experiments:
@@ -143,9 +143,9 @@ def eval_cardiac_classification(imputation, path):
     print("Running classification model inference on imputation test")
 
     experiments = [
-                    ("diagnostic", 'diagnostic'),
-                    ("form", 'form'),
                     ("rhythm", 'rhythm'),
+                    ("form", 'form'),
+                    ("diagnostic", 'diagnostic'),
                 ]
 
     for name, task in experiments:
@@ -154,7 +154,7 @@ def eval_cardiac_classification(imputation, path):
         e.perform(modelfolder=os.path.join(outputfolder_pretrain,"trainonfoldfour_"+task))
         e.evaluate()
 
-    for task in ["diagnostic", "form", "rhythm"]:
+    for task in ["rhythm", "form", "diagnostic" ]:
         csv_path = os.path.join(path, task, "models", "fastai_xresnet1d101", "results", "te_results.csv")
         df_temp = pd.read_csv(csv_path)
         auc = df_temp["macro_auc"][1]

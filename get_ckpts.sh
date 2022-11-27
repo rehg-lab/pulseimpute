@@ -1,5 +1,5 @@
-wget -P out_train/ https://www.dropbox.com/sh/u4b7hq98acu7ssj/AADB_9ZrTAHe9hCAmN2Hbdnra?dl=0
+wget -P out/ https://www.dropbox.com/sh/u4b7hq98acu7ssj/AADB_9ZrTAHe9hCAmN2Hbdnra?dl=0
 
-unzip out_train/AADB_9ZrTAHe9hCAmN2Hbdnra?dl=0 -x -d out_train/
+unzip out/AADB_9ZrTAHe9hCAmN2Hbdnra?dl=0 -x -d out/
 
-rm out_train/AADB_9ZrTAHe9hCAmN2Hbdnra?dl=0
+rm out/AADB_9ZrTAHe9hCAmN2Hbdnra?dl=0

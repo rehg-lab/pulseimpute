@@ -1,5 +1,5 @@
 import os
-naomi_step1_ppg= {'modelname':'naomi', "annotate":"_step1_mimic_ppg", 'modeltype':'naomi', 
+naomi_britsgail_ppg= {'modelname':'naomi', "annotate":"_britsgail_mimic_ppg", 'modeltype':'naomi', 
             "data_name":"mimic_ppg",
             "data_load": {"mean":True, "bounds":1},
             "modelparams":{"params":{   'batch' : 2,
@@ -82,7 +82,7 @@ naomi_step256_mimic_ecg= {'modelname':'naomi', "annotate":"_step256_mimic_ecg", 
                 "save_model_interval":100, "log_interval":10},
             "train":{"gpus":[0], "train_realecg":True}}
 
-naomi_step1_mimic_ecg = {'modelname':'naomi', "annotate":"_step1_mimic_ecg", 'modeltype':'naomi', 
+naomi_britsgail_mimic_ecg = {'modelname':'naomi', "annotate":"_britsgail_mimic_ecg", 'modeltype':'naomi', 
             "data_name":"mimic_ecg","data_load": {},
             "modelparams":{"params":{   'batch' : 2,
                                         'y_dim' : 1,
@@ -106,7 +106,7 @@ naomi_step1_mimic_ecg = {'modelname':'naomi', "annotate":"_step1_mimic_ecg", 'mo
             "train":{"gpus":[0], "train_realecg":True}}
 
 
-naomi_step1_extended_ptbxl = {'modelname':'naomi', "annotate":"_step1_extended_ptbxl", 'modeltype':'naomi', 
+naomi_britsgail_transient_ptbxl = {'modelname':'naomi', "annotate":"_britsgail_transient_ptbxl", 'modeltype':'naomi', 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0]},
             "modelparams":{"params":{   'batch' : 64,
                                         'y_dim' : 1,
@@ -126,7 +126,7 @@ naomi_step1_extended_ptbxl = {'modelname':'naomi', "annotate":"_step1_extended_p
             "train":{"gpus":[0], "train_impute_wind":5, "train_impute_prob":.30}}
 
 
-naomi_step64_extended_ptbxl = {'modelname':'naomi', "annotate":"_step64_extended_ptbxl", 'modeltype':'naomi', 
+naomi_step64_transient_ptbxl = {'modelname':'naomi', "annotate":"_step64_transient_ptbxl", 'modeltype':'naomi', 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0]},
             "modelparams":{"params":{   'batch' : 64,
                                         'y_dim' : 1,
@@ -181,7 +181,7 @@ naomi_step256_extended_ptbxl = {'modelname':'naomi', "annotate":"_step256_extend
             "train":{"gpus":[0], "train_impute_extended":300}}
 
 
-naomi_step1_extended_ptbxl = {'modelname':'naomi', "annotate":"_step1_extended_ptbxl", 'modeltype':'naomi', 
+naomi_britsgail_extended_ptbxl = {'modelname':'naomi', "annotate":"_britsgail_extended_ptbxl", 'modeltype':'naomi', 
             "data_name":"ptbxl","data_load": {"mode":True, "bounds":1, "channels":[0]},
             "modelparams":{"params":{   'batch' : 64,
                                         'y_dim' : 1,

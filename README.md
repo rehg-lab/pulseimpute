@@ -5,15 +5,15 @@ This is a repository containing PyTorch code for PulseImpute: A Novel Benchmark 
 
 
 <p align="center">
-<img src="figs/hbd_ecgppgimp_viz.png" width=75% height=75%> 
+<img src="figs/hbd_ecgppgimp_viz.png" width=50% height=50%> 
 </p>
-<p> Visualization of imputation results from six baseline methods on representative ECG and PPG signals. Ablated regions of the input signals are drawn in light gray. The imputed values from each baseline are drawn in blue. The large temporal gaps which arise from real-world missingness patterns create substantial challenges for all methods. For example, methods such as BRITS and DeepMVI produce nearly constant outputs, while GAN-based approaches (BRITS w/ GAIL and NAOMI) hallucinate incorrect structures in incorrect locations. Our novel BDC Transformer architecture also struggles in the middle of long gaps. </p>
+<p> Visualization of imputation results from six baseline methods on representative ECG and PPG signals. The large temporal gaps which arise from real-world missingness patterns create substantial challenges for all methods. For example, methods such as BRITS and DeepMVI produce nearly constant outputs, while GAN-based approaches (BRITS w/ GAIL and NAOMI) hallucinate incorrect structures in incorrect locations. Our novel BDC Transformer architecture also struggles in the middle of long gaps. </p>
 
 <br>
 <p align="center">
-<img src="figs/cpc_ecgimp_viz.png" width=75% height=75%>
+<img src="figs/cpc_ecgimp_viz.png" width=50% height=50%>
 </p>
-<p> Cardiac Classification in ECG Results for Transient and Extended Loss on Rhythm, Form, and Diagnosis label groups. For each label group, a cardiac classifier was trained and tested on complete data (test performance illustrated by dashed line). The trained model was then evaluated on imputed test data (for five levels of missingness from 10% to 50%) produced by each baseline, yielding the AUC curves (top). Representative imputation results for the 30% missingness test case are plotted (below), with (ablated) missingness in light gray and imputed values in blue. The Extended Loss setting proved to be more challenging for all methods. </p>
+<p> Cardiac Classification in ECG Results for Transient and Extended Loss on Rhythm, Form, and Diagnosis label groups. For each label group, a cardiac classifier was trained and tested on complete data (test performance illustrated by dashed line). The trained model was then evaluated on imputed test data (for five levels of missingness from 10% to 50%) produced by each baseline, yielding the AUC curves (top). Representative imputation results for the 30% missingness test case are plotted (below). The Extended Loss setting proved to be more challenging for all methods. </p>
 
 -----
 
@@ -42,7 +42,7 @@ This script downloads and extracts the ECG missingness patterns (missing_ecg_{tr
 
 ### Get Pre-trained Checkpoints
 
-Download our pre-trained checkpoints and imputed waveforms for each benchmarked models (BDC Transformer, Conv9 Transformer, Vanilla Transformer, DeepMVI, NAOMI, BRITS w/ GAIL, BRITS) for each PulseImpute task (ECG Heart Beat Detection, PPG Heart Beat Detection, ECG Cardiac Pathophysiology Classification) via the following bash script from the ckpts hosted [here](https://www.dropbox.com/sh/u4b7hq98acu7ssj/AADB_9ZrTAHe9hCAmN2Hbdnra?dl=0)
+Download our pre-trained checkpoints and imputed waveforms for each benchmarked models (BDC Transformer, Conv9 Transformer, Vanilla Transformer, DeepMVI, NAOMI, BRITS w/ GAIL, BRITS) for each PulseImpute task (ECG Heart Beat Detection, PPG Heart Beat Detection, ECG Cardiac Pathophysiology Classification) via the following bash script from the ckpts hosted [here](https://www.dropbox.com/sh/u4b7hq98acu7ssj/AADB_9ZrTAHe9hCAmN2Hbdnra?dl=0). They can also be accessed via a persistent dereferenceable identifier at www.doi.org/10.5281/zenodo.7129965
 
     ./get_ckpts.sh
 
@@ -64,7 +64,15 @@ Simply find the config of the model to be tested in their respective config file
     python test_imp.py
 
 
+-----
 
+If you use our work in your research, please cite
+```bibtex
+@inproceedings{xupulseimpute,
+  title={PulseImpute: A Novel Benchmark Task for Pulsative Physiological Signal Imputation},
+  author={Xu, Maxwell and Moreno, Alexander and Nagesh, Supriya and Aydemir, Varol Burak and Wetter, David W and Kumar, Santosh and Rehg, James Matthew},
+  booktitle={Thirty-sixth Conference on Neural Information Processing Systems Datasets and Benchmarks Track}
+}
+```
 
-
-
+and if you have any further questions, please feel free to email me at maxxu@gatech.edu

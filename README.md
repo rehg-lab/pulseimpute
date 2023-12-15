@@ -67,10 +67,13 @@ Simply find the config of the model to be tested in their respective config file
 
 If you use our work in your research, please cite
 ```bibtex
-@inproceedings{xupulseimpute,
+@article{xu2022pulseimpute,
   title={PulseImpute: A Novel Benchmark Task for Pulsative Physiological Signal Imputation},
-  author={Xu, Maxwell and Moreno, Alexander and Nagesh, Supriya and Aydemir, Varol Burak and Wetter, David W and Kumar, Santosh and Rehg, James Matthew},
-  booktitle={Thirty-sixth Conference on Neural Information Processing Systems Datasets and Benchmarks Track}
+  author={Xu, Maxwell and Moreno, Alexander and Nagesh, Supriya and Aydemir, Varol and Wetter, David and Kumar, Santosh and Rehg, James M},
+  journal={Advances in Neural Information Processing Systems},
+  volume={35},
+  pages={26874--26888},
+  year={2022}
 }
 ```
 

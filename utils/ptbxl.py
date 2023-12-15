@@ -68,7 +68,7 @@ def load(path=os.path.join("data/data/ptbxl_ecg/"), seed=10,
         for i in range(0, X.shape[0], 128): # iterating through all data points
             for j in range(X.shape[-1]):
                 start_impute = np.random.randint(0, total_len-amt_impute)
-                target[i:i+128, start_impute:start_impute+amt_impute, j] = X[i, start_impute:start_impute+amt_impute, j] 
+                target[i:i+128, start_impute:start_impute+amt_impute, j] = X[i:i+128, start_impute:start_impute+amt_impute, j] 
                 input[i:i+128, start_impute:start_impute+amt_impute, j] = np.nan
                 X[i:i+128, start_impute:start_impute+amt_impute, j] = 0
 
@@ -81,7 +81,7 @@ def load(path=os.path.join("data/data/ptbxl_ecg/"), seed=10,
                 for j in range(X.shape[-1]):
                     rand = np.random.random_sample()
                     if rand <= impute_transient["prob"]:
-                        target[i:i+128, start_impute:start_impute+amt_impute, j] = X[i, start_impute:start_impute+amt_impute, j] 
+                        target[i:i+128, start_impute:start_impute+amt_impute, j] = X[i:i+128, start_impute:start_impute+amt_impute, j] 
                         input[i:i+128, start_impute:start_impute+amt_impute, j] = np.nan
                         X[i:i+128, start_impute:start_impute+amt_impute, j] = 0
 

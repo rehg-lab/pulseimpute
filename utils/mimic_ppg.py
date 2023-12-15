@@ -12,7 +12,7 @@ import math
 
 
 
-def load(mean=None, bounds=None, train=True, val=True, test=False, addmissing=False, path=os.path.join("data/data/mimic_ppg")):
+def load(mean=None, bounds=None, train=True, val=True, test=False, addmissing=False, path=os.path.join("data/pulseimpute_data/mimic_ppg")):
 
     # Train
     if train:

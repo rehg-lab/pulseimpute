@@ -6,7 +6,7 @@ from csv import reader
 from ast import literal_eval
 
 
-def load(train=True, val=True, test=False, addmissing=False, path=os.path.join("data/data/mimic_ecg")):
+def load(train=True, val=True, test=False, addmissing=False, path=os.path.join("data/pulseimpute_data/mimic_ecg")):
     # note that mimic has already been mode centered and bounded 1 to -1
     if train:
         X_train = np.load(os.path.join(path, "mimic_ecg_train.npy"))

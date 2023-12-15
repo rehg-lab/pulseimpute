@@ -46,14 +46,14 @@ def eval_heartbeat_detection(imputation, target_seq, input, path, return_stats=F
 
             r_peaks_list.append(rpeaks_nomiss)
 
-        with open(f'data/data/mimic_{type}/peaks_list.pickle', 'wb') as fp:
+        with open(f'data/pulseimpute_data/mimic_{type}/peaks_list.pickle', 'wb') as fp:
             pickle.dump(r_peaks_list, fp)
 
         return r_peaks_list
-    if not os.path.exists(f'data/data/mimic_{type}/peaks_list.pickle'):
+    if not os.path.exists(f'data/pulseimpute_data/mimic_{type}/peaks_list.pickle'):
         r_peaks_list = get_groundtruths()
     else:
-        with open(f'data/data/mimic_{type}/peaks_list.pickle', 'rb') as fp:
+        with open(f'data/pulseimpute_data/mimic_{type}/peaks_list.pickle', 'rb') as fp:
             r_peaks_list = pickle.load(fp)
 
 
@@ -121,7 +121,7 @@ def eval_cardiac_classification(imputation, path):
 
     from .ptbxl_eval_code.configs.fastai_configs import conf_fastai_xresnet1d101
     from .ptbxl_eval_code.experiments.scp_experiment import SCP_Experiment
-    datafolder = 'data/data/ptbxl_ecg/'
+    datafolder = 'data/pulseimpute_data/ptbxl_ecg/'
     outputfolder_pretrain = os.path.join("utils", "ptbxl_eval_code", "pretrained_classification_model")
     models = [conf_fastai_xresnet1d101]
     experiments = []

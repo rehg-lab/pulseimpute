@@ -9,7 +9,7 @@ warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
 import numpy as np
 
 
-def load(path=os.path.join("data/data/ptbxl_ecg/"), seed=10, 
+def load(path=os.path.join("data/pulseimpute_data/ptbxl_ecg/"), seed=10, 
         mode=True, bounds=1, 
         impute_extended=None, impute_transient=None,
         channels=[0], test_fold=6, val_fold=5, train_fold=4,

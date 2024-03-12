@@ -67,7 +67,7 @@ Simply find the config of the model to be tested in their respective config file
 ## Demo:
 An interactive Google colab notebook can be found here:
 
-Visualize model imputations  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1lfpVPiVbhaEOuiq-c3PpmugFAYiPne3m)
+Visualize model imputations &ensp; [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1rltEUl-gHDww3GsMcfFxVBGC_mgfIqlF?usp=sharing)
 
 -----
 

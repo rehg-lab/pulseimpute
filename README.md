@@ -72,7 +72,7 @@ We have created an interactive Google colab notebook that can be used to view th
 
 
 
-![](https://github.com/rehg-lab/pulseimpute/assets/70555752/49b383bd-79f7-4581-b009-a814373cfa5f)
+https://github.com/rehg-lab/pulseimpute/assets/70555752/49b383bd-79f7-4581-b009-a814373cfa5f
 
 
 Explore the visualizations here!

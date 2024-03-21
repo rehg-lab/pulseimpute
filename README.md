@@ -67,10 +67,7 @@ Simply find the config of the model to be tested in their respective config file
 ## Demo:
 We have created an interactive Google colab notebook that can be used to view the imputations of different models. No additional training or code running is required; the notebook can be run out of the box on a Jupyter environment.
 
-![](https://github.com/rehg-lab/pulseimpute/blob/main/visualization/visual_demo_v2.gif)
-
-
-
+Click play at the bottom left on the video below to watch a demo of the notebook:
 
 https://github.com/rehg-lab/pulseimpute/assets/70555752/49b383bd-79f7-4581-b009-a814373cfa5f
 

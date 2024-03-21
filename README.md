@@ -69,6 +69,12 @@ We have created an interactive Google colab notebook that can be used to view th
 
 ![](https://github.com/rehg-lab/pulseimpute/blob/main/visualization/visual_demo_v2.gif)
 
+
+
+
+![](https://github.com/rehg-lab/pulseimpute/assets/70555752/49b383bd-79f7-4581-b009-a814373cfa5f)
+
+
 Explore the visualizations here!
 
 Visualize model imputations &ensp; [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1rltEUl-gHDww3GsMcfFxVBGC_mgfIqlF?usp=sharing)

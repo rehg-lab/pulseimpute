@@ -130,6 +130,8 @@ class transformer():
         print(f'{dt_string} | Start')
         start = time.time()
         iter_idx = 0
+        #print(self.epoch_list)
+        #for epoch in range(10):
         for epoch in range(np.max(self.epoch_list)+1, 1000):
             total_train_mpcl2_loss = 0
             total_missing_total = 0

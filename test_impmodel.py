@@ -21,19 +21,24 @@ def random_seed(seed_value, use_cuda):
 if __name__=='__main__':
 
     bootstrap = (1000, 1) # num of bootstraps, size of bootstrap sample compared to test size
-    configs = [fft_ptbxl_testtransient_10percent,fft_ptbxl_testtransient_20percent,fft_ptbxl_testtransient_30percent,
-    fft_ptbxl_testtransient_40percent,fft_ptbxl_testtransient_50percent]
-
+    #deepmvi_extended_ptbxl_testextended_10percent
+    #configs = [deepmvi_extended_ptbxl_testextended_10percent]
+    configs = [lininterp_ptbxl_testextended_20percent]
+    #configs = [fft_ptbxl_testextended_20percent, lininterp_mimic_ecg_test]
+    #configs = [naomi_step64_transient_ptbxl_testtransient_10percent]
 
     for config in configs:
         print(config["modelname"]+config["annotate"]+config["annotate_test"])
 
         random_seed(10, True)
         load = getattr(__import__(f'utils.{config["data_name"]}', fromlist=['']), "load")
+        # Calls load() from util to load dataset
+        print('LOAD PHASE')
         X_train, Y_dict_train, X_val, Y_dict_val, X_test, Y_dict_test = load(**config["data_load"])
 
+        # If imputation does not exist, call model to create imputation
+        print('IMPUTE PHASE')
         path = os.path.join("out/", config["data_name"]+config["annotate_test"], config["modelname"]+config["annotate"])
-
         if os.path.exists(os.path.join(path, "imputation.npy")):
             imputation = np.load(os.path.join(path, "imputation.npy"))
         else:
@@ -46,7 +51,15 @@ if __name__=='__main__':
                                     **config["modelparams"],
                                     **config["train"])
             imputation = model.testimp()
-   
+
+        # Also create original and target seq files for the sake of creating visualizations
+        if not os.path.exists(os.path.join(path, "original.npy")):
+            np.save(os.path.join(path, "original.npy"), X_test)
+        if not os.path.exists(os.path.join(path, "target_seq.npy")):
+            np.save(os.path.join(path, "target_seq.npy"), Y_dict_test['target_seq'].numpy())
+
+        print('STATS PHASE')
+        # getting stats (mostly through utils eval)
         if bootstrap is not None: # only support for mimic right now
             mse_losses, missing_totals = eval_mse(imputation, Y_dict_test["target_seq"], path, return_stats=True)
             printlog(f"MSE: {(torch.sum(mse_losses)/torch.sum(missing_totals)).item()}", path, type="w")
@@ -127,10 +140,22 @@ if __name__=='__main__':
                 printlog(f"95% CI F1 from Bootstrap {bootstrap}: {2*np.std(f1_bootstraplist)}",path)
                 printlog(f"95% CI Prec from Bootstrap {bootstrap}: {2*np.std(prec_bootstraplist)}",path)
                 printlog(f"95% CI Sens from Bootstrap {bootstrap}: {2*np.std(sens_bootstraplist)}",path)
+                if not os.path.exists(os.path.join(path, "f1.npy")):
+                    np.save(os.path.join(path, "f1.npy"), f1_bootstraplist)
+                if not os.path.exists(os.path.join(path, "precision.npy")):
+                    np.save(os.path.join(path, "precision.npy"), prec_bootstraplist)
+                if not os.path.exists(os.path.join(path, "sensitivity.npy")):
+                    np.save(os.path.join(path, "sensitivity.npy"), sens_bootstraplist)
             else:
                 printlog(f"95% CI Rhy AUC from Bootstrap {bootstrap}: {2*np.std(auc_bootstraplist['rhythm'])}",path)
                 printlog(f"95% CI Form AUC from Bootstrap {bootstrap}: {2*np.std(auc_bootstraplist['form'])}",path)
                 printlog(f"95% CI Diag AUC from Bootstrap {bootstrap}: {2*np.std(auc_bootstraplist['diagnostic'])}",path)
+                if not os.path.exists(os.path.join(path, "diagnostic/auc.npy")):
+                    np.save(os.path.join(path, "diagnostic/auc.npy"), auc_bootstraplist['diagnostic'])
+                if not os.path.exists(os.path.join(path, "rhythm/auc.npy")):
+                    np.save(os.path.join(path, "rhythm/auc.npy"), auc_bootstraplist['rhythm'])
+                if not os.path.exists(os.path.join(path, "form/auc.npy")):
+                    np.save(os.path.join(path, "form/auc.npy"), auc_bootstraplist['form'])
 
         else:
             eval_mse(imputation, Y_dict_test["target_seq"], path)

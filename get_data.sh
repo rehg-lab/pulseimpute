@@ -1,5 +1,7 @@
-wget -P data/ https://zenodo.org/records/7129965/files/pulseimpute_data.zip
+wget data/ https://zenodo.org/api/records/7129965/files-archive
 
-unzip data/pulseimpute_data.zip -x -d data/
+#wget -P data/ https://www.dropbox.com/sh/6bygnzzx5t970yx/AAAHsVu9WeVXdQ_c1uBy_WkAa?dl=0
 
-rm data/pulseimpute_data.zip
+#unzip data/AAAHsVu9WeVXdQ_c1uBy_WkAa?dl=0 -x -d data/
+
+#rm data/AAAHsVu9WeVXdQ_c1uBy_WkAa?dl=0

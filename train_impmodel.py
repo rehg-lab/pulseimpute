@@ -19,7 +19,7 @@ def random_seed(seed_value, use_cuda):
 
 if __name__=='__main__':
 
-    config = tutorial_transient_ptbxl 
+    config = bdc883_emb256_layer2_extended_ptbxl_2
 
     print(config["modelname"]+config["annotate"])
     random_seed(10, True)

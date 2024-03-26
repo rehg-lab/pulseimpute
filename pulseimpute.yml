@@ -1,4 +1,4 @@
-name: pulseimpute
+name: pulse
 channels:
   - defaults
 dependencies:

@@ -18,7 +18,7 @@ def main():
             if impmodel in ["mean", "lininterp"]:
                 impmodel_new = impmodel 
             for per in [10,20,30,40,50]:
-                datafolder = f'../../imputation/out/ptbxl_{imptype}_{per}percent/{impmodel_new}'
+                datafolder = f'../../imputation/out/out_test/ptbxl_{imptype}_{per}percent/{impmodel_new}'
                 # outputfolder = '../output_trainonimp/'
                 outputfolder = '../output_noimputetrain/'
                 models = [

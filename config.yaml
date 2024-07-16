@@ -1,0 +1,5 @@
+model: FFT
+task: custom
+mode: test
+percentage: 40
+data_path: data/data/custom_1split

@@ -24,7 +24,7 @@ from ast import literal_eval
 from models.PulseImputeModel_Wrapper import PulseImputeModelWrapper
 
 class naomi(PulseImputeModelWrapper):
-    def __init__(self,modelname, data_name, train_data=None, val_data=None, 
+    def __init__(self,modelname, data_type, train_data=None, val_data=None, 
                  imputation_dict= None, annotate="",annotate_test="",gpus=[0,1], 
                  params=None, pretrain_epochs=10, pretrain_iters=None, val_iters=None,
                  clip =10,
@@ -50,7 +50,7 @@ class naomi(PulseImputeModelWrapper):
         self.save_batches = save_batches
 
 
-        self.data_name = data_name
+        self.data_type = data_type
         self.bs = params["batch"]
         params["batch"] = int(params["batch"] / len(gpus))
         self.gpu_list = gpus
@@ -104,8 +104,8 @@ class naomi(PulseImputeModelWrapper):
         total_params = sum(p.numel() for p in self.naomi_policy.parameters() if p.requires_grad) + sum(p.numel() for p in self.naomi_discrim.parameters() if p.requires_grad)
         print('Total params is {}'.format(total_params))
 
-        self.ckpt_path = os.path.join(outpath_test, data_name+annotate_test, modelname+annotate)
-        self.reload_ckpt_path = os.path.join('out', outpath_train, data_name, modelname+annotate)
+        self.ckpt_path = os.path.join(outpath_test, data_type+annotate_test, modelname+annotate)
+        self.reload_ckpt_path = os.path.join('out', outpath_train, data_type, modelname+annotate)
         self.reload_model()
     def printlog(self, line):
         print(line)

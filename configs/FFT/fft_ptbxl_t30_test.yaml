@@ -1,0 +1,23 @@
+# Model
+modelname: FFT
+modeltype: Classical
+modelparams: {}
+
+# Data
+data_path: data/data/ptbxl_ecg
+data_type: ptbxl
+data_load:
+  mode: true
+  bounds: 1
+  missingness: 
+    missingness_type: transient
+    impute_transient:
+      window: 5
+      prob: 0.3
+  channels: [0]
+
+# Train
+is_train: false
+train:
+  bs: 128
+  gpus: [0]

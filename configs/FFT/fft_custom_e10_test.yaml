@@ -1,0 +1,21 @@
+# Model
+modelname: FFT
+modeltype: Classical
+modelparams: {}
+
+# Data
+data_path: data/data/custom_3split
+data_type: custom
+data_load:
+  train: false
+  val: false
+  test: true
+  missingness: 
+    missingness_type: extended
+    impute_extended: 200
+
+# Train
+is_train: false
+train:
+  bs: 512
+  gpus: [0]

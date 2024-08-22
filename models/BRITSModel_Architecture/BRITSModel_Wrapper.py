@@ -17,7 +17,7 @@ from models.PulseImputeModel_Wrapper import PulseImputeModelWrapper
 import time
 class brits(PulseImputeModelWrapper):
     def __init__(self,modelname, rnn_hid_size, impute_weight, label_weight,
-                train_data=None, val_data=None, data_name="", 
+                train_data=None, val_data=None, data_type="", 
                  imputation_dict=None, annotate_test="",reload_epoch=-1,recreate=True,
                  annotate="", bs= 64, gpus=[0,1],
                  train_naive=False,
@@ -43,7 +43,7 @@ class brits(PulseImputeModelWrapper):
         else:
             self.reload_epoch = reload_epoch
         
-        self.dataname=data_name
+        self.dataname=data_type
         
         self.data_loader_setup(train_data, val_data, imputation_dict, recreate=recreate,
                                train_naive=train_naive,
@@ -71,12 +71,12 @@ class brits(PulseImputeModelWrapper):
         print('Total params is {}'.format(total_params))
 
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=.001)
-        self.ckpt_path = os.path.join(outpath_test, data_name+annotate_test, modelname+annotate)
+        self.ckpt_path = os.path.join(outpath_test, data_type+annotate_test, modelname+annotate)
         os.makedirs(self.ckpt_path, exist_ok=True)
         os.makedirs(os.path.join(self.ckpt_path, "epoch_latest"), exist_ok=True)
         os.makedirs(os.path.join(self.ckpt_path, "epoch_best"), exist_ok=True)
 
-        self.reload_ckpt_path = os.path.join('out', outpath_train, data_name, modelname+annotate)
+        self.reload_ckpt_path = os.path.join('out', outpath_train, data_type, modelname+annotate)
         self.reload_model()
 
     def reload_model(self):

@@ -1,0 +1,25 @@
+# Model
+modelname: FFT
+modeltype: Classical
+modelparams: {}
+
+# Data
+data_path: data/data/mimic_ppg
+data_type: mimic_ppg
+data_load:
+  Mean: true
+  bounds: 1
+  train: false
+  val: false
+  test: true
+  missingness:
+    missingness_type: mimic
+    split_type: test
+    addmissing: true
+    path: data/missingness_patterns
+
+# Train
+is_train: false
+train:
+  bs: 512
+  gpus: [0]

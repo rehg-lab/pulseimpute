@@ -1,5 +1,5 @@
 model: FFT
-task: custom
+task: mimic_ecg
 mode: test
 percentage: 40
-data_path: data/data/custom_1split
+data_path: data/data/mimic_ecg

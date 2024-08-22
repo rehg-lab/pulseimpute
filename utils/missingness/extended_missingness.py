@@ -1,4 +1,5 @@
 import numpy as np
+import torch
 from .base_missingness import BaseMissingness
 
 class ExtendedMissingness(BaseMissingness):
@@ -13,4 +14,5 @@ class ExtendedMissingness(BaseMissingness):
                 target[i, start_impute:start_impute+amt_impute, j] = X[i, start_impute:start_impute+amt_impute, j] 
                 input[i, start_impute:start_impute+amt_impute, j] = np.nan
                 X[i, start_impute:start_impute+amt_impute, j] = 0
-        return X, input, target
+
+        return X, {"target_seq": torch.from_numpy(target), "input_seq": torch.from_numpy(input)}

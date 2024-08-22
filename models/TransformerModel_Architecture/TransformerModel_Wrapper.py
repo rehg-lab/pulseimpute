@@ -12,7 +12,7 @@ from utils.loss_mask import mse_mask_loss
 from models.PulseImputeModel_Wrapper import PulseImputeModelWrapper
 
 class transformer(PulseImputeModelWrapper):
-    def __init__(self, modelname, data_name, train_data=None, val_data=None, 
+    def __init__(self, modelname, data_type, train_data=None, val_data=None, 
                 imputation_dict= None, annotate="",annotate_test="",
                  bs= 64, gpus=[0,1], train_time=999, # in hours
                  train_impute_wind=None, train_impute_prob=None, train_impute_extended=None,
@@ -24,7 +24,7 @@ class transformer(PulseImputeModelWrapper):
         outpath_train = "out/out_train/"
         self.iter_save = iter_save
         self.train_time = train_time
-        self.data_name = data_name
+        self.data_type = data_type
         self.bs = bs
         self.gpu_list = gpus
         self.train_realppg = train_realppg
@@ -46,9 +46,9 @@ class transformer(PulseImputeModelWrapper):
         total_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
         print('Total params is {}'.format(total_params))
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=.001)
-        self.ckpt_path = os.path.join('out', outpath_test, data_name+annotate_test, modelname+annotate)
+        self.ckpt_path = os.path.join('out', outpath_test, data_type+annotate_test, modelname+annotate)
         os.makedirs(self.ckpt_path, exist_ok=True)
-        self.reload_ckpt_path = os.path.join('out', outpath_train, data_name, modelname+annotate)
+        self.reload_ckpt_path = os.path.join('out', outpath_train, data_type, modelname+annotate)
         self.epoch_list, self.best_val_loss = reload_model(self.model, self.optimizer, self.reload_epoch, self.reload_ckpt_path, gpu=self.gpu_list[0])
         if convertolong:
             transformer_to_longformer(self.model, modelname = modelname, converttolong_dict=convertolong, gpu=self.gpu_list[0])
@@ -243,7 +243,7 @@ class transformer(PulseImputeModelWrapper):
                         os.remove(os.path.join(self.ckpt_path, "epoch_best", "epoch_best.pkl"))
                     torch.save(state, os.path.join(self.ckpt_path, "epoch_best", "epoch_best.pkl"))
                     self.best_val_loss = total_val_mpcl2_loss
-                if "ptbxl" in self.data_name:
+                if "ptbxl" in self.data_type:
                     save_epoch = 50
                 else:
                     save_epoch = 1

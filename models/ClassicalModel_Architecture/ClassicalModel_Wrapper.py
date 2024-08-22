@@ -31,13 +31,13 @@ class generic_dataset(torch.utils.data.Dataset):
 
 class classical(PulseImputeModelWrapper):
     def __init__(self, modelname,
-                 train_data=None, val_data=None, data_name="",
+                 train_data=None, val_data=None, data_type="",
                  imputation_dict=None, annotate_test="",
                  annotate="", bs=64, gpus=[0, 1]):
         self.bs = bs
         self.gpu_list = gpus
         self.annotate_test = annotate_test
-        self.dataname = data_name
+        self.dataname = data_type
         outpath_test = "out/out_test/"
 
         # check this part
@@ -51,7 +51,7 @@ class classical(PulseImputeModelWrapper):
 
         # cannot get relative import working for the life of me
 
-        self.ckpt_path = os.path.join(outpath_test, data_name + annotate_test, modelname + annotate)
+        self.ckpt_path = os.path.join(outpath_test, data_type + annotate_test, modelname + annotate)
         print(self.ckpt_path)
         print('TEST 12904812049')
         os.makedirs(self.ckpt_path, exist_ok=True)

@@ -12,7 +12,7 @@ from ast import literal_eval
 
 class tutorial():
     def __init__(self, modelname,
-                 data_name="",
+                 data_type="",
                  train_data=None, val_data=None,
                  # annotations are used for creating folders to save models in
                  annotate="", annotate_test="",
@@ -30,7 +30,7 @@ class tutorial():
         Constructs necessary attributes for tutorial class
 
                 Parameters:
-                        data_name (str): A decimal integer
+                        data_type (str): A decimal integer
                         train_data (int): Another decimal integer
 
                 Returns:
@@ -62,9 +62,9 @@ class tutorial():
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=.001)
 
         self.ckpt_path = os.path.join(
-            outpath, data_name+annotate_test, modelname+annotate)
+            outpath, data_type+annotate_test, modelname+annotate)
         self.reload_ckpt_path = os.path.join(
-            outpath, data_name, modelname+annotate)
+            outpath, data_type, modelname+annotate)
         self.reload_model()
 
     def data_loader_setup(self, train_data, val_data=None, imputation_dict=None, missingness_config=None):

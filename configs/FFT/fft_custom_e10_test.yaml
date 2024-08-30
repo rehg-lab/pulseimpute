@@ -10,9 +10,10 @@ data_load:
   train: false
   val: false
   test: true
-  missingness: 
-    missingness_type: extended
-    impute_extended: 200
+  missingness:
+    extended_missingness:
+      # rename to size
+      impute_extended: 100
 
 # Train
 is_train: false

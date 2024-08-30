@@ -11,8 +11,8 @@ data_load:
   bounds: 1
   channels: [0]
   missingness: 
-    missingness_type: extended
-    impute_extended: 100
+    extended_missingness:
+      impute_extended: 100
 
 # Train
 is_train: false

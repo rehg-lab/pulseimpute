@@ -10,8 +10,7 @@ data_load:
   mode: true
   bounds: 1
   missingness: 
-    missingness_type: transient
-    impute_transient:
+    transient_missingness:
       window: 5
       prob: 0.3
   channels: [0]

@@ -10,9 +10,8 @@ data_load:
   train: false
   val: false
   test: true
-  missingness: 
-    missingness_type: transient
-    impute_transient:
+  missingness:
+    transient_missingness:
       window: 5
       prob: 0.1
 

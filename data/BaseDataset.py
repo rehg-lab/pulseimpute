@@ -1,21 +1,17 @@
-from abc import ABC, abstractmethod
 import numpy as np
+from utils.missingness.registry import apply_missingness
 
-class BaseDataset(ABC):
-    @abstractmethod
+class BaseDataset:
     def __init__(self, **kwargs):
         """Initialize the dataset."""
         pass
 
-    @abstractmethod
     def load(self, **kwargs):
         """Load train, val, test data."""
-        pass
+        raise NotImplementedError("Subclasses must implement this method")
 
-    @abstractmethod
-    def apply_missingness(self, X, **kwargs):
-        """Apply missingness to the data."""
-        pass
+    def apply_missingness(self, X, missingness_config):
+        return apply_missingness(X, missingness_config)
 
     def preprocess(self, X, Mean=False, mode=False, bounds=None, channels=None):
         """

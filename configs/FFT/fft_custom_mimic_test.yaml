@@ -11,27 +11,11 @@ data_load:
   val: false
   test: true
   missingness:
-    missingness_type: mimic # real
-    split_type: test # remove
-    addmissing: true # remove
-    path: data/missingness_patterns
-    # todo
-    # mimic_missingness: 
-    #   path: 
-
-    # remove line 14 / type
-
-    # later on -- >
-    # base
-    # -- child classes
-
-    # registry
-
+    mimic_missingness:
+      path: data/missingness_patterns/mHealth_missing_ecg
 
 # Train
 is_train: false
-
-
-train: # experiment_params
+train:
   bs: 512
   gpus: [0]

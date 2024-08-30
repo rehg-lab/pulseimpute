@@ -11,10 +11,8 @@ data_load:
   val: false
   test: true
   missingness:
-    missingness_type: mimic
-    split_type: test
-    addmissing: true
-    path: data/missingness_patterns
+    mimic_missingness:
+      path: data/missingness_patterns/mHealth_missing_ecg
 
 # Train
 is_train: false

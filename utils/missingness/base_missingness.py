@@ -59,3 +59,24 @@ def registry(missingness_dict: dict):
     missingness_dict_possible = [name[:-3] for name in os.listdir(pathlib.Path(__file__).parent.resolve()) if name.split('.')[-1] == 'py']
     print(missingness_dict_possible)
 registry({})
+
+
+'''
+missingness:
+    missingness_type: mimic # real
+    split_type: test # remove
+    addmissing: true # remove
+    path: data/missingness_patterns
+    # todo
+    # mimic_missingness: 
+    #   path: 
+
+    # remove line 14 / type
+
+    # later on -- >
+    # base
+    # -- child classes
+
+    # registry
+
+'''

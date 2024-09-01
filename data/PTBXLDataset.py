@@ -48,9 +48,9 @@ class PTBXLDataset(BaseDataset):
         X_test_processed, missingness_dict_test = self.apply_missingness(X_test, {**missingness_config, 'split': 'test'})
         Y_dict_test = {"labels": Y_test, **missingness_dict_test}
 
-        return (torch.from_numpy(X_train_processed), Y_dict_train, 
-                torch.from_numpy(X_val_processed), Y_dict_val, 
-                torch.from_numpy(X_test_processed), Y_dict_test)
+        return (X_train_processed, Y_dict_train, 
+                X_val_processed, Y_dict_val, 
+                X_test_processed, Y_dict_test)
 
     def load_raw_data_ptbxl(self, path):
         return np.load(os.path.join(self.path, 'ptbxl_ecg.npy'), allow_pickle=True).astype(np.float32)

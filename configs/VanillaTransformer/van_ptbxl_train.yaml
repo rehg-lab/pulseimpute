@@ -1,0 +1,28 @@
+# Model
+modelname: VanillaTransformer
+modeltype: Transformer
+modelparams:
+  max_len: 1000
+
+# Data
+data_path: data/data/ptbxl_ecg
+data_type: ptbxl
+data_load:
+  mode: true
+  bounds: 1
+  channels: [0]
+  missingness:
+    extended_missingness:
+      impute_extended: 300
+
+# Train
+is_train: true
+train:
+  reload_epoch: best
+  bs: 1
+  gpus: [0]
+  train_impute_extended: 300
+
+# reload_epoch ->best or epoch. also separate areas on diff configs
+# missingness for train and the data missingness during that
+# make custom train for each missing or just one?

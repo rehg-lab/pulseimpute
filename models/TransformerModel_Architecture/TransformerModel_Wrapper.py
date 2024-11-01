@@ -20,6 +20,8 @@ class transformer(PulseImputeModelWrapper):
                  max_len=None, iter_save=None,
                  reload_epoch=-1,
                  convertolong=None, reload_epoch_long=None):
+        # TEMP
+        convertolong=None
         outpath_test = "out/out_test/"
         outpath_train = "out/out_train/"
         self.iter_save = iter_save
@@ -46,9 +48,9 @@ class transformer(PulseImputeModelWrapper):
         total_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
         print('Total params is {}'.format(total_params))
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=.001)
-        self.ckpt_path = os.path.join('out', outpath_test, data_type+annotate_test, modelname+annotate)
+        self.ckpt_path = os.path.join(outpath_test, data_type+annotate_test, modelname+annotate)
         os.makedirs(self.ckpt_path, exist_ok=True)
-        self.reload_ckpt_path = os.path.join('out', outpath_train, data_type, modelname+annotate)
+        self.reload_ckpt_path = os.path.join(outpath_train, data_type, modelname+annotate)
         self.epoch_list, self.best_val_loss = reload_model(self.model, self.optimizer, self.reload_epoch, self.reload_ckpt_path, gpu=self.gpu_list[0])
         if convertolong:
             transformer_to_longformer(self.model, modelname = modelname, converttolong_dict=convertolong, gpu=self.gpu_list[0])
@@ -65,7 +67,8 @@ class transformer(PulseImputeModelWrapper):
         return self.model(local_batch)
     
     def data_loader_setup(self, train_data, val_data=None, imputation_dict=None):
-        num_threads_used = multiprocessing.cpu_count() # can divide this by number of gpus to allocate threads 
+        # TEMP
+        num_threads_used = 1 # multiprocessing.cpu_count() # can divide this by number of gpus to allocate threads 
         print(f"Num Threads Used: {num_threads_used}")
         torch.set_num_threads(num_threads_used)
         os.environ["MP_NUM_THREADS"]=str(num_threads_used)
@@ -79,21 +82,21 @@ class transformer(PulseImputeModelWrapper):
                                         train_impute_extended=self.train_impute_extended,
                                         train_realppg=self.train_realppg,
                                         train_realecg=self.train_realecg, type="train")
-            self.train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=self.bs, shuffle=True, num_workers=num_threads_used)
+            self.train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=self.bs, shuffle=True, num_workers=1) # TEMP num_threads_used)
             temp = next(iter(self.train_loader))
             val_dataset = mpc_dataset(waveforms=val_data, 
                                         train_impute_wind=self.train_impute_wind, train_impute_prob=self.train_impute_prob, 
                                         train_impute_extended=self.train_impute_extended,
                                         train_realppg=self.train_realppg,
                                         train_realecg=self.train_realecg, type="val")
-            self.val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=self.bs, shuffle=False, num_workers=num_threads_used)
+            self.val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=self.bs, shuffle=False, num_workers=1) # TEMP num_threads_used)
         else:
             test_dataset = mpc_dataset(waveforms=train_data, imputation_dict=imputation_dict,
                                         train_impute_wind=None, train_impute_prob=None, 
                                         train_impute_extended=None,
                                         train_realppg=False,
                                         train_realecg=False, type="test")
-            self.test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=self.bs, shuffle=False, num_workers=num_threads_used)
+            self.test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=self.bs, shuffle=False, num_workers=1) # TEMP num_threads_used)
             temp = next(iter(self.test_loader))
         self.total_channels = temp[0].shape[2]
 

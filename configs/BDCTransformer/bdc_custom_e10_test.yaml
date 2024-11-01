@@ -1,0 +1,23 @@
+# Model
+modelname: BDCTransformer
+modeltype: Transformer
+modelparams:
+  max_len: 1000
+  reload_epoch: best
+
+# Data
+data_path: data/data/custom_3split
+data_type: custom
+data_load:
+  train: false
+  val: false
+  test: true
+  missingness:
+    extended_missingness:
+      impute_extended: 100
+
+# Train
+is_train: false
+train:
+  bs: 1
+  gpus: [0]

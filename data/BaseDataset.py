@@ -30,13 +30,18 @@ class BaseDataset:
         
         if Mean:
             X -= np.mean(X, axis=1, keepdims=True)
-        
+
         if mode:
+            # TEMP -> for loop
             X_flat = X.reshape(X.shape[0], -1)
-            hist_out = np.apply_along_axis(lambda a: np.histogram(a, bins=50), 1, X_flat)
-            modes = np.array([np.mean([bin_edges[np.argmax(h)], bin_edges[np.argmax(h)+1]]) 
-                              for h, bin_edges in zip(hist_out[:, 0], hist_out[:, 1])])
-            X -= np.expand_dims(modes, axis=(1,2))
+
+            hist_out = [np.histogram(a, bins=50) for a in X_flat]
+            modes = np.array([np.mean([bin_edges[np.argmax(h)], bin_edges[np.argmax(h) + 1]]) 
+                            for h, bin_edges in hist_out])
+
+            X -= np.expand_dims(modes, axis=(1, 2))
+
+            
         
         if bounds is not None:
             max_val = np.amax(np.abs(X.reshape(X.shape[0], -1)), axis=1, keepdims=True)

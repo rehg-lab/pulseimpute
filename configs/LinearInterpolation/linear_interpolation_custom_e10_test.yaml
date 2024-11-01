@@ -1,0 +1,22 @@
+# Model
+modelname: LinearInterpolation
+modeltype: Classical
+modelparams: {}
+
+# Data
+data_path: data/data/custom_3split
+data_type: custom
+data_load:
+  train: false
+  val: false
+  test: true
+  missingness:
+    extended_missingness:
+      # rename to size
+      impute_extended: 100
+
+# Train
+is_train: false
+train:
+  bs: 512
+  gpus: [0]

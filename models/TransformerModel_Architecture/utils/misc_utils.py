@@ -166,9 +166,11 @@ class mpc_dataset(torch.utils.data.Dataset):
         self.train_realecg = train_realecg
         if train_realecg or train_realppg:
             if train_realppg:
-                tuples_path = os.path.join("data","missingness_patterns", f"missing_ppg_{type}.csv")
+                tuples_path = os.path.join("data", "missingness_patterns", 
+                                           "mHealth_missing_ppg", f"missing_ppg_{type}.csv")
             elif train_realecg:
-                tuples_path = os.path.join("data","missingness_patterns", f"missing_ecg_{type}.csv")
+                tuples_path = os.path.join("data", "missingness_patterns", 
+                                           "mHealth_missing_ecg", f"missing_ecg_{type}.csv")
 
             with open(tuples_path, 'r') as read_obj:
                 csv_reader = csv.reader(read_obj)

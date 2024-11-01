@@ -25,7 +25,6 @@ class PTBXLDataset(BaseDataset):
         Y = pd.read_csv(os.path.join(self.path,'ptbxl_database.csv'), index_col='ecg_id')
         Y.scp_codes = Y.scp_codes.apply(lambda x: ast.literal_eval(x))
 
-        # Load raw signal data
         X = self.load_raw_data_ptbxl(self.path)
 
         X_train = X[Y.strat_fold <= train_fold]
@@ -34,14 +33,12 @@ class PTBXLDataset(BaseDataset):
         X_train_processed, missingness_dict_train = self.apply_missingness(X_train, {**missingness_config, 'split': 'train'})
         Y_dict_train = {"labels": Y_train, **missingness_dict_train}
 
-        # Validation
         X_val = X[(Y.strat_fold > train_fold) & (Y.strat_fold <= val_fold)]
         Y_val = Y[(Y.strat_fold > train_fold) & (Y.strat_fold <= val_fold)]
         X_val = self.preprocess(X_val, mode=mode, bounds=bounds, channels=channels)
         X_val_processed, missingness_dict_val = self.apply_missingness(X_val, {**missingness_config, 'split': 'val'})
         Y_dict_val = {"labels": Y_val, **missingness_dict_val}
 
-        # Test
         X_test = X[Y.strat_fold > val_fold]
         Y_test = Y[Y.strat_fold > val_fold]
         X_test = self.preprocess(X_test, mode=mode, bounds=bounds, channels=channels)

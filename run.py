@@ -38,11 +38,11 @@ def load_config(config_path: str) -> ExperimentConfig:
     if not config_dict['is_train']:
         if config_dict['data_type'] == 'ptbxl':
             missingness_config = config_dict['data_load'].get('missingness', {})
-            if missingness_config.get('missingness_type') == 'extended':
-                percentage = missingness_config.get('impute_extended', 0) // 10
+            if 'extended_missingness' in missingness_config:
+                percentage = missingness_config['extended_missingness'].get('impute_extended', 0) // 10
                 config_dict['annotate_test'] = f"_testextended_{percentage}percent"
-            elif missingness_config.get('missingness_type') == 'transient':
-                percentage = int(missingness_config.get('impute_transient', 0).get('prob', 0) * 100)
+            elif 'transient_missingness' in missingness_config:
+                percentage = int(missingness_config['transient_missingness'].get('impute_transient', {}).get('prob', 0) * 100)
                 config_dict['annotate_test'] = f"_testtransient_{percentage}percent"
             else:
                 config_dict['annotate_test'] = "_test"
@@ -99,7 +99,6 @@ def test(config: ExperimentConfig, bootstrap: tuple):
 
     X_train, Y_dict_train, X_val, Y_dict_val, X_test, Y_dict_test = dataset_loader.load(**load_args)
 
-
     path = os.path.join("out/out_test/", config.data_type + config.annotate_test, config.modelname + config.annotate)
     
     if os.path.exists(os.path.join(path, "imputation.npy")):
@@ -120,6 +119,7 @@ def test(config: ExperimentConfig, bootstrap: tuple):
     if not os.path.exists(os.path.join(path, "target_seq.npy")):
         np.save(os.path.join(path, "target_seq.npy"), Y_dict_test['target_seq'].numpy())
 
+    '''
     if bootstrap is not None:
         if config.data_type == 'ptbxl':
             evaluate_ptbxl(imputation, Y_dict_test, path, bootstrap)
@@ -135,6 +135,19 @@ def test(config: ExperimentConfig, bootstrap: tuple):
             eval_cardiac_classification(imputation, path)
         else:
             raise ValueError(f"Unsupported data_type for evaluation: {config.data_type}")
+    '''
+
+    def check_for_nan(tensor):
+        return np.isnan(tensor).any()
+
+    print("Imputation has NaN:", check_for_nan(imputation))
+    print("Original has NaN:", check_for_nan(np.load(os.path.join(path, "original.npy"))))
+    print("Target has NaN:", check_for_nan(np.load(os.path.join(path, "target_seq.npy"))))
+    print()
+
+    print('Skipping STATS for now')
+    print('Done.')
+    print(imputation.shape, np.load(os.path.join(path, "original.npy")).shape, np.load(os.path.join(path, "target_seq.npy")).shape)
 
 def run_experiment(config: ExperimentConfig, bootstrap: tuple):
     validate_config(config)
@@ -154,7 +167,8 @@ if __name__ == '__main__':
     
     bootstrap = (1000, 1)  # num of bootstraps, size of bootstrap sample compared to test size
 
-    config_path = 'configs/' + args.config if args.config else 'configs/FFT/fft_custom_mimic_test.yaml'
+    file_name = 'configs/BDCTransformer/bdc_mimic_ppg_train.yaml'
+    config_path = args.config if args.config else file_name
     
     config = load_config(config_path)
 

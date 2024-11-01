@@ -1,0 +1,25 @@
+# Model
+modelname: BDCTransformer
+modeltype: Transformer
+modelparams:
+  convertolong:
+    attention_window: [800, 800]
+    attention_dilation: [4, 4]
+
+# Data
+data_path: data/data/mimic_ppg
+data_type: mimic_ppg
+data_load:
+  Mean: true
+  bounds: 1
+  missingness:
+    mimic_missingness:
+      path: data/missingness_patterns/mHealth_missing_ppg
+
+# Train
+is_train: true
+train:
+  iter_save: 100
+  bs: 1
+  gpus: [0]
+  train_realppg: true

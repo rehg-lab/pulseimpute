@@ -1,0 +1,25 @@
+# Model
+modelname: brits_i
+modeltype: BRITS
+modelparams:
+  rnn_hid_size: 512
+  impute_weight: 1 
+  label_weight: 0 
+  reload_epoch: best
+  bigfile: False
+
+# Data
+data_path: data/data/ptbxl_ecg
+data_type: ptbxl
+data_load:
+  mode: true
+  bounds: 1
+  missingness:
+    extended_missingness:
+      impute_extended: 100
+
+# Train
+is_train: false
+train:
+  bs: 1
+  gpus: [0]

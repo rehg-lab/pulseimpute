@@ -1,8 +1,9 @@
 # PulseImpute Challenge
 
 
-This is a repository containing PyTorch code for PulseImpute: A Novel Benchmark Task for Physiological Signal Imputation. You can find our key visualizations from the paper as well as instructions for for testing pre-trained models in the paper and training your own models in the instructions below.
+This is a repository containing PyTorch code for PulseImpute: A Novel Benchmark Task for Physiological Signal Imputation (Presented at the 2022 NeurIPS Dataset & Benchmarks Track). You can find our key visualizations from the paper as well as instructions for for testing pre-trained models in the paper and training your own models in the instructions below.
 
+Please read our paper on arxiv here: https://arxiv.org/abs/2212.07514
 
 <p align="center">
 <img src="figs/hbd_ecgppgimp_viz.png" width=50% height=50%> 

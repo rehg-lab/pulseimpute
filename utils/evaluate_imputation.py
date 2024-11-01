@@ -89,14 +89,12 @@ def find_peaks_all(zipped_thing):
         if int(peak) in set(np.where(~torch.isnan(target_seq[:,0]))[0]):
             peaks_found.append(int(peak))
             
-    # peaks found in imputation region
     r_peaks_afterimputation_tolerable = np.concatenate((np.array(peaks_found)+2, 
                                                         np.array(peaks_found)+1, 
                                                         np.array(peaks_found), 
                                                         np.array(peaks_found)-1,
                                                         np.array(peaks_found)-2))
 
-    # missing peaks that were not in imputed peaks
     r_peaks_thatwereNOTfoundfromoriginal = list(set(r_peaks_missing) - set(r_peaks_afterimputation_tolerable))
     true_positives = len(r_peaks_missing) - len(r_peaks_thatwereNOTfoundfromoriginal)
 

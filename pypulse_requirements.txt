@@ -1,0 +1,9 @@
+fastai
+tqdm
+torch
+numpy
+scikit-learn
+matplotlib
+pandas
+
+git+https://github.com/allenai/longformer.git@caefee668e39cacdece7dd603a0bebf24df6d8ca

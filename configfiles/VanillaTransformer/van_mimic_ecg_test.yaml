@@ -1,0 +1,26 @@
+# Model
+modelname: VanillaTransformer
+modeltype: Transformer
+modelparams:
+  convertolong:
+    attention_window: [800, 800]
+    attention_dilation: [4, 4]
+
+# Data
+data_path: data/data/mimic_ecg
+data_type: mimic_ecg
+data_load:
+  train: false
+  val: false
+  test: true
+  missingness:
+    mimic_missingness:
+      path: data/missingness_patterns/mHealth_missing_ecg
+
+# Train
+is_train: false
+train:
+  iter_save: 100
+  reload_epoch_long: 41000
+  bs: 1
+  gpus: [0]

@@ -1,0 +1,23 @@
+# Model
+modelname: DeepMVITransformer
+modeltype: Transformer
+modelparams:
+  max_len: 1000
+  reload_epoch: best
+
+# Data
+data_path: data/data/ptbxl_ecg
+data_type: ptbxl
+data_load:
+  mode: true
+  bounds: 1
+  channels: [0]
+  missingness:
+    extended_missingness:
+      impute_extended: 100
+
+# Train
+is_train: false
+train:
+  bs: 64
+  gpus: [0]

@@ -1,4 +1,4 @@
-name: pulseimpute
+name: pypulse
 channels:
   - defaults
 dependencies:

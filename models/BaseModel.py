@@ -10,13 +10,14 @@ class ModelConfig():
         self.type = type
         
         assert subtype in self.model_names_list(), "subtype should be a python file inside of type folder"
-        self.type = subtype
+        self.subtype = subtype
 
         self.netparams = netparams
 
     def model_types_list(self):
         import pdb; pdb.set_trace()
         return [x[0] for x in os.walk(".")]
+
     def model_names_list(self):
         import pdb; pdb.set_trace()
         return [x[0] for x in os.walk(f"{self.modeltype}/")]

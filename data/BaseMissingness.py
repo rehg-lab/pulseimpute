@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
 import numpy as np
-import os
+from utils.utils import BaseConfig
 
-class MissingnessConfig():
-    def __init__(self):
-        raise NotImplementedError("Subclasses must implement this method")
+class BaseMissingnessConfig():
+    type = None
+    def __init__(self): 
+        assert self.type is not None
 
 class BaseMissingness(ABC):
     @abstractmethod
@@ -44,43 +45,3 @@ class BaseMissingness(ABC):
         return X
     
 
-'''
-missingness: 
-    # missingness_type: extended
-    # impute_extended: 100
-    extended_missingness: 
-      size: 100
-
-    transient_missingness:
-      window: 5
-      prob: 0.1
-
-    real_missingness:
-      path: ''
-'''
-import pathlib
-def registry(missingness_dict: dict):
-    missingness_dict_possible = [name[:-3] for name in os.listdir(pathlib.Path(__file__).parent.resolve()) if name.split('.')[-1] == 'py']
-    print(missingness_dict_possible)
-registry({})
-
-
-'''
-missingness:
-    missingness_type: mimic # real
-    split_type: test # remove
-    addmissing: true # remove
-    path: data/missingness_patterns
-    # todo
-    # mimic_missingness: 
-    #   path: 
-
-    # remove line 14 / type
-
-    # later on -- >
-    # base
-    # -- child classes
-
-    # registry
-
-'''

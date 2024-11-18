@@ -1,19 +1,19 @@
 import numpy as np
-from utils.missingness.registry import apply_missingness
+# from utils.missingness.registry import apply_missingness
 from BaseMissingness import MissingnessConfig
 import os
 
 
 class DatasetConfig():
     def __init__(self, 
-                 path: str,
                  type: str,
-                 missingnessconfig: MissingnessConfig):
+                 path: str,
+                 missingnessconfig: MissingnessConfig,
+                ):
+        self.type = type
+        
         self.path = path
         
-        assert path in self.modelnames_list(), "modelname should be a python file inside of modeltype folder"
-        self.type = type
-
         self.missingnessconfig = missingnessconfig
 
     def modeltypes_list(self):

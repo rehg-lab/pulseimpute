@@ -1,14 +1,21 @@
 # utils/missingness/transient_missingness.py
+from abc import ABC, abstractmethod
 import numpy as np
 import torch
-from .base_missingness import BaseMissingness
+from data.BaseMissingness import BaseMissingness
+from data.BaseMissingness import BaseMissingnessConfig
 
-class TransientMissingness(BaseMissingness):
+class Config(BaseMissingnessConfig):
+    type = "TRANSIENT"
+    def __init__(self, window: int, prob: float):
+        self.window = window
+        self.prob = prob
+
+class Missingness(BaseMissingness):
     def __init__(self, config):
-        self.window = config['window']
-        self.prob = config['prob']
+        self.config = config
 
-    def apply(self, X, split):
+    def apply(self, X):
         target = self._create_target(X)
         input = np.copy(X)
         total_len = X.shape[1]

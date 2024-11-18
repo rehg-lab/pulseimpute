@@ -1,0 +1,23 @@
+# Model
+modelname: Conv9Transformer
+modeltype: Transformer
+modelparams:
+  max_len: 1000
+
+# Data
+data_path: data/data/ptbxl_ecg
+data_type: ptbxl
+data_load:
+  mode: true
+  bounds: 1
+  channels: [0]
+  missingness:
+    extended_missingness:
+      impute_extended: 300
+
+# Train
+is_train: true
+train:
+  bs: 1
+  gpus: [0]
+  train_impute_extended: 300

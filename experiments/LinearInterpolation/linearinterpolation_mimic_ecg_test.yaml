@@ -1,0 +1,21 @@
+# Model
+modelname: LinearInterpolation
+modeltype: Classical
+modelparams: {}
+
+# Data
+data_path: data/data/mimic_ecg
+data_type: mimic_ecg
+data_load:
+  train: false
+  val: false
+  test: true
+  missingness:
+    mimic_missingness:
+      path: data/missingness_patterns/mHealth_missing_ecg
+
+# Train
+is_train: false
+train:
+  bs: 512
+  gpus: [0]

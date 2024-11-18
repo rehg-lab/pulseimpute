@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 from utils.utils import BaseConfig
 
-class BaseMissingnessConfig():
+class BaseMissingnessConfig(BaseConfig):
     type = None
     def __init__(self): 
         assert self.type is not None

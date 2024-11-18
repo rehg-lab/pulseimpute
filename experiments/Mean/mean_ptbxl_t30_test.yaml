@@ -3,7 +3,7 @@ gpus: [0]
 
 model_config:
   type: Classical
-  subtype: Mean
+  subtype: mean
 
 data_config:
   type: ptbxl 
@@ -18,7 +18,7 @@ data_config:
 
 # need to 
 # # Model
-# modelname: Mean
+# modelname: mean
 # modeltype: Classical
 # modelparams: {}
 

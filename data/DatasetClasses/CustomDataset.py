@@ -65,7 +65,7 @@ class CustomDataset(BaseDataset):
         return {'train': train, 'val': val, 'test': test}
 
     def _process_splits(self, X, split, missingness_config):
-        preprocess_kwargs = {k: v for k, v in self.data_load_config.items() if k in ['Mean', 'mode', 'bounds', 'channels']}
+        preprocess_kwargs = {k: v for k, v in self.data_load_config.items() if k in ['mean', 'mode', 'bounds', 'channels']}
         X = self.preprocess(X, **preprocess_kwargs)
         if len(X.shape) == 2:
             X = X[:, :, np.newaxis]

@@ -1,5 +1,5 @@
 # Model
-modelname: Mean
+modelname: mean
 modeltype: Classical
 modelparams: {}
 
@@ -7,7 +7,7 @@ modelparams: {}
 data_path: data/data/mimic_ppg
 data_type: mimic_ppg
 data_load:
-  Mean: true
+  mean: true
   bounds: 1
   train: false
   val: false

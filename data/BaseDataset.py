@@ -1,45 +1,46 @@
 import numpy as np
 # from utils.missingness.registry import apply_missingness
-from BaseMissingness import MissingnessConfig
+from utils.utils import BaseConfig
+from BaseMissingness import BaseMissingnessConfig
 import os
 
 
-class DatasetConfig():
+class BaseDatasetConfig(BaseConfig):
+    type = None
     def __init__(self, 
-                 type: str,
                  path: str,
-                 missingnessconfig: MissingnessConfig,
+                 missingnessconfig: BaseMissingnessConfig,
                 ):
-        self.type = type
+        assert self.type is not None
         
         self.path = path
-        
         self.missingnessconfig = missingnessconfig
-
-    def modeltypes_list(self):
-        import pdb; pdb.set_trace()
-        return [x[0] for x in os.walk(".")]
 
 
 class BaseDataset:
-    def __init__(self, **kwargs):
+    def __init__(self, config: BaseDatasetConfig):
         """Initialize the dataset."""
-        pass
+
+        self.config = config
+
+        miss_module_name = config.missingnessconfig.config_fileorigin()[:-3].replace("/", ".")
+        miss_module = __import__(miss_module_name, fromlist=[''])
+        self.miss_class = getattr(miss_module, "Missingness")(config.missingnessconfig)
 
     def load(self, **kwargs):
         """Load train, val, test data."""
         raise NotImplementedError("Subclasses must implement this method")
 
-    def apply_missingness(self, X, missingness_config):
-        return apply_missingness(X, missingness_config)
+    def apply_missingness(self, X):
+        return self.miss_class.apply(X)
 
-    def preprocess(self, X, Mean=False, mode=False, bounds=None, channels=None):
+    def preprocess(self, X, mean=False, mode=False, bounds=None, channels=None):
         """
         Preprocess the data with options for centering and normalization.
         
         Args:
         X (np.array): Input data of shape (samples, time, channels)
-        Mean (bool): center data by subtracting mean
+        mean (bool): center data by subtracting mean
         mode (bool): center data by subtracting mode
         bounds (float): normalize data to [-bounds, bounds]
         channels (list): List of channel indices to keep. If None, keep all channels.
@@ -48,7 +49,7 @@ class BaseDataset:
         if channels is not None:
             X = X[:, :, channels]
         
-        if Mean:
+        if mean:
             X -= np.mean(X, axis=1, keepdims=True)
 
         if mode:

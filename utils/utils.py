@@ -1,12 +1,15 @@
 from pydantic import BaseModel
 import importlib
-try:
-    from typing import Literal
-except ImportError:
-    from typing_extensions import Literal
+import os
 
 class BaseConfig(BaseModel):
     type: str
 
     def config_fileorigin(self):
         return importlib.import_module(self.__module__).__file__
+
+
+def importclass(path, classname, parameters):
+    module_name = os.path.splitext(path)[0].replace("/", ".")
+    module = __import__(module_name, fromlist=[''])
+    return getattr(module, classname)(parameters)

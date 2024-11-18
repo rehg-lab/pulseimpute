@@ -11,7 +11,7 @@ class Config(BaseMissingnessConfig):
         self.length = length
 
 
-class ExtendedMissingness(BaseMissingness):
+class Missingness(BaseMissingness):
     def __init__(self, config):
         self.config = config
 

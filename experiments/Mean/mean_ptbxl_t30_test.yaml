@@ -2,11 +2,10 @@ batch_size: 125
 gpus: [0]
 
 model_config:
-  type: Classical
-  subtype: mean
+  type: "MEAN"
 
 data_config:
-  type: ptbxl 
+  type: "PTBXL" 
   path: data/data/ptbxl_ecg
 
   missingness_config:

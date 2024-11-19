@@ -9,7 +9,7 @@ for file in glob.glob("data/MissingnessClasses/*.py"):
     model_module = __import__(module_name, fromlist=[''])
     ### kevin_todo, make sure all things are called Config and Missingness classes in each
     model_module_class = getattr(model_module, "Config") 
-    # fancy code for from model.module import Config... then MISSINGNESS_REGISTRY[Config.type] = Config
+    # fancy code for from module_name.model_module import Config... then MISSINGNESS_REGISTRY[Config.type] = Config
 
     MISSINGNESS_REGISTRY[model_module_class.type] = model_module_class
 

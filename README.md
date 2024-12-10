@@ -32,7 +32,7 @@ For this project we use [miniconda](https://docs.conda.io/en/latest/miniconda.ht
 
 ### Downloading data
 
-Download our extracted mHealth ECG/PPG missingness patterns and curated datasets (MIMIC-III ECG/PPG Waveform and PTB-XL) via the follwing bash-script:
+Download our extracted mHealth ECG/PPG missingness patterns and curated datasets (MIMIC-III ECG/PPG Waveform and PTB-XL) via the following bash-script:
 
     bash ./get_data.sh
 
